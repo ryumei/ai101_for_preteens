@@ -8,6 +8,10 @@
 | --- | --- |
 | 日本語 | https://ryumei.github.io/ai101_for_preteens/ |
 | English | https://ryumei.github.io/ai101_for_preteens/en/ |
+| Español | https://ryumei.github.io/ai101_for_preteens/es/ |
+| 한국어 | https://ryumei.github.io/ai101_for_preteens/ko/ |
+| 简体中文 | https://ryumei.github.io/ai101_for_preteens/zh-Hans/ |
+| 繁體中文 | https://ryumei.github.io/ai101_for_preteens/zh-Hant/ |
 
 ## ねらい
 
@@ -26,10 +30,14 @@
 
 ## 使い方
 
-`index.html`（英語版は `en/index.html`）をブラウザで開くだけです。reveal.js とフォントを同梱しているため、ネット接続なしで動作します。
+`index.html`（各言語版は `en/`, `es/`, `ko/`, `zh-Hans/`, `zh-Hant/` 以下）をブラウザで開くだけです。reveal.js とフォントを同梱しているため、ネット接続なしで動作します。
 
 ## ライセンス
 
 - 本体: MIT License（[LICENSE](LICENSE)）
 - [reveal.js](https://revealjs.com/): MIT License（`reveal/LICENSE`）
-- [Zen Kurenaido](https://fonts.google.com/specimen/Zen+Kurenaido): SIL Open Font License 1.1（`fonts/OFL.txt`）
+- フォント（すべて SIL Open Font License 1.1、`fonts/` に同梱）
+  - [Zen Kurenaido](https://fonts.google.com/specimen/Zen+Kurenaido)（日本語）— `fonts/OFL.txt`
+  - [Gaegu](https://fonts.google.com/specimen/Gaegu)（한국어）— `fonts/OFL-Gaegu.txt`
+  - [ZCOOL KuaiLe](https://fonts.google.com/specimen/ZCOOL+KuaiLe)（简体中文）— `fonts/OFL-ZCOOLKuaiLe.txt`
+  - [Iansui](https://github.com/ButTaiwan/iansui)（繁體中文）— `fonts/OFL-Iansui.txt`
