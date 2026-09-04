@@ -71,6 +71,15 @@
       padding: 0.6em 1em; line-height: 1.7;
     }
     .footer .pageno { color: #aaa; }
+    .tohome {
+      position: fixed; right: 108px; bottom: 18px; z-index: 40;
+      width: 42px; height: 42px; padding: 0; cursor: pointer; line-height: 0;
+      background: #fff; border: 3px solid #d9773b; border-radius: 999px;
+      opacity: 0.75; transition: opacity 0.2s;
+    }
+    .tohome:hover { opacity: 1; }
+    .tohome svg { width: 20px; height: 20px; display: block; margin: 0 auto; }
+    .tohome[hidden] { display: none; }
     /* */
     .reveal .more {
       font: inherit; font-size: 0.7em; margin-top: 0.2em; padding: 0.3em 1em; cursor: pointer;
@@ -165,6 +174,7 @@
   </filter>
 </svg>
 <div class="reveal">
+<button class="tohome" id="tohome" title="回到第一頁" aria-label="回到第一頁"><svg viewBox="0 0 24 24" fill="none" stroke="#d9773b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 L12 3 L21 11"/><path d="M6 10 v10 h12 v-10"/></svg></button>
 <div class="footer"><span>&copy; 2026 NAKAJIMA Takaaki</span><span class="pageno" id="pageno"></span></div>
 <div class="slides">
 
@@ -176,7 +186,7 @@
   <p style="font-size:0.55em;color:#c1442e;margin-top:1.2em;">本版本由 AI 從日文原版機器翻譯而來，可能有不準確之處。</p>
   <p style="font-size:0.55em;color:#666;margin-top:0.3em;">你在小測驗裡的回答，不會被收集到任何地方。</p>
   <p style="font-size:0.5em;color:#888;margin-top:0.3em;">這份<a href="https://github.com/ryumei/ai101_for_preteens" target="_blank" rel="noopener noreferrer">幻燈片</a>以 MIT 許可證公開。<br>你可以自由地使用、修改和分享它。</p>
-  <p style="font-size:0.5em;color:#888;margin-top:0.8em;"><a href="../index.html">日本語</a> &nbsp;|&nbsp; <a href="../en/index.html">English</a> &nbsp;|&nbsp; <a href="../es/index.html">Español</a> &nbsp;|&nbsp; <a href="../ko/index.html">한국어</a> &nbsp;|&nbsp; <a href="../zh-Hans/index.html">简体中文</a> &nbsp;|&nbsp; 繁體中文</p>
+  <p style="font-size:0.5em;color:#888;margin-top:0.8em;"><a href="../index.html">日本語</a> &nbsp;|&nbsp; <a href="../en/index.html">English</a> &nbsp;|&nbsp; <a href="../es/index.html">Español</a> &nbsp;|&nbsp; <a href="../fr/index.html">Français</a> &nbsp;|&nbsp; <a href="../ko/index.html">한국어</a> &nbsp;|&nbsp; <a href="../zh-Hans/index.html">简体中文</a> &nbsp;|&nbsp; 繁體中文</p>
 </section>
 
 <!-- 1 -->
@@ -1200,7 +1210,10 @@
   });
 
   //
+  const home = document.getElementById('tohome');
+  home.addEventListener('click', function (e) { e.stopPropagation(); Reveal.slide(0); });
   function updatePageNo() {
+    home.hidden = (Reveal.getIndices().h === 0);
     const cur = Reveal.getCurrentSlide();
     const n = cur && cur.querySelector('.num');
     document.getElementById('pageno').textContent = n ? n.textContent : '';

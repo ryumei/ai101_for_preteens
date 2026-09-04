@@ -67,6 +67,15 @@
       padding: 0.6em 1em; line-height: 1.7;
     }
     .footer .pageno { color: #aaa; }
+    .tohome {
+      position: fixed; right: 108px; bottom: 18px; z-index: 40;
+      width: 42px; height: 42px; padding: 0; cursor: pointer; line-height: 0;
+      background: #fff; border: 3px solid #d9773b; border-radius: 999px;
+      opacity: 0.75; transition: opacity 0.2s;
+    }
+    .tohome:hover { opacity: 1; }
+    .tohome svg { width: 20px; height: 20px; display: block; margin: 0 auto; }
+    .tohome[hidden] { display: none; }
     /* もっと知りたい？ ダイアログ */
     .reveal .more {
       font: inherit; font-size: 0.7em; margin-top: 0.2em; padding: 0.3em 1em; cursor: pointer;
@@ -161,6 +170,7 @@
   </filter>
 </svg>
 <div class="reveal">
+<button class="tohome" id="tohome" title="さいしょのページへ" aria-label="さいしょのページへ"><svg viewBox="0 0 24 24" fill="none" stroke="#d9773b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 L12 3 L21 11"/><path d="M6 10 v10 h12 v-10"/></svg></button>
 <div class="footer"><span>&copy; 2026 NAKAJIMA Takaaki</span><span class="pageno" id="pageno"></span></div>
 <div class="slides">
 
@@ -171,7 +181,7 @@
   <p style="font-size:0.6em;color:#888;">→ キーか、画面のタップで進みます</p>
   <p style="font-size:0.55em;color:#666;margin-top:1.2em;">このクイズへのあなたの回答は、収集されません。</p>
   <p style="font-size:0.5em;color:#888;margin-top:0.3em;">この<a href="https://github.com/ryumei/ai101_for_preteens" target="_blank" rel="noopener noreferrer">スライド</a>は MIT ライセンスで公開されています。<br>自由に使い、作りかえ、配ることができます。</p>
-  <p style="font-size:0.5em;color:#888;margin-top:0.8em;">日本語 &nbsp;|&nbsp; <a href="en/index.html">English</a> &nbsp;|&nbsp; <a href="es/index.html">Español</a> &nbsp;|&nbsp; <a href="ko/index.html">한국어</a> &nbsp;|&nbsp; <a href="zh-Hans/index.html">简体中文</a> &nbsp;|&nbsp; <a href="zh-Hant/index.html">繁體中文</a></p>
+  <p style="font-size:0.5em;color:#888;margin-top:0.8em;">日本語 &nbsp;|&nbsp; <a href="en/index.html">English</a> &nbsp;|&nbsp; <a href="es/index.html">Español</a> &nbsp;|&nbsp; <a href="fr/index.html">Français</a> &nbsp;|&nbsp; <a href="ko/index.html">한국어</a> &nbsp;|&nbsp; <a href="zh-Hans/index.html">简体中文</a> &nbsp;|&nbsp; <a href="zh-Hant/index.html">繁體中文</a></p>
 </section>
 
 <!-- 1 -->
@@ -1196,7 +1206,10 @@
   });
 
   // ページ番号をフッタ（コピーライトの隣）に表示する
+  const home = document.getElementById('tohome');
+  home.addEventListener('click', function (e) { e.stopPropagation(); Reveal.slide(0); });
   function updatePageNo() {
+    home.hidden = (Reveal.getIndices().h === 0);
     const cur = Reveal.getCurrentSlide();
     const n = cur && cur.querySelector('.num');
     document.getElementById('pageno').textContent = n ? n.textContent : '';

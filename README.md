@@ -9,6 +9,7 @@
 | 日本語 | https://ryumei.github.io/ai101_for_preteens/ |
 | English | https://ryumei.github.io/ai101_for_preteens/en/ |
 | Español | https://ryumei.github.io/ai101_for_preteens/es/ |
+| Français | https://ryumei.github.io/ai101_for_preteens/fr/ |
 | 한국어 | https://ryumei.github.io/ai101_for_preteens/ko/ |
 | 简体中文 | https://ryumei.github.io/ai101_for_preteens/zh-Hans/ |
 | 繁體中文 | https://ryumei.github.io/ai101_for_preteens/zh-Hant/ |
@@ -32,7 +33,7 @@
 
 ## 使い方
 
-`index.html`（各言語版は `en/`, `es/`, `ko/`, `zh-Hans/`, `zh-Hant/` 以下）をブラウザで開くだけです。reveal.js とフォントを同梱しているため、ネット接続なしで動作します。
+`index.html`（各言語版は `en/`, `es/`, `fr/`, `ko/`, `zh-Hans/`, `zh-Hant/` 以下）をブラウザで開くだけです。reveal.js とフォントを同梱しているため、ネット接続なしで動作します。
 
 ## ライセンス
 
