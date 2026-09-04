@@ -430,19 +430,55 @@
 
   <dialog class="deep" id="dlg-backprop">
     <div class="inner">
-      <h2>So who turns all those dials?</h2>
-      <p class="sub">This part is a bit harder. It is completely fine to skip it.</p>
-      <ol>
-        <li><strong>Have a go.</strong> Show it a piece of text and let it guess the next word.</li>
-        <li><strong>Score it.</strong> Compare the guess with the real next word, and put a number on how far off it was.</li>
-        <li><strong>Trace the blame backwards.</strong> Which dials caused that error? Work backwards, from the output end towards the input end, to find out.</li>
-        <li><strong>Nudge them.</strong> Turn each dial a tiny bit, so that next time the guess lands closer.</li>
-      </ol>
-      <p class="loop">1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; ... (billions of times!)</p>
-      <p>That trick of tracing the error backwards through the machine has a name: <span class="term">backpropagation</span>.</p>
-      <p>No person sits there turning dials. A computer repeats this loop automatically: test, score, adjust, test again. That loop is what "training" actually is.</p>
-      <p>So even once it guesses well, the AI has not understood anything. It has just been <strong>tuned to score higher</strong>.</p>
-      <p style="text-align:center;margin-top:1em;"><button class="close">Close</button></p>
+
+<div class="page on">
+        <h2>1. First, run left to right</h2>
+        <p class="sub">This part is a bit harder. It is completely fine to skip it.</p>
+        <p>The dials are not scattered about at random. Little <span class="term">units</span> sit in layers, joined up by lines &mdash; a bit like a ladder puzzle. A dial sits on every one of those lines.</p>
+<figure>
+          <svg viewBox="0 0 660 218" xmlns="http://www.w3.org/2000/svg"><defs><marker id="bk" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9z" fill="#c1442e"/></marker></defs><g font-size="14" fill="#666" text-anchor="middle"><text x="150" y="20">in</text><text x="330" y="20">middle</text><text x="520" y="20">out</text></g><line x1="165" y1="70" x2="315" y2="46" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="96" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="146" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="196" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="46" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="96" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="146" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="196" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="46" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="96" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="146" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="196" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="70" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="120" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="170" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="70" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="120" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="170" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="70" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="120" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="170" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="70" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="120" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="170" stroke="#ccc" stroke-width="1.6"/><circle cx="150" cy="70" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="150" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="150" cy="170" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="46" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="96" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="146" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="196" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="70" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="170" r="15" fill="#fff" stroke="#111" stroke-width="3"/><g font-size="15" fill="#111"><text x="128" y="75" text-anchor="end">I am</text><text x="128" y="125" text-anchor="end">so</text><text x="128" y="175" text-anchor="end">hungry</text><text x="544" y="75">eat</text><text x="544" y="125">cook</text><text x="544" y="175">fly</text></g></svg>
+          <figcaption>Put words in at the left, and the signal travels along the lines to the right</figcaption>
+        </figure>
+        <p>A line whose dial is wide open lets the signal through easily; a line whose dial is nearly shut barely passes anything. By the time the signal reaches the far side, you have a score for "which word comes next".</p>
+      </div>
+
+      <div class="page">
+        <h2>2. Give the answer a score</h2>
+        <p>Compare those scores with <strong>what actually came next</strong>. The text already contains the real continuation, so the right answer is known.</p>
+<figure>
+          <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg"><g font-size="16"><text x="30" y="34" fill="#666">the AI's scores</text><text x="330" y="34" fill="#666">the right answer</text><text x="560" y="34" fill="#c1442e">gap</text><g stroke="#111" stroke-width="2" fill="none"><rect x="24" y="48" width="240" height="38" rx="8"/><rect x="24" y="94" width="240" height="38" rx="8"/><rect x="24" y="140" width="240" height="38" rx="8"/><rect x="324" y="48" width="180" height="38" rx="8"/><rect x="324" y="94" width="180" height="38" rx="8"/><rect x="324" y="140" width="180" height="38" rx="8"/></g><g fill="#111"><text x="44" y="73">eat &#8230; 0.4</text><text x="44" y="119">cook &#8230; 0.3</text><text x="44" y="165">fly &#8230; 0.3</text><text x="344" y="73">eat &#8230; 1.0</text><text x="344" y="119">cook &#8230; 0</text><text x="344" y="165">fly &#8230; 0</text></g><g fill="#c1442e" text-anchor="middle"><text x="570" y="73">0.6</text><text x="570" y="119">0.3</text><text x="570" y="165">0.3</text></g><g stroke="#111" stroke-width="2"><line x1="272" y1="67" x2="316" y2="67"/><line x1="272" y1="113" x2="316" y2="113"/><line x1="272" y1="159" x2="316" y2="159"/></g></g></svg>
+          <figcaption>when the real continuation was "I am so hungry, eat"</figcaption>
+        </figure>
+        <p>Add up how far off every score was, and you get the <span class="term">gap</span> (the "error"). The smaller that number, the better the guess. The whole goal is to make this gap as small as possible.</p>
+      </div>
+
+      <div class="page">
+        <h2>3. Follow the gap backwards and fix things</h2>
+        <p>Here is the crucial bit. The question "<strong>which lines&rsquo; dials caused that gap?</strong>" is answered by working <span class="term">backwards</span>, from the output end towards the input end.</p>
+<figure>
+          <svg viewBox="0 0 660 218" xmlns="http://www.w3.org/2000/svg"><defs><marker id="bk" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9z" fill="#c1442e"/></marker></defs><g font-size="14" fill="#666" text-anchor="middle"><text x="150" y="20">in</text><text x="330" y="20">middle</text><text x="520" y="20">out</text></g><line x1="165" y1="70" x2="315" y2="46" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="96" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="146" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="196" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="46" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="96" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="146" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="196" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="46" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="96" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="146" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="196" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="70" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="120" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="170" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="70" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="120" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="170" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="70" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="120" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="170" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="70" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="120" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="170" stroke="#eee" stroke-width="1.6"/><line x1="315" y1="96" x2="169" y2="120" stroke="#c1442e" stroke-width="2.4" marker-end="url(#bk)"/><line x1="315" y1="146" x2="169" y2="120" stroke="#c1442e" stroke-width="2.4" marker-end="url(#bk)"/><line x1="505" y1="70" x2="349" y2="96" stroke="#c1442e" stroke-width="2.4" marker-end="url(#bk)"/><line x1="505" y1="70" x2="349" y2="146" stroke="#c1442e" stroke-width="2.4" marker-end="url(#bk)"/><circle cx="150" cy="70" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="150" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="150" cy="170" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="46" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="96" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="146" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="196" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="70" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="170" r="15" fill="#fff" stroke="#111" stroke-width="3"/><g font-size="15" fill="#111"><text x="128" y="75" text-anchor="end">I am</text><text x="128" y="125" text-anchor="end">so</text><text x="128" y="175" text-anchor="end">hungry</text><text x="544" y="75">eat</text><text x="544" y="125">cook</text><text x="544" y="175">fly</text></g></svg>
+          <figcaption>the more to blame a line is, the more it gets adjusted</figcaption>
+        </figure>
+        <p>Starting from the lines nearest the output, it works out "if this line had been a bit different, the gap would have shrunk", and passes that back towards the input. This is <span class="term">backpropagation</span>. The more a dial was to blame, the more it gets turned &mdash; though each turn is only a tiny amount.</p>
+      </div>
+
+      <div class="page">
+        <h2>4. And then, try again!</h2>
+        <p>Once the dials have been nudged, it starts over from step 1 with a different piece of text. Go forward &rarr; score it &rarr; go back and fix &rarr; again.</p>
+<figure>
+          <svg viewBox="0 0 660 190" xmlns="http://www.w3.org/2000/svg"><defs><marker id="lp" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#111"/></marker></defs><g font-size="15" text-anchor="middle" stroke="#111" stroke-width="3" fill="#fff"><rect x="30" y="66" width="120" height="52" rx="12"/><rect x="200" y="66" width="120" height="52" rx="12"/><rect x="370" y="66" width="120" height="52" rx="12"/><rect x="524" y="66" width="112" height="52" rx="12"/></g><g font-size="15" text-anchor="middle" fill="#111"><text x="90" y="97">go forward</text><text x="260" y="97">score it</text><text x="430" y="97">go back and fix</text><text x="580" y="97">again!</text></g><g stroke="#111" stroke-width="3" fill="none"><path d="M154 92 h40" marker-end="url(#lp)"/><path d="M324 92 h40" marker-end="url(#lp)"/><path d="M494 92 h24" marker-end="url(#lp)"/><path d="M580 122 v30 h-490 v-30" marker-end="url(#lp)"/></g><text x="335" y="176" font-size="14" text-anchor="middle" fill="#d9773b">repeat this billions of times</text></svg>
+          <figcaption>going round these four, over and over, is what training is</figcaption>
+        </figure>
+        <p>No person sits there turning dials; a computer repeats the loop automatically. Over billions of rounds, the gap gets smaller and smaller.</p>
+        <p>So even once it guesses well, the AI has not understood anything. It has just been <strong>adjusted to make the gap small</strong>.</p>
+      </div>
+
+      <div class="pagenav">
+        <button class="prev">&larr; Back</button>
+        <span class="pageno"></span>
+        <button class="fwd">Next &rarr;</button>
+        <button class="close">Close</button>
+      </div>
     </div>
   </dialog>
 </section>

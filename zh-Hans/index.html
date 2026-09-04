@@ -428,19 +428,54 @@
 
   <dialog class="deep" id="dlg-backprop">
     <div class="inner">
-      <h2>那些旋钮，是谁在拧？</h2>
-      <p class="sub">下面这段稍微难一点，跳过也完全没问题。</p>
-      <ol>
-        <li><strong>试一次。</strong>给它看一段文章，让它猜下一个词。</li>
-        <li><strong>打个分。</strong>拿它的猜测和真正的下一个词比一比，用数字表示差了多远。</li>
-        <li><strong>倒着找原因。</strong>这个错，是哪些旋钮造成的？从出口往入口，反着一路追回去查清楚。</li>
-        <li><strong>拧一点点。</strong>把每个旋钮都动一丁点，让下一次猜得更近。</li>
-      </ol>
-      <p class="loop">1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; ……（几亿次！）</p>
-      <p>这种把错误从出口往入口倒着追的办法，有个名字，叫<span class="term">反向传播</span>（backpropagation）。</p>
-      <p>没有人坐在那儿一个个拧旋钮，是电脑自动重复这个循环：试、打分、调整、再试。这个循环，就是“训练”的真面目。</p>
-      <p>所以就算它后来猜得很准，AI 也没有理解任何东西。它只是<strong>被调成分数更高的样子</strong>而已。</p>
-      <p style="text-align:center;margin-top:1em;"><button class="close">关闭</button></p>
+<div class="page on">
+        <h2>① 先从左往右走一遍</h2>
+        <p class="sub">下面这段稍微难一点，跳过也完全没问题。</p>
+        <p>旋钮并不是随便摆着的。里面有许多小<span class="term">颗粒</span>排成一层一层，颗粒之间用线连起来，有点像一张迷宫图。每一根线上，都装着一个旋钮。</p>
+<figure>
+          <svg viewBox="0 0 660 218" xmlns="http://www.w3.org/2000/svg"><defs><marker id="bk" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9z" fill="#c1442e"/></marker></defs><g font-size="14" fill="#666" text-anchor="middle"><text x="150" y="20">入口</text><text x="330" y="20">中间</text><text x="520" y="20">出口</text></g><line x1="165" y1="70" x2="315" y2="46" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="96" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="146" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="196" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="46" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="96" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="146" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="196" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="46" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="96" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="146" stroke="#ccc" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="196" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="70" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="120" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="170" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="70" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="120" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="170" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="70" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="120" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="170" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="70" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="120" stroke="#ccc" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="170" stroke="#ccc" stroke-width="1.6"/><circle cx="150" cy="70" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="150" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="150" cy="170" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="46" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="96" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="146" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="196" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="70" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="170" r="15" fill="#fff" stroke="#111" stroke-width="3"/><g font-size="15" fill="#111"><text x="128" y="75" text-anchor="end">肚子</text><text x="128" y="125" text-anchor="end">好</text><text x="128" y="175" text-anchor="end">饿</text><text x="544" y="75">吃</text><text x="544" y="125">做饭</text><text x="544" y="175">飞</text></g></svg>
+          <figcaption>把词从左边放进去，信号就顺着线一路走到右边</figcaption>
+        </figure>
+        <p>旋钮开得大的线，信号很容易通过；开得小的线，几乎过不去。等信号走到出口，就得到了“下一个词是哪个”的分数。</p>
+      </div>
+
+      <div class="page">
+        <h2>② 给出来的答案打分</h2>
+        <p>把这些分数和<strong>真正接下来的词</strong>比一比。文章里本来就写着后面是什么，所以正确答案早就知道了。</p>
+<figure>
+          <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg"><g font-size="16"><text x="30" y="34" fill="#666">AI 给出的分</text><text x="330" y="34" fill="#666">真正的答案</text><text x="560" y="34" fill="#c1442e">分差</text><g stroke="#111" stroke-width="2" fill="none"><rect x="24" y="48" width="240" height="38" rx="8"/><rect x="24" y="94" width="240" height="38" rx="8"/><rect x="24" y="140" width="240" height="38" rx="8"/><rect x="324" y="48" width="180" height="38" rx="8"/><rect x="324" y="94" width="180" height="38" rx="8"/><rect x="324" y="140" width="180" height="38" rx="8"/></g><g fill="#111"><text x="44" y="73">吃 &#8230; 0.4</text><text x="44" y="119">做饭 &#8230; 0.3</text><text x="44" y="165">飞 &#8230; 0.3</text><text x="344" y="73">吃 &#8230; 1.0</text><text x="344" y="119">做饭 &#8230; 0</text><text x="344" y="165">飞 &#8230; 0</text></g><g fill="#c1442e" text-anchor="middle"><text x="570" y="73">0.6</text><text x="570" y="119">0.3</text><text x="570" y="165">0.3</text></g><g stroke="#111" stroke-width="2"><line x1="272" y1="67" x2="316" y2="67"/><line x1="272" y1="113" x2="316" y2="113"/><line x1="272" y1="159" x2="316" y2="159"/></g></g></svg>
+          <figcaption>当真正接下来的是“肚子好饿，吃”的时候</figcaption>
+        </figure>
+        <p>把每个分数差了多少全都加起来，就得到<span class="term">分差</span>（也叫“误差”）。这个数越小，说明猜得越准。整件事的目标，就是把分差变得尽量小。</p>
+      </div>
+
+      <div class="page">
+        <h2>③ 顺着分差倒回去改</h2>
+        <p>重点来了。“<strong>这个分差，是哪几根线上的旋钮造成的？</strong>”这个问题，要从出口往入口<span class="term">倒着追</span>才能回答。</p>
+<figure>
+          <svg viewBox="0 0 660 218" xmlns="http://www.w3.org/2000/svg"><defs><marker id="bk" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9z" fill="#c1442e"/></marker></defs><g font-size="14" fill="#666" text-anchor="middle"><text x="150" y="20">入口</text><text x="330" y="20">中间</text><text x="520" y="20">出口</text></g><line x1="165" y1="70" x2="315" y2="46" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="96" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="146" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="70" x2="315" y2="196" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="46" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="96" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="146" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="120" x2="315" y2="196" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="46" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="96" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="146" stroke="#eee" stroke-width="1.6"/><line x1="165" y1="170" x2="315" y2="196" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="70" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="120" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="46" x2="505" y2="170" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="70" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="120" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="96" x2="505" y2="170" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="70" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="120" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="146" x2="505" y2="170" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="70" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="120" stroke="#eee" stroke-width="1.6"/><line x1="345" y1="196" x2="505" y2="170" stroke="#eee" stroke-width="1.6"/><line x1="315" y1="96" x2="169" y2="120" stroke="#c1442e" stroke-width="2.4" marker-end="url(#bk)"/><line x1="315" y1="146" x2="169" y2="120" stroke="#c1442e" stroke-width="2.4" marker-end="url(#bk)"/><line x1="505" y1="70" x2="349" y2="96" stroke="#c1442e" stroke-width="2.4" marker-end="url(#bk)"/><line x1="505" y1="70" x2="349" y2="146" stroke="#c1442e" stroke-width="2.4" marker-end="url(#bk)"/><circle cx="150" cy="70" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="150" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="150" cy="170" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="46" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="96" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="146" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="330" cy="196" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="70" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="520" cy="170" r="15" fill="#fff" stroke="#111" stroke-width="3"/><g font-size="15" fill="#111"><text x="128" y="75" text-anchor="end">肚子</text><text x="128" y="125" text-anchor="end">好</text><text x="128" y="175" text-anchor="end">饿</text><text x="544" y="75">吃</text><text x="544" y="125">做饭</text><text x="544" y="175">飞</text></g></svg>
+          <figcaption>责任越大的线，改得越多</figcaption>
+        </figure>
+        <p>从靠近出口的线开始，一根根算“如果这根线再调一点点，分差就会变小”，再把结果往入口方向传。这就是<span class="term">反向传播</span>（backpropagation）。责任越大的旋钮，拧得越多——不过每次只拧一点点。</p>
+      </div>
+
+      <div class="page">
+        <h2>④ 然后，再来一次！</h2>
+        <p>旋钮改好之后，换一段新的文章，从第①步重新开始。往前走 → 打分 → 倒回去改 → 再来一次。</p>
+<figure>
+          <svg viewBox="0 0 660 190" xmlns="http://www.w3.org/2000/svg"><defs><marker id="lp" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#111"/></marker></defs><g font-size="15" text-anchor="middle" stroke="#111" stroke-width="3" fill="#fff"><rect x="30" y="66" width="120" height="52" rx="12"/><rect x="200" y="66" width="120" height="52" rx="12"/><rect x="370" y="66" width="120" height="52" rx="12"/><rect x="524" y="66" width="112" height="52" rx="12"/></g><g font-size="15" text-anchor="middle" fill="#111"><text x="90" y="97">往前走</text><text x="260" y="97">打分</text><text x="430" y="97">倒回去改</text><text x="580" y="97">再来一次！</text></g><g stroke="#111" stroke-width="3" fill="none"><path d="M154 92 h40" marker-end="url(#lp)"/><path d="M324 92 h40" marker-end="url(#lp)"/><path d="M494 92 h24" marker-end="url(#lp)"/><path d="M580 122 v30 h-490 v-30" marker-end="url(#lp)"/></g><text x="335" y="176" font-size="14" text-anchor="middle" fill="#d9773b">这样重复几亿次</text></svg>
+          <figcaption>把这四步一圈圈转下去，就是“训练”</figcaption>
+        </figure>
+        <p>没有人坐在那儿一个个拧，是电脑自动地重复这个循环。转上几亿圈以后，分差会越来越小。</p>
+        <p>所以就算它后来猜得很准，AI 也没有理解任何东西。它只是<strong>被调成让分差变小的样子</strong>而已。</p>
+      </div>
+
+      <div class="pagenav">
+        <button class="prev">&larr; 上一页</button>
+        <span class="pageno"></span>
+        <button class="fwd">下一页 &rarr;</button>
+        <button class="close">关闭</button>
+      </div>
     </div>
   </dialog>
 </section>
