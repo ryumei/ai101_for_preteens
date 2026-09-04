@@ -151,6 +151,12 @@
     .reveal .quiz .fb.ng { border-color: #c1442e; color: #c1442e; }
     .reveal .quiz .score { color: #d9773b; font-weight: bold; }
     .reveal .quiz .pct { font-size: 0.7em; color: #d9773b; margin-left: 0.3em; }
+    .reveal .quiz button.rare { border-color: #7a3fb5; color: #7a3fb5; }
+    .reveal .quiz button.rare:hover { background: #f6f0fc; }
+    .reveal .quiz button.rare .pct { color: #7a3fb5; }
+    .reveal .quiz .rarehit { color: #7a3fb5; font-weight: bold; }
+    .reveal .quiz button.secret { background: #7a3fb5; border-color: #7a3fb5; color: #fff; }
+    dialog.deep .term.rare { color: #7a3fb5; }
     .reveal .quiz .sent { font-size: 1.15em; line-height: 1.8; background: #fff; border: 2px solid #111; border-radius: 12px; padding: 0.5em 0.9em; margin-bottom: 0.6em; min-height: 2.6em; }
     .reveal .quiz .sent .pick { color: #c1442e; font-weight: bold; }
     .reveal .quiz .ai { font-size: 0.9em; }
@@ -657,6 +663,18 @@
   <h1>次の言葉あてゲーム</h1>
   <p class="lead">次に来る言葉を、自分で選んで文を作ろう。数字（%）は「AIが選びやすい度合い」だよ。</p>
   <div class="quiz" id="quiz-words"></div>
+
+  <dialog class="deep" id="dlg-secret">
+    <div class="inner">
+      <h2>&#128760; ひみつのページ</h2>
+      <p>よく見つけたね！ さっきの「うちゅうじんが」は <span class="term rare">0.01%</span>。AIなら、まず選ばない言葉だよ。</p>
+      <p>でも「まず選ばない」は「ぜったいに選ばない」ではないんだ。AIはわざと、<strong>たまに低い%の言葉も選ぶ</strong>ようにしてある。</p>
+      <p>だから、同じことを聞いても答えが毎回すこしちがう。作文を頼んで、もう一度頼むと別の文が返ってくるのは、そのためなんだ。</p>
+      <p>この「たまに」の<ruby>度合<rt>どあ</rt></ruby>いを、大人は「<span class="term rare">温度</span>（temperature）」と呼んでいる。高くすると、めずらしい言葉を選びやすくなるよ。</p>
+      <p>このページは、めったに出てこない。またあそびに来てね。次は何が出るかな？</p>
+      <p style="text-align:center;margin-top:1em;"><button class="close">とじる</button></p>
+    </div>
+  </dialog>
 </section>
 
 <!-- 8 -->
@@ -1309,32 +1327,44 @@
             { w:'元気に', p:3, next: END_B } ] }
       ]
     };
-    let node, picks, aiPicks, trials = 0;
+    const RARE_CHANCE = 0.10;
+    const END_R = [ {w:'やってきました。', p:0.01}, {w:'そっとあらわれました。', p:0.01}, {w:'おどりだしました。', p:0.01} ];
+    const RARE = { w:'うちゅうじんが', p:0.01, rare:true, next: [
+      { w:'ロケットで', p:0.01, next: END_R },
+      { w:'ぴかぴか光りながら', p:0.01, next: END_R },
+      { w:'かさをさして', p:0.01, next: END_R } ] };
+    let node, picks, aiPicks, trials = 0, rareOffer = false, rareHit = false;
     function best(arr){ return arr.reduce(function(a,b){ return b.p > a.p ? b : a; }); }
-    function start(){ node = TREE; picks = []; aiPicks = []; render(); }
+    function start(){ node = TREE; picks = []; aiPicks = []; rareHit = false;
+      rareOffer = (Math.random() < RARE_CHANCE); render(); }
     function sentence(list, cls){
       return TREE.text + list.map(function(x){ return ' <span class="' + cls + '">' + x.w + '</span>'; }).join('');
     }
     function render(){
       let html = '<div class="sent">' + sentence(picks, 'pick') + (node.next ? ' <span style="color:#d9773b">＿＿</span>' : '') + '</div>';
       if (node.next) {
+        const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
         html += '<p class="q">次の言葉を選んでね</p><div class="opts">';
-        node.next.forEach(function(o, k){ html += '<button data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
+        opts.forEach(function(o, k){ html += '<button class="' + (o.rare ? 'rare' : '') + '" data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
         html += '</div><p class="hint">%が高いほど「よく出てくるつながり」。AIは高いほうを選びやすいよ。</p>';
       } else {
         const lowest = Math.min.apply(null, picks.map(function(x){ return x.p; }));
         html += '<div class="ai">🤖 AIならたぶんこう選ぶ：<br><span class="aitxt">' + sentence(aiPicks, 'aitxt') + '</span></div>';
+        if (rareHit) { html += '<p class="rarehit">🛸 レア！ 0.01% の言葉をひいたね。AIならほとんど選ばない言葉だよ。</p>'; }
         html += '<p class="hint">' + (lowest <= 5
           ? '%の低い言葉を選ぶと、へんな文になったね。AIは%の高い言葉を選ぶことが多いから、「よくある文」ができやすいんだ。'
           : 'AIと同じような文になったね。%の高い言葉ばかり選ぶと、「よくある文」ができる。低い言葉を選ぶとどうなるか、もう一回ためしてみよう。') + '</p>';
         trials++;
         html += '<p class="opts"><button class="retry">もう一回</button>' +
+          (rareHit ? '<button class="secret">ひみつのページへ →</button>' : '') +
           (trials >= 2 ? '<button class="next">次のおはなしへ →</button>' : '') + '</p>';
       }
       el.innerHTML = html;
-      el.querySelectorAll('.opts button').forEach(function(b){
+      el.querySelectorAll('.opts button:not(.retry):not(.next):not(.secret)').forEach(function(b){
         b.onclick = function(){
-          const o = node.next[+b.dataset.k];
+          const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
+          const o = opts[+b.dataset.k];
+          if (o.rare) rareHit = true;
           aiPicks.push(best(node.next));
           picks.push(o);
           node = o;
@@ -1342,6 +1372,8 @@
         };
       });
       const rb = el.querySelector('button.retry'); if (rb) rb.onclick = start;
+      const sb = el.querySelector('button.secret');
+      if (sb) sb.onclick = function(){ document.getElementById('dlg-secret').showModal(); };
       const nb = el.querySelector('button.next'); if (nb) nb.onclick = function(){ Reveal.next(); };
     }
     start();

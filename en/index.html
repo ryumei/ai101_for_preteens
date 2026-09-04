@@ -83,6 +83,12 @@
       border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
     }
     .reveal .more:hover { background: #fff2f0; }
+    .reveal .quiz button.rare { border-color: #7a3fb5; color: #7a3fb5; }
+    .reveal .quiz button.rare:hover { background: #f6f0fc; }
+    .reveal .quiz button.rare .pct { color: #7a3fb5; }
+    .reveal .quiz .rarehit { color: #7a3fb5; font-weight: bold; }
+    .reveal .quiz button.secret { background: #7a3fb5; border-color: #7a3fb5; color: #fff; }
+    dialog.deep .term.rare { color: #7a3fb5; }
     dialog.deep {
       width: min(760px, 84vw); max-height: 78vh; padding: 0; color: #111; background: #fff;
       border: 3px solid #111; border-radius: 18px 26px 16px 24px / 26px 16px 24px 18px;
@@ -666,6 +672,18 @@
   <h1>Guess the next word</h1>
   <p class="lead">Pick the next word yourself and build a sentence. The % is how likely an AI is to pick that word.</p>
   <div class="quiz" id="quiz-words"></div>
+
+  <dialog class="deep" id="dlg-secret">
+    <div class="inner">
+      <h2>&#128760; The secret page</h2>
+      <p>Nice find! That "a visiting alien and" you picked was <span class="term rare">0.01%</span> &mdash; a word an AI would basically never choose.</p>
+      <p>But "basically never" is not "never". AIs are set up to <strong>sometimes pick the low-% words on purpose</strong>.</p>
+      <p>That is why the same question gets a slightly different answer each time. Ask for a story, ask again, and back comes a different one.</p>
+      <p>Grown-ups call the size of that "sometimes" the <span class="term rare">temperature</span>. Turn it up, and rarer words get picked more often.</p>
+      <p>This page hardly ever shows up. Come back and play again &mdash; who knows what turns up next time?</p>
+      <p style="text-align:center;margin-top:1em;"><button class="close">Close</button></p>
+    </div>
+  </dialog>
 </section>
 
 <!-- 8 -->
@@ -1316,32 +1334,44 @@
             { w:'a knight in armour,', p:3, next: END_A } ] }
       ]
     };
-    let node, picks, aiPicks, trials = 0;
+    const RARE_CHANCE = 0.10;
+    const END_R = [ {w:'who had travelled a very long way.', p:0.01}, {w:'who arrived quite by accident.', p:0.01}, {w:'who started to dance.', p:0.01} ];
+    const RARE = { w:'a visiting alien and', p:0.01, rare:true, next: [
+      { w:'its shiny rocket,', p:0.01, next: END_R },
+      { w:'a very confused sheep,', p:0.01, next: END_R },
+      { w:'a spotty umbrella,', p:0.01, next: END_R } ] };
+    let node, picks, aiPicks, trials = 0, rareOffer = false, rareHit = false;
     function best(arr){ return arr.reduce(function(a,b){ return b.p > a.p ? b : a; }); }
-    function start(){ node = TREE; picks = []; aiPicks = []; render(); }
+    function start(){ node = TREE; picks = []; aiPicks = []; rareHit = false;
+      rareOffer = (Math.random() < RARE_CHANCE); render(); }
     function sentence(list, cls){
       return TREE.text + list.map(function(x){ return ' <span class="' + cls + '">' + x.w + '</span>'; }).join('');
     }
     function render(){
       let html = '<div class="sent">' + sentence(picks, 'pick') + (node.next ? ' <span style="color:#d9773b">_____</span>' : '') + '</div>';
       if (node.next) {
+        const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
         html += '<p class="q">Choose what comes next</p><div class="opts">';
-        node.next.forEach(function(o, k){ html += '<button data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
+        opts.forEach(function(o, k){ html += '<button class="' + (o.rare ? 'rare' : '') + '" data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
         html += '</div><p class="hint">A higher % means those words go together more often. An AI leans towards the higher numbers.</p>';
       } else {
         const lowest = Math.min.apply(null, picks.map(function(x){ return x.p; }));
         html += '<div class="ai">&#129302; Here is what an AI would probably have picked:<br><span class="aitxt">' + sentence(aiPicks, 'aitxt') + '</span></div>';
+        if (rareHit) { html += '<p class="rarehit">\u{1F6F8} Rare! You drew a 0.01% word. An AI would almost never pick that one.</p>'; }
         html += '<p class="hint">' + (lowest <= 5
           ? 'Picking the low-% words gave you an odd sentence, didn&rsquo;t it? An AI usually picks the high-% ones, so it tends to produce the ordinary, expected sentence.'
           : 'You ended up close to what an AI would write. Stick to the high-% words and you get the expected sentence. Try again and see what the low ones do.') + '</p>';
         trials++;
         html += '<p class="opts"><button class="retry">Try again</button>' +
+          (rareHit ? '<button class="secret">To the secret page &rarr;</button>' : '') +
           (trials >= 2 ? '<button class="next">On with the story &rarr;</button>' : '') + '</p>';
       }
       el.innerHTML = html;
-      el.querySelectorAll('.opts button').forEach(function(b){
+      el.querySelectorAll('.opts button:not(.retry):not(.next):not(.secret)').forEach(function(b){
         b.onclick = function(){
-          const o = node.next[+b.dataset.k];
+          const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
+          const o = opts[+b.dataset.k];
+          if (o.rare) rareHit = true;
           aiPicks.push(best(node.next));
           picks.push(o);
           node = o;
@@ -1349,6 +1379,8 @@
         };
       });
       const rb = el.querySelector('button.retry'); if (rb) rb.onclick = start;
+      const sb = el.querySelector('button.secret');
+      if (sb) sb.onclick = function(){ document.getElementById('dlg-secret').showModal(); };
       const nb = el.querySelector('button.next'); if (nb) nb.onclick = function(){ Reveal.next(); };
     }
     start();

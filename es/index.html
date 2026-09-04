@@ -151,6 +151,12 @@
     .reveal .quiz .fb.ng { border-color: #c1442e; color: #c1442e; }
     .reveal .quiz .score { color: #d9773b; font-weight: bold; }
     .reveal .quiz .pct { font-size: 0.7em; color: #d9773b; margin-left: 0.3em; }
+    .reveal .quiz button.rare { border-color: #7a3fb5; color: #7a3fb5; }
+    .reveal .quiz button.rare:hover { background: #f6f0fc; }
+    .reveal .quiz button.rare .pct { color: #7a3fb5; }
+    .reveal .quiz .rarehit { color: #7a3fb5; font-weight: bold; }
+    .reveal .quiz button.secret { background: #7a3fb5; border-color: #7a3fb5; color: #fff; }
+    dialog.deep .term.rare { color: #7a3fb5; }
     .reveal .quiz .sent { font-size: 1.15em; line-height: 1.8; background: #fff; border: 2px solid #111; border-radius: 12px; padding: 0.5em 0.9em; margin-bottom: 0.6em; min-height: 2.6em; }
     .reveal .quiz .sent .pick { color: #c1442e; font-weight: bold; }
     .reveal .quiz .ai { font-size: 0.9em; }
@@ -657,6 +663,18 @@
   <h1>Adivina la siguiente palabra</h1>
   <p class="lead">Elige tú la palabra que viene y construye una frase. El % es lo probable que es que una IA elija esa palabra.</p>
   <div class="quiz" id="quiz-words"></div>
+
+  <dialog class="deep" id="dlg-secret">
+    <div class="inner">
+      <h2>&#128760; La página secreta</h2>
+      <p>¡Buen hallazgo! Ese "un extraterrestre de paso y" que elegiste era del <span class="term rare">0,01%</span>: una palabra que una IA no escogería prácticamente nunca.</p>
+      <p>Pero "prácticamente nunca" no es "nunca". Las IA están hechas para <strong>elegir a veces, a propósito, las palabras de % bajo</strong>.</p>
+      <p>Por eso la misma pregunta recibe una respuesta un poco distinta cada vez. Pide un cuento, vuelve a pedirlo, y sale otro.</p>
+      <p>Los adultos llaman a la medida de ese "a veces" la <span class="term rare">temperatura</span>. Si la subes, salen palabras raras más a menudo.</p>
+      <p>Esta página aparece muy poco. Vuelve a jugar: ¿quién sabe qué saldrá la próxima vez?</p>
+      <p style="text-align:center;margin-top:1em;"><button class="close">Cerrar</button></p>
+    </div>
+  </dialog>
 </section>
 
 <!-- 8 -->
@@ -1290,7 +1308,13 @@
   //
   (function () {
     const el = document.getElementById('quiz-words');
+    const RARE_CHANCE = 0.10;
     const END_A = [ {w:'que vivían en una cabaña en el bosque.', p:80}, {w:'que vivían al borde del bosque.', p:12}, {w:'que vivían dentro de una calabaza gigante.', p:1} ];
+    const END_R = [ {w:'que venían de muy lejos.', p:0.01}, {w:'que llegaron por pura casualidad.', p:0.01}, {w:'que se pusieron a bailar.', p:0.01} ];
+    const RARE = { w:'un extraterrestre de paso y', p:0.01, rare:true, next: [
+      { w:'su cohete brillante,', p:0.01, next: END_R },
+      { w:'una oveja muy despistada,', p:0.01, next: END_R },
+      { w:'un paraguas de lunares,', p:0.01, next: END_R } ] };
     const TREE = {
       text: 'Érase una vez',
       next: [
@@ -1308,32 +1332,38 @@
             { w:'un caballero con armadura,', p:3, next: END_A } ] }
       ]
     };
-    let node, picks, aiPicks, trials = 0;
+    let node, picks, aiPicks, trials = 0, rareOffer = false, rareHit = false;
     function best(arr){ return arr.reduce(function(a,b){ return b.p > a.p ? b : a; }); }
-    function start(){ node = TREE; picks = []; aiPicks = []; render(); }
+    function start(){ node = TREE; picks = []; aiPicks = []; rareHit = false;
+      rareOffer = (Math.random() < RARE_CHANCE); render(); }
     function sentence(list, cls){
       return TREE.text + list.map(function(x){ return ' <span class="' + cls + '">' + x.w + '</span>'; }).join('');
     }
     function render(){
       let html = '<div class="sent">' + sentence(picks, 'pick') + (node.next ? ' <span style="color:#d9773b">_____</span>' : '') + '</div>';
       if (node.next) {
+        const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
         html += '<p class="q">Elige lo que viene ahora</p><div class="opts">';
-        node.next.forEach(function(o, k){ html += '<button data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
+        opts.forEach(function(o, k){ html += '<button class="' + (o.rare ? 'rare' : '') + '" data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
         html += '</div><p class="hint">Un % más alto significa que esas palabras van juntas más a menudo. Una IA tira hacia los números altos.</p>';
       } else {
         const lowest = Math.min.apply(null, picks.map(function(x){ return x.p; }));
         html += '<div class="ai">&#129302; Esto es lo que probablemente habría elegido una IA:<br><span class="aitxt">' + sentence(aiPicks, 'aitxt') + '</span></div>';
+        if (rareHit) { html += '<p class="rarehit">&#128760; ¡Rara! Te ha salido una palabra del 0,01%. Una IA no la elegiría casi nunca.</p>'; }
         html += '<p class="hint">' + (lowest <= 5
           ? 'Al elegir las palabras de % bajo te ha salido una frase rarísima, ¿verdad? Una IA suele elegir las de % alto, así que tiende a producir la frase normal y esperable.'
           : 'Te ha salido algo parecido a lo que escribiría una IA. Si te quedas con las palabras de % alto, sale la frase esperable. Prueba otra vez a ver qué pasa con las bajas.') + '</p>';
         trials++;
         html += '<p class="opts"><button class="retry">Otra vez</button>' +
+          (rareHit ? '<button class="secret">A la página secreta &rarr;</button>' : '') +
           (trials >= 2 ? '<button class="next">Seguir el cuento &rarr;</button>' : '') + '</p>';
       }
       el.innerHTML = html;
-      el.querySelectorAll('.opts button').forEach(function(b){
+      el.querySelectorAll('.opts button:not(.retry):not(.next):not(.secret)').forEach(function(b){
         b.onclick = function(){
-          const o = node.next[+b.dataset.k];
+          const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
+          const o = opts[+b.dataset.k];
+          if (o.rare) rareHit = true;
           aiPicks.push(best(node.next));
           picks.push(o);
           node = o;
@@ -1341,6 +1371,8 @@
         };
       });
       const rb = el.querySelector('button.retry'); if (rb) rb.onclick = start;
+      const sb = el.querySelector('button.secret');
+      if (sb) sb.onclick = function(){ document.getElementById('dlg-secret').showModal(); };
       const nb = el.querySelector('button.next'); if (nb) nb.onclick = function(){ Reveal.next(); };
     }
     start();

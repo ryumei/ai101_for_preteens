@@ -155,6 +155,12 @@
     .reveal .quiz .fb.ng { border-color: #c1442e; color: #c1442e; }
     .reveal .quiz .score { color: #d9773b; font-weight: bold; }
     .reveal .quiz .pct { font-size: 0.7em; color: #d9773b; margin-left: 0.3em; }
+    .reveal .quiz button.rare { border-color: #7a3fb5; color: #7a3fb5; }
+    .reveal .quiz button.rare:hover { background: #f6f0fc; }
+    .reveal .quiz button.rare .pct { color: #7a3fb5; }
+    .reveal .quiz .rarehit { color: #7a3fb5; font-weight: bold; }
+    .reveal .quiz button.secret { background: #7a3fb5; border-color: #7a3fb5; color: #fff; }
+    dialog.deep .term.rare { color: #7a3fb5; }
     .reveal .quiz .sent { font-size: 1.15em; line-height: 1.8; background: #fff; border: 2px solid #111; border-radius: 12px; padding: 0.5em 0.9em; margin-bottom: 0.6em; min-height: 2.6em; }
     .reveal .quiz .sent .pick { color: #c1442e; font-weight: bold; }
     .reveal .quiz .ai { font-size: 0.9em; }
@@ -661,6 +667,18 @@
   <h1>猜下一個詞</h1>
   <p class="lead">你自己挑下一個詞，把句子造出來。數字（%）表示 AI 有多大可能挑這個詞。</p>
   <div class="quiz" id="quiz-words"></div>
+
+  <dialog class="deep" id="dlg-secret">
+    <div class="inner">
+      <h2>&#128760; 秘密頁面</h2>
+      <p>被你找到了！剛才你選的“有一位外星人和”是 <span class="term rare">0.01%</span>，AI 基本上不會挑這個詞。</p>
+      <p>但“基本上不會”不等於“絕對不會”。AI 是被設計成<strong>偶爾故意挑一個低 % 的詞</strong>的。</p>
+      <p>所以同樣的問題，每次得到的答案都會有一點點不一樣。讓它寫一段話，再讓它寫一次，回來的就是另一段。</p>
+      <p>這個“偶爾”的分量，大人們叫作<span class="term rare">溫度</span>（temperature）。調高一點，它就更容易挑出少見的詞。</p>
+      <p>這一頁很少出現。歡迎再來玩，下次會碰到什麼呢？</p>
+      <p style="text-align:center;margin-top:1em;"><button class="close">關閉</button></p>
+    </div>
+  </dialog>
 </section>
 
 <!-- 8 -->
@@ -1294,9 +1312,15 @@
   //
   (function () {
     const el = document.getElementById('quiz-words');
+    const RARE_CHANCE = 0.10;
     const END_A = [ {w:'住在森林裡的小木屋。', p:80}, {w:'住在森林的邊上。', p:12}, {w:'住在一個大南瓜裡。', p:1} ];
+    const END_R = [ {w:'從很遠很遠的地方來了。', p:0.01}, {w:'不小心就降落到了這裡。', p:0.01}, {w:'跳起舞來了。', p:0.01} ];
+    const RARE = { w:'有一位外星人和', p:0.01, rare:true, next: [
+      { w:'一艘閃閃發光的火箭，', p:0.01, next: END_R },
+      { w:'一隻一臉茫然的綿羊，', p:0.01, next: END_R },
+      { w:'一把圓點花紋的傘，', p:0.01, next: END_R } ] };
     const TREE = {
-      text: '從前從前，',
+      text: '很久很久以前，',
       next: [
         { w:'有一位老爺爺和', p:55, next: [
             { w:'他的老伴，', p:70, next: END_A },
@@ -1312,32 +1336,38 @@
             { w:'一位穿盔甲的騎士，', p:3, next: END_A } ] }
       ]
     };
-    let node, picks, aiPicks, trials = 0;
+    let node, picks, aiPicks, trials = 0, rareOffer = false, rareHit = false;
     function best(arr){ return arr.reduce(function(a,b){ return b.p > a.p ? b : a; }); }
-    function start(){ node = TREE; picks = []; aiPicks = []; render(); }
+    function start(){ node = TREE; picks = []; aiPicks = []; rareHit = false;
+      rareOffer = (Math.random() < RARE_CHANCE); render(); }
     function sentence(list, cls){
       return TREE.text + list.map(function(x){ return ' <span class="' + cls + '">' + x.w + '</span>'; }).join('');
     }
     function render(){
       let html = '<div class="sent">' + sentence(picks, 'pick') + (node.next ? ' <span style="color:#d9773b">_____</span>' : '') + '</div>';
       if (node.next) {
+        const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
         html += '<p class="q">挑一個接下來的詞</p><div class="opts">';
-        node.next.forEach(function(o, k){ html += '<button data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
+        opts.forEach(function(o, k){ html += '<button class="' + (o.rare ? 'rare' : '') + '" data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
         html += '</div><p class="hint">% 越高，表示這些詞越常放在一起。AI 會往數字高的那邊靠。</p>';
       } else {
         const lowest = Math.min.apply(null, picks.map(function(x){ return x.p; }));
         html += '<div class="ai">&#129302; 換成 AI，多半會這樣挑：<br><span class="aitxt">' + sentence(aiPicks, 'aitxt') + '</span></div>';
+        if (rareHit) { html += '<p class="rarehit">&#128760; 稀有！你抽到了 0.01% 的詞。AI 幾乎不會選它。</p>'; }
         html += '<p class="hint">' + (lowest <= 5
           ? '挑了 % 低的詞，句子就變得怪怪的，對吧？AI 通常挑 % 高的詞，所以它寫出來的往往是那種常見、意料之中的句子。'
           : '你寫出來的和 AI 差不多。一直挑 % 高的詞，就會得到意料之中的句子。再來一次，看看挑低的會怎麼樣。') + '</p>';
         trials++;
         html += '<p class="opts"><button class="retry">再來一次</button>' +
+          (rareHit ? '<button class="secret">去秘密頁面 &rarr;</button>' : '') +
           (trials >= 2 ? '<button class="next">繼續故事 &rarr;</button>' : '') + '</p>';
       }
       el.innerHTML = html;
-      el.querySelectorAll('.opts button').forEach(function(b){
+      el.querySelectorAll('.opts button:not(.retry):not(.next):not(.secret)').forEach(function(b){
         b.onclick = function(){
-          const o = node.next[+b.dataset.k];
+          const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
+          const o = opts[+b.dataset.k];
+          if (o.rare) rareHit = true;
           aiPicks.push(best(node.next));
           picks.push(o);
           node = o;
@@ -1345,6 +1375,8 @@
         };
       });
       const rb = el.querySelector('button.retry'); if (rb) rb.onclick = start;
+      const sb = el.querySelector('button.secret');
+      if (sb) sb.onclick = function(){ document.getElementById('dlg-secret').showModal(); };
       const nb = el.querySelector('button.next'); if (nb) nb.onclick = function(){ Reveal.next(); };
     }
     start();

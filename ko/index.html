@@ -160,6 +160,12 @@
     .reveal .quiz .fb.ng { border-color: #c1442e; color: #c1442e; }
     .reveal .quiz .score { color: #d9773b; font-weight: bold; }
     .reveal .quiz .pct { font-size: 0.7em; color: #d9773b; margin-left: 0.3em; }
+    .reveal .quiz button.rare { border-color: #7a3fb5; color: #7a3fb5; }
+    .reveal .quiz button.rare:hover { background: #f6f0fc; }
+    .reveal .quiz button.rare .pct { color: #7a3fb5; }
+    .reveal .quiz .rarehit { color: #7a3fb5; font-weight: bold; }
+    .reveal .quiz button.secret { background: #7a3fb5; border-color: #7a3fb5; color: #fff; }
+    dialog.deep .term.rare { color: #7a3fb5; }
     .reveal .quiz .sent { font-size: 1.15em; line-height: 1.8; background: #fff; border: 2px solid #111; border-radius: 12px; padding: 0.5em 0.9em; margin-bottom: 0.6em; min-height: 2.6em; }
     .reveal .quiz .sent .pick { color: #c1442e; font-weight: bold; }
     .reveal .quiz .ai { font-size: 0.9em; }
@@ -666,6 +672,18 @@
   <h1>다음 말 맞히기 놀이</h1>
   <p class="lead">다음에 올 말을 직접 골라 문장을 만들어 보세요. 숫자(%)는 "AI가 그 말을 고를 만한 정도"예요.</p>
   <div class="quiz" id="quiz-words"></div>
+
+  <dialog class="deep" id="dlg-secret">
+    <div class="inner">
+      <h2>&#128760; 비밀 페이지</h2>
+      <p>잘 찾았어요! 방금 고른 "외계인과"는 <span class="term rare">0.01%</span>. AI라면 거의 고르지 않을 말이에요.</p>
+      <p>하지만 "거의 고르지 않는다"가 "절대 고르지 않는다"는 아니에요. AI는 일부러 <strong>가끔 낮은 % 의 말도 고르도록</strong> 되어 있거든요.</p>
+      <p>그래서 같은 걸 물어봐도 답이 매번 조금씩 달라요. 글을 부탁하고 다시 부탁하면 다른 글이 돌아오는 건 그 때문이에요.</p>
+      <p>이 "가끔"의 정도를 어른들은 <span class="term rare">온도</span>(temperature)라고 불러요. 높이면 드문 말을 더 잘 고르게 됩니다.</p>
+      <p>이 페이지는 좀처럼 나오지 않아요. 또 놀러 와요. 다음엔 뭐가 나올까요?</p>
+      <p style="text-align:center;margin-top:1em;"><button class="close">닫기</button></p>
+    </div>
+  </dialog>
 </section>
 
 <!-- 8 -->
@@ -1299,7 +1317,13 @@
   //
   (function () {
     const el = document.getElementById('quiz-words');
+    const RARE_CHANCE = 0.10;
     const END_A = [ {w:'숲속 오두막에 살았습니다.', p:80}, {w:'숲 가장자리에 살았습니다.', p:12}, {w:'커다란 호박 속에 살았습니다.', p:1} ];
+    const END_R = [ {w:'아주 먼 곳에서 찾아왔습니다.', p:0.01}, {w:'어쩌다 보니 도착했습니다.', p:0.01}, {w:'춤을 추기 시작했습니다.', p:0.01} ];
+    const RARE = { w:'어느 밤하늘에서 외계인과', p:0.01, rare:true, next: [
+      { w:'반짝이는 로켓이', p:0.01, next: END_R },
+      { w:'어리둥절한 양 한 마리가', p:0.01, next: END_R },
+      { w:'물방울무늬 우산이', p:0.01, next: END_R } ] };
     const TREE = {
       text: '옛날 옛적에,',
       next: [
@@ -1317,32 +1341,38 @@
             { w:'갑옷 입은 기사가', p:3, next: END_A } ] }
       ]
     };
-    let node, picks, aiPicks, trials = 0;
+    let node, picks, aiPicks, trials = 0, rareOffer = false, rareHit = false;
     function best(arr){ return arr.reduce(function(a,b){ return b.p > a.p ? b : a; }); }
-    function start(){ node = TREE; picks = []; aiPicks = []; render(); }
+    function start(){ node = TREE; picks = []; aiPicks = []; rareHit = false;
+      rareOffer = (Math.random() < RARE_CHANCE); render(); }
     function sentence(list, cls){
       return TREE.text + list.map(function(x){ return ' <span class="' + cls + '">' + x.w + '</span>'; }).join('');
     }
     function render(){
       let html = '<div class="sent">' + sentence(picks, 'pick') + (node.next ? ' <span style="color:#d9773b">_____</span>' : '') + '</div>';
       if (node.next) {
+        const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
         html += '<p class="q">다음에 올 말을 골라 보세요</p><div class="opts">';
-        node.next.forEach(function(o, k){ html += '<button data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
+        opts.forEach(function(o, k){ html += '<button class="' + (o.rare ? 'rare' : '') + '" data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
         html += '</div><p class="hint">%가 높을수록 자주 함께 쓰이는 말이에요. AI는 높은 쪽으로 기웁니다.</p>';
       } else {
         const lowest = Math.min.apply(null, picks.map(function(x){ return x.p; }));
         html += '<div class="ai">&#129302; AI라면 아마 이렇게 골랐을 거예요:<br><span class="aitxt">' + sentence(aiPicks, 'aitxt') + '</span></div>';
+        if (rareHit) { html += '<p class="rarehit">&#128760; 레어! 0.01% 짜리 말을 뽑았네요. AI라면 거의 고르지 않는 말이에요.</p>'; }
         html += '<p class="hint">' + (lowest <= 5
           ? '%가 낮은 말을 고르니 이상한 문장이 됐죠? AI는 %가 높은 말을 고르는 일이 많아서, 흔하고 뻔한 문장이 만들어지기 쉬워요.'
           : 'AI와 비슷한 문장이 됐네요. %가 높은 말만 고르면 뻔한 문장이 나와요. 낮은 말을 고르면 어떻게 되는지 한 번 더 해 보세요.') + '</p>';
         trials++;
         html += '<p class="opts"><button class="retry">다시 하기</button>' +
+          (rareHit ? '<button class="secret">비밀 페이지로 &rarr;</button>' : '') +
           (trials >= 2 ? '<button class="next">이야기 계속 &rarr;</button>' : '') + '</p>';
       }
       el.innerHTML = html;
-      el.querySelectorAll('.opts button').forEach(function(b){
+      el.querySelectorAll('.opts button:not(.retry):not(.next):not(.secret)').forEach(function(b){
         b.onclick = function(){
-          const o = node.next[+b.dataset.k];
+          const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
+          const o = opts[+b.dataset.k];
+          if (o.rare) rareHit = true;
           aiPicks.push(best(node.next));
           picks.push(o);
           node = o;
@@ -1350,6 +1380,8 @@
         };
       });
       const rb = el.querySelector('button.retry'); if (rb) rb.onclick = start;
+      const sb = el.querySelector('button.secret');
+      if (sb) sb.onclick = function(){ document.getElementById('dlg-secret').showModal(); };
       const nb = el.querySelector('button.next'); if (nb) nb.onclick = function(){ Reveal.next(); };
     }
     start();
