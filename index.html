@@ -43,6 +43,41 @@
     .reveal .cover h1 { font-size: 1.6em; }
     .reveal .summary { font-size: 0.75em; text-align: left; margin: 0 auto; max-width: 900px; }
     .reveal .summary li { margin-bottom: 0.5em; }
+
+    /* --- やってみよう（クイズ） --- */
+    .reveal .quiz-slide { text-align: left; }
+    .reveal .quiz-slide .label { background: #2b7a3e; }
+    .reveal .quiz-slide h1 { font-size: 1.1em; margin-bottom: 0.3em; }
+    .reveal .quiz-slide .lead { font-size: 0.7em; color: #555; margin: 0 0 0.5em 0; }
+    .reveal .quiz {
+      background: #fff; border: 3px solid #333; border-radius: 18px; padding: 24px 32px;
+      font-size: 0.75em; min-height: 380px; box-sizing: border-box;
+    }
+    .reveal .quiz .q { font-weight: bold; color: #2b4a6f; margin: 0 0 0.6em 0; font-size: 1.05em; }
+    .reveal .quiz .opts { display: flex; flex-wrap: wrap; gap: 14px; margin: 0 0 0.6em 0; }
+    .reveal .quiz button {
+      font: inherit; font-size: 1em; padding: 0.4em 1em; border-radius: 999px; cursor: pointer;
+      border: 3px solid #2b4a6f; background: #dcefff; color: #2b4a6f; line-height: 1.4;
+    }
+    .reveal .quiz button:hover { background: #bfe0ff; }
+    .reveal .quiz button:disabled { cursor: default; opacity: 0.55; }
+    .reveal .quiz button.ok { background: #e3f4e1; border-color: #2b7a3e; color: #2b7a3e; opacity: 1; }
+    .reveal .quiz button.ng { background: #ffd9d4; border-color: #c1442e; color: #c1442e; opacity: 1; }
+    .reveal .quiz button.next { background: #d9773b; border-color: #d9773b; color: #fff; }
+    .reveal .quiz .fb { min-height: 2.6em; padding: 0.4em 0.8em; border-radius: 10px; background: #fffdf6; border: 2px dashed #ccc; }
+    .reveal .quiz .fb.ok { border-color: #2b7a3e; color: #2b7a3e; }
+    .reveal .quiz .fb.ng { border-color: #c1442e; color: #c1442e; }
+    .reveal .quiz .score { color: #d9773b; font-weight: bold; }
+    .reveal .quiz .pct { font-size: 0.7em; color: #d9773b; margin-left: 0.3em; }
+    .reveal .quiz .sent { font-size: 1.15em; line-height: 1.8; background: #fffdf6; border: 2px solid #333; border-radius: 12px; padding: 0.5em 0.9em; margin-bottom: 0.6em; min-height: 2.6em; }
+    .reveal .quiz .sent .pick { color: #c1442e; font-weight: bold; }
+    .reveal .quiz .ai { font-size: 0.9em; }
+    .reveal .quiz .ai .aitxt { color: #2b4a6f; font-weight: bold; }
+    .reveal .quiz .hint { font-size: 0.85em; color: #666; }
+    .reveal .quiz .said { display: flex; align-items: center; gap: 16px; margin-bottom: 0.6em; }
+    .reveal .quiz .said .robo { flex: 0 0 auto; font-size: 2.2em; }
+    .reveal #quiz-rules .opts button, .reveal #quiz-lie .opts button { min-width: 3.2em; font-size: 1.2em; }
+    .reveal .quiz .said .bubble { background: #fff2dc; border: 2px solid #333; border-radius: 14px; padding: 0.4em 0.9em; }
   </style>
 </head>
 <body>
@@ -118,6 +153,14 @@
     </div>
   </div>
   <div class="num">2 / 15</div>
+</section>
+
+<!-- やってみよう: はじめに -->
+<section class="quiz-slide">
+  <span class="label">やってみよう</span>
+  <h1>クイズ：LLMはどれ？</h1>
+  <p class="lead">ボタンをおして答えてね。</p>
+  <div class="quiz" id="quiz-intro"></div>
 </section>
 
 <!-- 3 -->
@@ -317,6 +360,14 @@
   <div class="num">7 / 15</div>
 </section>
 
+<!-- やってみよう: しくみ -->
+<section class="quiz-slide">
+  <span class="label">やってみよう</span>
+  <h1>次の言葉あてゲーム</h1>
+  <p class="lead">次に来る言葉を、自分で選んで文を作ろう。数字（%）は「AIが選びやすい度合い」だよ。</p>
+  <div class="quiz" id="quiz-words"></div>
+</section>
+
 <!-- 8 -->
 <section>
   <div class="slide">
@@ -451,6 +502,14 @@
     </div>
   </div>
   <div class="num">11 / 15</div>
+</section>
+
+<!-- やってみよう: 得意・不得意 -->
+<section class="quiz-slide">
+  <span class="label">やってみよう</span>
+  <h1>クイズ：本当？それとも<ruby>嘘<rt>うそ</rt></ruby>？</h1>
+  <p class="lead">AIが自信まんまんに答えたよ。本当か嘘か、見やぶれるかな？</p>
+  <div class="quiz" id="quiz-lie"></div>
 </section>
 
 <!-- 12 -->
@@ -609,6 +668,14 @@
   <div class="num">15 / 15</div>
 </section>
 
+<!-- やってみよう: 心構え -->
+<section class="quiz-slide">
+  <span class="label">やってみよう</span>
+  <h1>クイズ：この使い方は ○？ ×？</h1>
+  <p class="lead">AIの使い方として、いいと思ったら ○、よくないと思ったら × をおしてね。</p>
+  <div class="quiz" id="quiz-rules"></div>
+</section>
+
 <!-- まとめ -->
 <section class="title-slide">
   <h1>まとめ</h1>
@@ -635,6 +702,150 @@
     center: true,
     transition: 'slide'
   });
+</script>
+
+<script>
+(function () {
+  // ---- 共通: 選択式クイズ ----
+  function makeQuiz(el, questions, opts) {
+    opts = opts || {};
+    let i = 0, score = 0;
+    function esc(t){ return t; }
+    function render() {
+      if (i >= questions.length) {
+        el.innerHTML = '<p class="q">おわり！</p>' +
+          '<p>' + questions.length + '問中 <span class="score">' + score + '問</span> 正解。</p>' +
+          '<p>' + (opts.closing || '') + '</p>' +
+          '<p><button class="next">もう一回</button></p>';
+        el.querySelector('button.next').onclick = function(){ i = 0; score = 0; render(); };
+        return;
+      }
+      const q = questions[i];
+      let html = '';
+      if (q.said) {
+        html += '<div class="said"><div class="robo">🤖</div><div class="bubble">' + esc(q.said) + '</div></div>';
+      }
+      html += '<p class="q">Q' + (i+1) + '. ' + esc(q.q) + '</p><div class="opts">';
+      q.opts.forEach(function(o, k){ html += '<button data-k="' + k + '">' + esc(o.t) + '</button>'; });
+      html += '</div><div class="fb"></div><p class="nextp"></p>';
+      el.innerHTML = html;
+      const btns = el.querySelectorAll('.opts button');
+      btns.forEach(function(b){
+        b.onclick = function(){
+          const o = q.opts[+b.dataset.k];
+          btns.forEach(function(x){ x.disabled = true; });
+          b.classList.add(o.ok ? 'ok' : 'ng');
+          if (o.ok) score++;
+          const fb = el.querySelector('.fb');
+          fb.className = 'fb ' + (o.ok ? 'ok' : 'ng');
+          fb.innerHTML = (o.ok ? '○ せいかい！ ' : '× ざんねん。 ') + esc(o.fb || q.fb || '');
+          el.querySelector('.nextp').innerHTML = '<button class="next">' + (i+1 < questions.length ? 'つぎへ →' : 'けっかを見る') + '</button>';
+          el.querySelector('button.next').onclick = function(){ i++; render(); };
+        };
+      });
+    }
+    render();
+  }
+
+  // ---- 1. はじめに ----
+  makeQuiz(document.getElementById('quiz-intro'), [
+    { q: 'この中で「LLM」（文章を作るAI）はどれ？',
+      opts: [
+        { t: '🧹 じどうで部屋をそうじするロボット', fb: 'これも「AI」と呼ばれることはあるけど、文章は作らないね。' },
+        { t: '💬 質問を書くと、文章で答えてくれるAI', ok: true, fb: '文章を作るAI、それがLLMだよ。' },
+        { t: '🧮 数を入れると計算してくれる電卓', fb: '電卓は決まった計算をするだけ。文章は作らないね。' }
+      ] },
+    { q: '「LLM」の名前の意味に近いのはどれ？',
+      opts: [
+        { t: '大きな言葉のしくみ', ok: true, fb: '「大きな言葉のモデル（しくみ）」という英語を短くした名前だったね。' },
+        { t: '小さなロボットの友だち', fb: 'ロボットの名前ではないよ。' },
+        { t: '光るライトのマーク', fb: 'ライトは関係ないよ。' }
+      ] }
+  ], { closing: 'LLMは「文章を作るAI」。次は、どうやって文章を作っているのか見てみよう。' });
+
+  // ---- 2. しくみ: 次の言葉あてゲーム ----
+  (function () {
+    const el = document.getElementById('quiz-words');
+    const END_A = [ {w:'すんでいました。', p:85}, {w:'あそんでいました。', p:8}, {w:'ういていました。', p:1} ];
+    const END_B = [ {w:'ありました。', p:70}, {w:'おちていました。', p:12}, {w:'おどっていました。', p:1} ];
+    const TREE = {
+      text: 'むかしむかし、あるところに',
+      next: [
+        { w:'おじいさんと', p:55, next: [
+            { w:'おばあさんが', p:75, next: END_A },
+            { w:'くまが', p:6, next: END_A },
+            { w:'ロボットが', p:1, next: END_A } ] },
+        { w:'おばあさんが', p:30, next: [
+            { w:'ひとりで', p:60, next: END_A },
+            { w:'ねこと', p:15, next: END_A },
+            { w:'ドラゴンと', p:1, next: END_A } ] },
+        { w:'れいぞうこが', p:2, next: [
+            { w:'ひとつ', p:50, next: END_B },
+            { w:'ぽつんと', p:20, next: END_B },
+            { w:'元気に', p:3, next: END_B } ] }
+      ]
+    };
+    let node, picks, aiPicks;
+    function best(arr){ return arr.reduce(function(a,b){ return b.p > a.p ? b : a; }); }
+    function start(){ node = TREE; picks = []; aiPicks = []; render(); }
+    function sentence(list, cls){
+      return TREE.text + list.map(function(x){ return ' <span class="' + cls + '">' + x.w + '</span>'; }).join('');
+    }
+    function render(){
+      let html = '<div class="sent">' + sentence(picks, 'pick') + (node.next ? ' <span style="color:#d9773b">＿＿</span>' : '') + '</div>';
+      if (node.next) {
+        html += '<p class="q">次の言葉を選んでね</p><div class="opts">';
+        node.next.forEach(function(o, k){ html += '<button data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
+        html += '</div><p class="hint">%が高いほど「よく出てくるつながり」。AIは高いほうを選びやすいよ。</p>';
+      } else {
+        const lowest = Math.min.apply(null, picks.map(function(x){ return x.p; }));
+        html += '<div class="ai">🤖 AIならたぶんこう選ぶ：<br><span class="aitxt">' + sentence(aiPicks, 'aitxt') + '</span></div>';
+        html += '<p class="hint">' + (lowest <= 5
+          ? '%の低い言葉を選ぶと、へんな文になったね。AIは%の高い言葉を選ぶことが多いから、「よくある文」ができやすいんだ。'
+          : 'AIと同じような文になったね。%の高い言葉ばかり選ぶと、「よくある文」ができる。低い言葉を選ぶとどうなるか、もう一回ためしてみよう。') + '</p>';
+        html += '<p><button class="next">もう一回</button></p>';
+      }
+      el.innerHTML = html;
+      el.querySelectorAll('.opts button').forEach(function(b){
+        b.onclick = function(){
+          const o = node.next[+b.dataset.k];
+          aiPicks.push(best(node.next));
+          picks.push(o);
+          node = o;
+          render();
+        };
+      });
+      const nb = el.querySelector('button.next'); if (nb) nb.onclick = start;
+    }
+    start();
+  })();
+
+  // ---- 3. 得意・不得意: 本当？嘘？ ----
+  makeQuiz(document.getElementById('quiz-lie'), [
+    { said: '日本でいちばん高い山は富士山で、高さは3776メートルです。', q: 'この答えは？',
+      opts: [ { t:'本当', ok:true, fb:'これは本当。でも、本当かどうかは「言い方」では分からないよね。' }, { t:'嘘', fb:'これは本当だよ。自信まんまんでも、本当のこともある。' } ] },
+    { said: 'カブトムシは鳥のなかまで、冬になると南の国へわたります。', q: 'この答えは？',
+      opts: [ { t:'本当', fb:'カブトムシは虫（こん虫）。鳥ではないよ。すらすら言われると信じそうになるね。' }, { t:'嘘', ok:true, fb:'カブトムシはこん虫。それらしい言葉をつなげただけの答えだったね。' } ] },
+    { said: '1週間は7日で、1年はふつう365日です。', q: 'この答えは？',
+      opts: [ { t:'本当', ok:true, fb:'本当。知っていることなら、自分で見ぬけるね。' }, { t:'嘘', fb:'これは本当だよ。' } ] },
+    { said: '〇〇小学校の校歌は「みどりの山に かぜふいて」で始まります。', q: 'この答えは？',
+      opts: [ { t:'本当', fb:'AIはこの学校のことを知らないのに、それらしく作ってしまったんだ。' }, { t:'嘘', ok:true, fb:'知らないことでも、それらしい言葉をつなげて答えてしまう。これが「もっともらしい嘘」。' } ] }
+  ], { closing: '本当も嘘も、同じ自信まんまんの顔で出てくる。だから「本当かな？」と確かめることが大事なんだ。' });
+
+  // ---- 4. 心構え: ○×クイズ ----
+  makeQuiz(document.getElementById('quiz-rules'), [
+    { q: '作文の宿題をAIに全部書いてもらって、そのまま出した。',
+      opts: [ { t:'○', fb:'まちがっているかもしれないし、自分の力にもならない。AIは道具、使うのは自分だよ。' }, { t:'×', ok:true, fb:'まず自分で考えて、こまったときにヒントをもらうのがいい使い方だね。' } ] },
+    { q: '調べ学習でAIにヒントをもらい、本で本当か確かめてからまとめた。',
+      opts: [ { t:'○', ok:true, fb:'AIの答えはヒント。確かめてから使う、いい使い方だね。' }, { t:'×', fb:'これはいい使い方だよ。ヒントをもらって、確かめてから使っているね。' } ] },
+    { q: '近くの公園を教えてほしくて、AIに自分の家の住所と学校名を入力した。',
+      opts: [ { t:'○', fb:'住所や学校名は入力しないほうがいい。だれが見るか分からないからね。' }, { t:'×', ok:true, fb:'自分のことは入れない。「知らない人に見せてもいいこと」だけを書こう。' } ] },
+    { q: '友だちとケンカした。どうすればいいか、AIにだけ聞いて決めた。',
+      opts: [ { t:'○', fb:'AIは考えていないし、あなたのことを知らない。大事なことは人に相談しよう。' }, { t:'×', ok:true, fb:'大事なことは、家族や先生、友だちに相談しよう。AIはヒントをくれる道具だよ。' } ] },
+    { q: '英語の文を日本語にしてもらって、意味が合っているか辞書でも確かめた。',
+      opts: [ { t:'○', ok:true, fb:'言葉のことはAIの得意分野。確かめもしていて、いい使い方だね。' }, { t:'×', fb:'これはいい使い方だよ。得意なことを道具として使い、確かめてもいるね。' } ] }
+  ], { closing: '確かめる・道具として使う・自分のことは入れない・人に相談する。この4つをおぼえておいてね。' });
+})();
 </script>
 </body>
 </html>
