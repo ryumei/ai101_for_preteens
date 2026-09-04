@@ -37,7 +37,9 @@
 
 ## ライセンス
 
-- 本体: MIT License（[LICENSE](LICENSE)）
+- コンテンツ（文章・挿絵・クイズの問題文、全言語）: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) — © 2026 NAKAJIMA Takaaki。クレジットを表示し、同じライセンスで共有すれば、改変・再配布・商用利用も自由です
+- コード（HTML/CSS/JavaScript の仕組み）: MIT License
+- 詳細は [LICENSE](LICENSE)、CC BY-SA の全文は [LICENSE-CC-BY-SA-4.0.txt](LICENSE-CC-BY-SA-4.0.txt)
 - [reveal.js](https://revealjs.com/): MIT License（`reveal/LICENSE`）
 - フォント（すべて SIL Open Font License 1.1、`fonts/` に同梱）
   - [Zen Kurenaido](https://fonts.google.com/specimen/Zen+Kurenaido)（日本語）— `fonts/OFL.txt`

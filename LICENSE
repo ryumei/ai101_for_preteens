@@ -1,28 +1,61 @@
-MIT License
+This repository contains two kinds of material, licensed separately.
 
-Copyright (c) 2026 NAKAJIMA Takaaki
+================================================================
+1. CONTENT — Creative Commons Attribution-ShareAlike 4.0 International
+================================================================
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+The educational content — all slide text, quiz questions and feedback,
+dialog text, and the SVG illustrations — in every language version is
+licensed under CC BY-SA 4.0.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+  Copyright (c) 2026 NAKAJIMA Takaaki
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+  You are free to share and adapt this material for any purpose, even
+  commercially, as long as you give appropriate credit ("NAKAJIMA Takaaki")
+  and distribute your adaptations under the same license.
 
----
+  Full legal text: LICENSE-CC-BY-SA-4.0.txt
+  Human-readable summary: https://creativecommons.org/licenses/by-sa/4.0/
 
-Third-party components bundled in this repository are licensed separately:
+================================================================
+2. CODE — MIT License
+================================================================
 
-- reveal.js (reveal/) — MIT License, see reveal/LICENSE
-- Zen Kurenaido font (fonts/) — SIL Open Font License 1.1, see fonts/OFL.txt
+The HTML structure, CSS and JavaScript that make the slides and quizzes
+work are licensed under the MIT License.
+
+  Copyright (c) 2026 NAKAJIMA Takaaki
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+  The above copyright notice and this permission notice shall be included
+  in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+================================================================
+3. THIRD-PARTY COMPONENTS (bundled, licensed by their own authors)
+================================================================
+
+  reveal.js (reveal/)            MIT License            reveal/LICENSE
+  Zen Kurenaido font (fonts/)    SIL Open Font License  fonts/OFL.txt
+  Gaegu font (fonts/)            SIL Open Font License  fonts/OFL-Gaegu.txt
+  ZCOOL KuaiLe font (fonts/)     SIL Open Font License  fonts/OFL-ZCOOLKuaiLe.txt
+  Iansui font (fonts/)           SIL Open Font License  fonts/OFL-Iansui.txt
+
+  The ZCOOL KuaiLe and Iansui files are subsets containing only the
+  glyphs used by these slides. None of the four fonts declares a
+  Reserved Font Name, so the subsets keep their original family names
+  as permitted by the OFL.
