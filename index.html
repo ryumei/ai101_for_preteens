@@ -67,6 +67,33 @@
       padding: 0.6em 1em; line-height: 1.7;
     }
     .footer .pageno { color: #aaa; }
+    /* もっと知りたい？ ダイアログ */
+    .reveal .more {
+      font: inherit; font-size: 0.7em; margin-top: 0.2em; padding: 0.3em 1em; cursor: pointer;
+      background: #fff; color: #c1442e; border: 2px solid #c1442e;
+      border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
+    }
+    .reveal .more:hover { background: #fff2f0; }
+    dialog.deep {
+      width: min(760px, 84vw); max-height: 78vh; padding: 0; color: #111; background: #fff;
+      border: 3px solid #111; border-radius: 18px 26px 16px 24px / 26px 16px 24px 18px;
+      font-family: var(--r-main-font); line-height: 1.75;
+    }
+    dialog.deep::backdrop { background: rgba(0,0,0,0.45); }
+    dialog.deep .inner { padding: 22px 30px 26px; text-align: left; }
+    dialog.deep h2 { margin: 0 0 0.1em 0; font-size: 21px; }
+    dialog.deep .sub { margin: 0 0 0.8em 0; font-size: 14px; color: #666; }
+    dialog.deep ol { margin: 0 0 0.8em 0; padding-left: 1.5em; font-size: 16px; }
+    dialog.deep ol li { margin-bottom: 0.5em; }
+    dialog.deep p { font-size: 15px; margin: 0 0 0.6em 0; }
+    dialog.deep .loop { font-size: 15px; text-align: center; color: #c1442e; margin: 0 0 0.8em 0; }
+    dialog.deep .term { font-weight: bold; color: #c1442e; }
+    dialog.deep .close {
+      font: inherit; font-size: 15px; padding: 0.35em 1.4em; cursor: pointer;
+      background: #111; color: #fff; border: 3px solid #111;
+      border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
+    }
+    dialog.deep ruby rt { font-size: 0.5em; color: #666; }
     .footer {
       position: fixed; left: 16px; bottom: 12px; z-index: 30;
       font-family: var(--r-main-font); font-size: 13px; color: #999; pointer-events: none;
@@ -354,9 +381,28 @@
       <p>文章を読んで「次の言葉」をあてる。はずれたら、ダイヤルを少しだけ回す。</p>
       <p>これを何億回もくり返して、よく当たるように<strong>調整</strong>されたものがLLMなんだ。</p>
       <p>だから「学習」といっても、人が勉強するのとは少し<ruby>違<rt>ちが</rt></ruby>うんだね。</p>
+      <button class="more" data-dialog="dlg-backprop">もっと知りたい？</button>
     </div>
   </div>
   <div class="num">6 / 17</div>
+
+  <dialog class="deep" id="dlg-backprop">
+    <div class="inner">
+      <h2>ダイヤルは、どうやって回すの？</h2>
+      <p class="sub">ここから先は、ちょっとむずかしい話。読まなくても大丈夫だよ。</p>
+      <ol>
+        <li><strong>やってみる</strong>：文章のとちゅうまでを見せて、次の言葉をあてさせる。</li>
+        <li><strong>点をつける</strong>：本当の続きと見くらべて、どれくらいまちがえたかを数で表す。</li>
+        <li><strong>原因をさかのぼる</strong>：そのまちがいは、どのダイヤルのせいだったのか。出口から入口へ、逆向きにたどって調べる。</li>
+        <li><strong>少しだけ回す</strong>：次はもっと当たるように、それぞれのダイヤルをほんの少し回す。</li>
+      </ol>
+      <p class="loop">① → ② → ③ → ④ → ① → ② → ③ → ④ → …（何億回も！）</p>
+      <p>この「まちがいを、出口から入口へ逆向きにたどる」やり方を <span class="term">バックプロパゲーション</span>（<ruby>誤差逆伝播<rt>ごさぎゃくでんぱ</rt></ruby>）というよ。</p>
+      <p>人が一つずつ回しているのではなく、コンピューターがこのくり返しを自動でやっている。テストして、点をつけて、直して、またテストする。これが「学習」の正体なんだ。</p>
+      <p>だから、うまく当たるようになっても、AIが意味を分かったわけではない。<strong>点が高くなるように調整された</strong>だけなんだね。</p>
+      <p style="text-align:center;margin-top:1em;"><button class="close">とじる</button></p>
+    </div>
+  </dialog>
 </section>
 
 <!-- 7 -->
@@ -846,6 +892,20 @@
     center: true,
     transition: 'slide'
   });
+  // 「もっと知りたい？」ダイアログ
+  document.querySelectorAll('.more').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.getElementById(btn.dataset.dialog).showModal();
+    });
+  });
+  document.querySelectorAll('dialog.deep').forEach(function (dlg) {
+    dlg.addEventListener('click', function (e) { e.stopPropagation(); });
+    dlg.addEventListener('keydown', function (e) { e.stopPropagation(); });
+    const c = dlg.querySelector('.close');
+    if (c) c.addEventListener('click', function () { dlg.close(); });
+  });
+
   // ページ番号をフッタ（コピーライトの隣）に表示する
   function updatePageNo() {
     const cur = Reveal.getCurrentSlide();
@@ -857,7 +917,7 @@
 
   // 画面のどこをクリック/タップしても次へ進む（クイズの操作部分とナビ矢印は除く）
   document.querySelector('.reveal').addEventListener('click', function (e) {
-    if (e.target.closest('.quiz, button, a, .controls, .progress')) return;
+    if (e.target.closest('.quiz, button, a, dialog, .controls, .progress')) return;
     Reveal.next();
   });
 </script>
