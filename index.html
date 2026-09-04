@@ -789,7 +789,7 @@
             { w:'元気に', p:3, next: END_B } ] }
       ]
     };
-    let node, picks, aiPicks;
+    let node, picks, aiPicks, trials = 0;
     function best(arr){ return arr.reduce(function(a,b){ return b.p > a.p ? b : a; }); }
     function start(){ node = TREE; picks = []; aiPicks = []; render(); }
     function sentence(list, cls){
@@ -807,7 +807,9 @@
         html += '<p class="hint">' + (lowest <= 5
           ? '%の低い言葉を選ぶと、へんな文になったね。AIは%の高い言葉を選ぶことが多いから、「よくある文」ができやすいんだ。'
           : 'AIと同じような文になったね。%の高い言葉ばかり選ぶと、「よくある文」ができる。低い言葉を選ぶとどうなるか、もう一回ためしてみよう。') + '</p>';
-        html += '<p><button class="next">もう一回</button></p>';
+        trials++;
+        html += '<p class="opts"><button class="retry">もう一回</button>' +
+          (trials >= 2 ? '<button class="next">次のおはなしへ →</button>' : '') + '</p>';
       }
       el.innerHTML = html;
       el.querySelectorAll('.opts button').forEach(function(b){
@@ -819,7 +821,8 @@
           render();
         };
       });
-      const nb = el.querySelector('button.next'); if (nb) nb.onclick = start;
+      const rb = el.querySelector('button.retry'); if (rb) rb.onclick = start;
+      const nb = el.querySelector('button.next'); if (nb) nb.onclick = function(){ Reveal.next(); };
     }
     start();
   })();
