@@ -13,6 +13,8 @@
 | 简体中文 | https://ryumei.github.io/ai101_for_preteens/zh-Hans/ |
 | 繁體中文 | https://ryumei.github.io/ai101_for_preteens/zh-Hant/ |
 
+日本語版が原本です。それ以外の言語は AI による機械翻訳のため、正確でない可能性があります。
+
 ## ねらい
 
 「AI」という言葉で漠然と語られている技術のコンセプトを、子どもが自分で読んで理解できる形で説明します。
