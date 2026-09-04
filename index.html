@@ -814,6 +814,11 @@
     center: true,
     transition: 'slide'
   });
+  // 画面のどこをクリック/タップしても次へ進む（クイズの操作部分とナビ矢印は除く）
+  document.querySelector('.reveal').addEventListener('click', function (e) {
+    if (e.target.closest('.quiz, button, a, .controls, .progress')) return;
+    Reveal.next();
+  });
 </script>
 
 <script>
