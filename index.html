@@ -94,6 +94,22 @@
       border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
     }
     dialog.deep ruby rt { font-size: 0.5em; color: #666; }
+    dialog.deep .page { display: none; }
+    dialog.deep .page.on { display: block; }
+    dialog.deep .pagenav {
+      display: flex; align-items: center; justify-content: center; gap: 14px;
+      margin-top: 1em; font-size: 14px; color: #666;
+    }
+    dialog.deep .pagenav button {
+      font: inherit; font-size: 15px; padding: 0.3em 1.1em; cursor: pointer;
+      background: #fff; color: #111; border: 3px solid #111;
+      border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
+    }
+    dialog.deep .pagenav button:disabled { opacity: 0.3; cursor: default; }
+    dialog.deep .pagenav .close { background: #111; color: #fff; }
+    dialog.deep figure { margin: 0.4em 0 0.8em; }
+    dialog.deep figure svg { width: 100%; height: auto; display: block; }
+    dialog.deep figcaption { font-size: 13px; color: #666; text-align: center; margin-top: 0.2em; }
     .footer {
       position: fixed; left: 16px; bottom: 12px; z-index: 30;
       font-family: var(--r-main-font); font-size: 13px; color: #999; pointer-events: none;
@@ -459,9 +475,135 @@
       <p>でも中で起きているのは、「次に来やすい言葉はどれか」という<strong>計算</strong>だけ。</p>
       <p>うれしい・かなしいという気持ちも、「〜したい」という<ruby>願<rt>ねが</rt></ruby>いも、LLMにはないんだ。</p>
       <p>やさしい言葉を返してくれても、それは「やさしい言葉が来やすい」と計算した結果なんだよ。</p>
+      <button class="more" data-dialog="dlg-vector">もっと知りたい？</button>
     </div>
   </div>
   <div class="num">7 / 18</div>
+
+  <dialog class="deep" id="dlg-vector">
+    <div class="inner">
+
+      <div class="page on">
+        <h2>① ことばを、かけらに切る</h2>
+        <p class="sub">ここから先は、ちょっとむずかしい話。読まなくても大丈夫だよ。</p>
+        <p>コンピューターは文字をそのまま扱えない。だからまず、文を小さな<span class="term">かけら</span>に切り分けるんだ。このかけらを「トークン」というよ。</p>
+        <figure>
+          <svg viewBox="0 0 660 150" xmlns="http://www.w3.org/2000/svg">
+            <text x="20" y="34" font-size="20" fill="#111">今日はいい天気ですね</text>
+            <path d="M120 46 v18" stroke="#111" stroke-width="2" marker-end="url(#tk)"/>
+            <defs><marker id="tk" markerWidth="9" markerHeight="9" refX="5" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9z" fill="#111"/></marker></defs>
+            <g font-size="19" text-anchor="middle">
+              <rect x="20" y="76" width="80" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="103" fill="#111">今日</text>
+              <rect x="112" y="76" width="52" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="138" y="103" fill="#111">は</text>
+              <rect x="176" y="76" width="70" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="211" y="103" fill="#111">いい</text>
+              <rect x="258" y="76" width="80" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="298" y="103" fill="#111">天気</text>
+              <rect x="350" y="76" width="70" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="385" y="103" fill="#111">です</text>
+              <rect x="432" y="76" width="52" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="458" y="103" fill="#111">ね</text>
+            </g>
+            <text x="510" y="103" font-size="15" fill="#d9773b">← 6この「トークン」</text>
+          </svg>
+          <figcaption>切り方は言葉ごとにちがう。「今日」で1こ、「は」で1こ。</figcaption>
+        </figure>
+        <p>だから、AIが読んでいるのは文字ではなく、この<strong>かけらの列</strong>なんだ。</p>
+      </div>
+
+      <div class="page">
+        <h2>② かけらを、数のならびに変える</h2>
+        <p>次に、トークンひとつひとつを<span class="term">数のならび</span>に置きかえる。この数のならびを「ベクトル」、置きかえることを「エンベディング」というよ。</p>
+        <figure>
+          <svg viewBox="0 0 660 190" xmlns="http://www.w3.org/2000/svg">
+            <g font-size="17">
+              <text x="20" y="34" fill="#666">トークン</text>
+              <text x="150" y="34" fill="#666">数のならび（ベクトル）</text>
+              <g stroke="#111" stroke-width="2" fill="none">
+                <rect x="14" y="46" width="90" height="36" rx="8"/>
+                <rect x="14" y="90" width="90" height="36" rx="8"/>
+                <rect x="14" y="134" width="90" height="36" rx="8"/>
+              </g>
+              <text x="59" y="70" text-anchor="middle" fill="#111">ねこ</text>
+              <text x="59" y="114" text-anchor="middle" fill="#111">いぬ</text>
+              <text x="59" y="158" text-anchor="middle" fill="#111">くるま</text>
+              <g fill="#111" font-size="16">
+                <text x="130" y="70">[  0.82   0.31  −0.47   0.05   …  ]</text>
+                <text x="130" y="114">[  0.79   0.28  −0.51   0.11   …  ]</text>
+                <text x="130" y="158">[ −0.34   0.66   0.22  −0.73   …  ]</text>
+              </g>
+              <path d="M108 64 h16" stroke="#111" stroke-width="2" marker-end="url(#tk)"/>
+              <path d="M108 108 h16" stroke="#111" stroke-width="2" marker-end="url(#tk)"/>
+              <path d="M108 152 h16" stroke="#111" stroke-width="2" marker-end="url(#tk)"/>
+            </g>
+            <text x="330" y="186" font-size="14" text-anchor="middle" fill="#d9773b">「ねこ」と「いぬ」は数がにている。「くるま」はぜんぜんちがう。</text>
+          </svg>
+        </figure>
+        <p>数はぜんぶで何百、何千こもある。人が決めたのではなく、たくさんの文章から<strong>学習でひとりでに決まった</strong>数なんだ。</p>
+      </div>
+
+      <div class="page">
+        <h2>③ 数のならびは「場所」になる</h2>
+        <p>数のならびは、地図の上の場所だと思ってみて。にた意味の言葉は、地図の上でも<span class="term">近い場所</span>に集まるんだ。</p>
+        <figure>
+          <svg viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg">
+            <rect x="40" y="14" width="580" height="212" rx="10" fill="#fff" stroke="#111" stroke-width="3"/>
+            <g stroke="#ddd" stroke-width="1">
+              <line x1="185" y1="14" x2="185" y2="226"/><line x1="330" y1="14" x2="330" y2="226"/><line x1="475" y1="14" x2="475" y2="226"/>
+              <line x1="40" y1="67" x2="620" y2="67"/><line x1="40" y1="120" x2="620" y2="120"/><line x1="40" y1="173" x2="620" y2="173"/>
+            </g>
+            <g font-size="16" text-anchor="middle">
+              <circle cx="130" cy="60" r="5" fill="#d9773b"/><text x="130" y="50" fill="#111">ねこ</text>
+              <circle cx="168" cy="82" r="5" fill="#d9773b"/><text x="176" y="103" fill="#111">いぬ</text>
+              <circle cx="108" cy="96" r="5" fill="#d9773b"/><text x="98" y="116" fill="#111">うさぎ</text>
+              <circle cx="470" cy="70" r="5" fill="#2b7a3e"/><text x="470" y="58" fill="#111">くるま</text>
+              <circle cx="518" cy="96" r="5" fill="#2b7a3e"/><text x="528" y="116" fill="#111">バス</text>
+              <circle cx="440" cy="112" r="5" fill="#2b7a3e"/><text x="430" y="132" fill="#111">でんしゃ</text>
+              <circle cx="300" cy="192" r="5" fill="#111"/><text x="300" y="212" fill="#111">たべる</text>
+              <circle cx="352" cy="176" r="5" fill="#111"/><text x="362" y="196" fill="#111">のむ</text>
+            </g>
+            <ellipse cx="136" cy="82" rx="72" ry="52" fill="none" stroke="#d9773b" stroke-width="2" stroke-dasharray="7 6"/>
+            <ellipse cx="478" cy="92" rx="76" ry="52" fill="none" stroke="#2b7a3e" stroke-width="2" stroke-dasharray="7 6"/>
+            <text x="330" y="248" font-size="14" text-anchor="middle" fill="#666">※ 本当は何百もの向きがある地図を、むりやり2つの向きにおしつぶして描いたもの</text>
+          </svg>
+        </figure>
+        <p>「近い」「遠い」を数で表したものを<span class="term">距離</span>というよ。地図の上のものさしだと思えばいい。</p>
+      </div>
+
+      <div class="page">
+        <h2>④ 「次に来やすい」＝「距離が近い」</h2>
+        <p>さあ、ここが本題。AIは今までの文を1つの場所に置いて、そこから<strong>近い言葉ほど「次に来やすい」</strong>と考えるんだ。</p>
+        <figure>
+          <svg viewBox="0 0 660 220" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="300" cy="110" r="8" fill="#111"/>
+            <text x="300" y="92" font-size="15" text-anchor="middle" fill="#111">「おなかがすいたから」までの場所</text>
+            <g stroke="#111" stroke-width="2">
+              <line x1="308" y1="106" x2="430" y2="72"/>
+              <line x1="308" y1="114" x2="452" y2="146"/>
+              <line x1="292" y1="118" x2="120" y2="180"/>
+            </g>
+            <g font-size="17">
+              <rect x="436" y="52" width="120" height="38" rx="10" fill="#e3f4e1" stroke="#2b7a3e" stroke-width="3"/>
+              <text x="496" y="77" text-anchor="middle" fill="#111">たべる</text>
+              <text x="566" y="77" font-size="14" fill="#2b7a3e">近い ◎</text>
+              <rect x="458" y="128" width="120" height="38" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
+              <text x="518" y="153" text-anchor="middle" fill="#111">つくる</text>
+              <text x="588" y="153" font-size="14" fill="#666">まあまあ</text>
+              <rect x="34" y="162" width="120" height="38" rx="10" fill="#fff" stroke="#bbb" stroke-width="2"/>
+              <text x="94" y="187" text-anchor="middle" fill="#999">ひこうき</text>
+              <text x="20" y="150" font-size="14" fill="#999">遠い △</text>
+            </g>
+          </svg>
+          <figcaption>「おなかがすいたから、___」の次に来るのは？</figcaption>
+        </figure>
+        <p>だから、AIの中で起きているのは<strong>ものさしで距離をはかる計算</strong>。「おなかがすいた気持ち」が分かっているわけではないんだ。</p>
+        <p>気持ちも、意味の理解もなしに、距離だけで文ができあがる。これが「考えているのではなく、計算している」ということだよ。</p>
+      </div>
+
+      <div class="pagenav">
+        <button class="prev">&larr; まえ</button>
+        <span class="pageno"></span>
+        <button class="fwd">つぎ &rarr;</button>
+        <button class="close">とじる</button>
+      </div>
+    </div>
+  </dialog>
 </section>
 
 <!-- やってみよう: しくみ -->
@@ -995,8 +1137,27 @@
   document.querySelectorAll('dialog.deep').forEach(function (dlg) {
     dlg.addEventListener('click', function (e) { e.stopPropagation(); });
     dlg.addEventListener('keydown', function (e) { e.stopPropagation(); });
-    const c = dlg.querySelector('.close');
-    if (c) c.addEventListener('click', function () { dlg.close(); });
+    dlg.querySelectorAll('.close').forEach(function (c) {
+      c.addEventListener('click', function () { dlg.close(); });
+    });
+    // ページ送りつきダイアログ
+    const pages = dlg.querySelectorAll('.page');
+    if (pages.length > 1) {
+      const prev = dlg.querySelector('.prev'), fwd = dlg.querySelector('.fwd'),
+            no = dlg.querySelector('.pageno');
+      let i = 0;
+      function show() {
+        pages.forEach(function (p, k) { p.classList.toggle('on', k === i); });
+        prev.disabled = (i === 0);
+        fwd.disabled = (i === pages.length - 1);
+        no.textContent = (i + 1) + ' / ' + pages.length;
+        dlg.querySelector('.inner').scrollTop = 0;
+      }
+      prev.addEventListener('click', function () { if (i > 0) { i--; show(); } });
+      fwd.addEventListener('click', function () { if (i < pages.length - 1) { i++; show(); } });
+      dlg.addEventListener('close', function () { i = 0; show(); });
+      show();
+    }
   });
 
   // ページ番号をフッタ（コピーライトの隣）に表示する
