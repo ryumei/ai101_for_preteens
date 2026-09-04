@@ -4,6 +4,11 @@
 
 **公開ページ: https://ryumei.github.io/ai101_for_preteens/**
 
+| 言語 | ページ |
+| --- | --- |
+| 日本語 | https://ryumei.github.io/ai101_for_preteens/ |
+| English | https://ryumei.github.io/ai101_for_preteens/en/ |
+
 ## ねらい
 
 「AI」という言葉で漠然と語られている技術のコンセプトを、子どもが自分で読んで理解できる形で説明します。
@@ -21,7 +26,7 @@
 
 ## 使い方
 
-`index.html` をブラウザで開くだけです。reveal.js とフォントを同梱しているため、ネット接続なしで動作します。
+`index.html`（英語版は `en/index.html`）をブラウザで開くだけです。reveal.js とフォントを同梱しているため、ネット接続なしで動作します。
 
 ## ライセンス
 

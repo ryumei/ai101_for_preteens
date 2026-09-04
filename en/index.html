@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI（LLM）のしくみ かみしばい</title>
-  <link rel="stylesheet" href="reveal/reset.css">
-  <link rel="stylesheet" href="reveal/reveal.css">
-  <link rel="stylesheet" href="reveal/theme/white.css">
+  <title>How Does AI Actually Work? — a picture-story about LLMs</title>
+  <link rel="stylesheet" href="../reveal/reset.css">
+  <link rel="stylesheet" href="../reveal/reveal.css">
+  <link rel="stylesheet" href="../reveal/theme/white.css">
   <style>
     @font-face {
       font-family: 'Zen Kurenaido'; font-style: normal; font-weight: 400; font-display: swap;
-      src: url(fonts/ZenKurenaido-japanese.woff2) format('woff2');
+      src: url(../fonts/ZenKurenaido-japanese.woff2) format('woff2');
     }
     @font-face {
       font-family: 'Zen Kurenaido'; font-style: normal; font-weight: 400; font-display: swap;
-      src: url(fonts/ZenKurenaido-latin.woff2) format('woff2');
+      src: url(../fonts/ZenKurenaido-latin.woff2) format('woff2');
       unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
     }
     :root {
@@ -67,7 +67,7 @@
       padding: 0.6em 1em; line-height: 1.7;
     }
     .footer .pageno { color: #aaa; }
-    /* もっと知りたい？ ダイアログ */
+    /* "Tell me more" dialogs */
     .reveal .more {
       font: inherit; font-size: 0.7em; margin-top: 0.2em; padding: 0.3em 1em; cursor: pointer;
       background: #fff; color: #c1442e; border: 2px solid #c1442e;
@@ -100,7 +100,7 @@
       display: flex; gap: 0.9em; align-items: baseline;
     }
 
-    /* --- やってみよう（クイズ） --- */
+    /* --- try-it quizzes --- */
     .reveal .quiz-slide { text-align: left; }
     .reveal .quiz-slide .label { background: #111; }
     .reveal .quiz-slide h1 { font-size: 1.1em; margin-bottom: 0.3em; }
@@ -148,14 +148,14 @@
 <div class="footer"><span>&copy; 2026 NAKAJIMA Takaaki</span><span class="pageno" id="pageno"></span></div>
 <div class="slides">
 
-<!-- 表紙 -->
+<!-- title -->
 <section class="title-slide">
-  <h1>AIって、なにをしているの？</h1>
-  <p>「おしゃべりできる AI」のしくみを、かみしばいで見てみよう</p>
-  <p style="font-size:0.6em;color:#888;">→ キーか、画面のタップで進みます</p>
-  <p style="font-size:0.55em;color:#666;margin-top:1.2em;">このクイズへのあなたの回答は、収集されません。</p>
-  <p style="font-size:0.5em;color:#888;margin-top:0.3em;">この<a href="https://github.com/ryumei/ai101_for_preteens" target="_blank" rel="noopener noreferrer">スライド</a>は MIT ライセンスで公開されています。<br>自由に使い、作りかえ、配ることができます。</p>
-  <p style="font-size:0.5em;color:#888;margin-top:0.8em;">日本語 &nbsp;|&nbsp; <a href="en/index.html">English</a></p>
+  <h1>How does AI actually work?</h1>
+  <p>A picture-story about the chatbots everyone is talking about</p>
+  <p style="font-size:0.6em;color:#888;">&rarr; Press a key, or tap the screen, to move on</p>
+  <p style="font-size:0.55em;color:#666;margin-top:1.2em;">Your quiz answers are never collected.</p>
+  <p style="font-size:0.5em;color:#888;margin-top:0.3em;">These <a href="https://github.com/ryumei/ai101_for_preteens" target="_blank" rel="noopener noreferrer">slides</a> are published under the MIT License.<br>You are free to use them, change them and share them.</p>
+  <p style="font-size:0.5em;color:#888;margin-top:0.8em;"><a href="../index.html">日本語</a> &nbsp;|&nbsp; English</p>
 </section>
 
 <!-- 1 -->
@@ -163,27 +163,27 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 子ども -->
+        <!-- child -->
         <circle cx="120" cy="150" r="42" fill="#fff" stroke="#111" stroke-width="3"/>
         <path d="M78 140 q42 -60 84 0" fill="#111"/>
         <circle cx="105" cy="152" r="4" fill="#111"/><circle cx="135" cy="152" r="4" fill="#111"/>
         <path d="M108 172 q12 8 24 0" stroke="#111" stroke-width="3" fill="none"/>
         <rect x="80" y="192" width="80" height="80" rx="20" fill="#fff" stroke="#111" stroke-width="3"/>
-        <!-- 吹き出し -->
+        <!-- speech bubble -->
         <path d="M180 60 h180 a15 15 0 0 1 15 15 v90 a15 15 0 0 1 -15 15 h-130 l-30 30 v-30 h-20 a15 15 0 0 1 -15 -15 v-90 a15 15 0 0 1 15 -15z" fill="#fff" stroke="#111" stroke-width="3"/>
-        <text x="270" y="110" font-size="30" text-anchor="middle" fill="#111" font-weight="bold">AI って</text>
-        <text x="270" y="150" font-size="30" text-anchor="middle" fill="#111" font-weight="bold">なんだろう？</text>
+        <text x="270" y="110" font-size="30" text-anchor="middle" fill="#111" font-weight="bold">What even</text>
+        <text x="270" y="150" font-size="30" text-anchor="middle" fill="#111" font-weight="bold">is AI?</text>
         <text x="330" y="255" font-size="40" text-anchor="middle" fill="#d9773b" font-weight="bold">?</text>
         <text x="365" y="225" font-size="30" text-anchor="middle" fill="#d9773b" font-weight="bold">?</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">はじめに</span>
-      <h1>AIって、なんだろう？</h1>
-      <p>テレビやニュースで「AI」という言葉をよく聞くね。</p>
-      <p>でも、AIの中で何が起きているのか、知っている人は意外と少ないんだ。</p>
-      <p>このかみしばいでは、「おしゃべりできるAI」のしくみをのぞいてみよう。</p>
-      <p>しくみが分かると、AIと上手につきあえるようになるよ。</p>
+      <span class="label">Getting started</span>
+      <h1>So what is AI, really?</h1>
+      <p>You hear the word "AI" on the news and everywhere online.</p>
+      <p>But not many people can say what is actually happening inside one.</p>
+      <p>In this picture-story we are going to look inside the kind of AI you can chat with.</p>
+      <p>Once you know how it works, you can get along with it much better.</p>
     </div>
   </div>
   <div class="num">1 / 18</div>
@@ -194,39 +194,39 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 画面 -->
+        <!-- screen -->
         <rect x="40" y="30" width="320" height="220" rx="16" fill="#fff" stroke="#111" stroke-width="3"/>
         <rect x="40" y="30" width="320" height="34" rx="16" fill="#111"/>
         <circle cx="62" cy="47" r="6" fill="#fff"/><circle cx="82" cy="47" r="6" fill="#fff"/><circle cx="102" cy="47" r="6" fill="#fff"/>
-        <!-- チャット -->
+        <!-- chat -->
         <rect x="170" y="80" width="170" height="40" rx="12" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="255" y="107" font-size="18" text-anchor="middle" fill="#111">カレーの作り方は？</text>
+        <text x="255" y="107" font-size="18" text-anchor="middle" fill="#111">How do I make curry?</text>
         <rect x="60" y="135" width="200" height="40" rx="12" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="160" y="162" font-size="18" text-anchor="middle" fill="#111">はい、まず野菜を…</text>
+        <text x="160" y="162" font-size="18" text-anchor="middle" fill="#111">Sure! First, chop the...</text>
         <rect x="60" y="185" width="240" height="40" rx="12" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="180" y="212" font-size="18" text-anchor="middle" fill="#111">次に、お肉をいためて…</text>
-        <!-- LLMラベル -->
+        <text x="180" y="212" font-size="18" text-anchor="middle" fill="#111">Then brown the meat...</text>
+        <!-- LLM label -->
         <rect x="120" y="255" width="160" height="38" rx="19" fill="#d9773b"/>
         <text x="200" y="281" font-size="22" text-anchor="middle" fill="#fff" font-weight="bold">LLM</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">はじめに</span>
-      <h1>今日の主役「LLM」</h1>
-      <p>質問を書くと、文章で答えてくれるAIがあるね。</p>
-      <p>こういう「文章を作るAI」のことを、<strong>LLM</strong>（エルエルエム）と呼ぶんだ。</p>
-      <p>「大きな言葉のモデル」という意味の英語を短くした名前だよ。「モデル」は「しくみ」くらいの意味。</p>
-      <p>おしゃべりできるAIの正体は、このLLMなんだ。</p>
+      <span class="label">Getting started</span>
+      <h1>Meet the LLM</h1>
+      <p>You type a question, and it answers you in full sentences.</p>
+      <p>That kind of "text-writing AI" is called an <strong>LLM</strong>.</p>
+      <p>It stands for Large Language Model. A "model" here just means "a machine that copies how something works."</p>
+      <p>So the chatbot you have heard about? Underneath, it is an LLM.</p>
     </div>
   </div>
   <div class="num">2 / 18</div>
 </section>
 
-<!-- やってみよう: はじめに -->
+<!-- try it -->
 <section class="quiz-slide">
-  <span class="label">やってみよう</span>
-  <h1>クイズ：LLMはどれ？</h1>
-  <p class="lead">ボタンをおして答えてね。</p>
+  <span class="label">Try it</span>
+  <h1>Quiz: which one is an LLM?</h1>
+  <p class="lead">Tap a button to answer.</p>
   <div class="quiz" id="quiz-intro"></div>
 </section>
 
@@ -236,31 +236,31 @@
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
         <rect x="20" y="40" width="360" height="70" rx="12" fill="#fff" stroke="#111" stroke-width="3"/>
-        <text x="40" y="85" font-size="26" fill="#111">むかしむかし、あるところに</text>
-        <!-- 空欄 -->
+        <text x="40" y="85" font-size="26" fill="#111">Once upon a time, there lived</text>
+        <!-- blank -->
         <rect x="150" y="130" width="100" height="50" rx="8" fill="#fff" stroke="#d9773b" stroke-width="3" stroke-dasharray="8 6"/>
         <text x="200" y="165" font-size="30" text-anchor="middle" fill="#d9773b" font-weight="bold">？</text>
-        <!-- 候補 -->
+        <!-- options -->
         <g font-size="19" text-anchor="middle">
           <rect x="30" y="210" width="100" height="44" rx="22" fill="#fff" stroke="#111" stroke-width="2"/>
-          <text x="80" y="239" fill="#111">おじいさん</text>
+          <text x="80" y="239" fill="#111">an old man</text>
           <rect x="150" y="210" width="100" height="44" rx="22" fill="#fff" stroke="#111" stroke-width="2"/>
-          <text x="200" y="239" fill="#111">おばあさん</text>
+          <text x="200" y="239" fill="#111">a princess</text>
           <rect x="270" y="210" width="100" height="44" rx="22" fill="#f4f4f4" stroke="#999" stroke-width="2"/>
-          <text x="320" y="239" fill="#999">れいぞうこ</text>
+          <text x="320" y="239" fill="#999">a fridge</text>
         </g>
-        <text x="80" y="285" font-size="16" text-anchor="middle" fill="#111">◎ よくある</text>
-        <text x="200" y="285" font-size="16" text-anchor="middle" fill="#111">◎ よくある</text>
-        <text x="320" y="285" font-size="16" text-anchor="middle" fill="#999">△ あまりない</text>
+        <text x="80" y="285" font-size="16" text-anchor="middle" fill="#111">common</text>
+        <text x="200" y="285" font-size="16" text-anchor="middle" fill="#111">common</text>
+        <text x="320" y="285" font-size="16" text-anchor="middle" fill="#999">rare</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">しくみ</span>
-      <h1>「次の言葉あてゲーム」</h1>
-      <p>「むかしむかし、あるところに…」の次に来る言葉は？</p>
-      <p>きっと「おじいさん」や「おばあさん」が思いうかぶよね。</p>
-      <p>LLMがやっているのは、じつはこの<strong>「次の言葉あて」</strong>だけなんだ。</p>
-      <p>あてた言葉をつなげて、またその次をあてる。それをくり返して、長い文章ができあがる。</p>
+      <span class="label">How it works</span>
+      <h1>The guess-the-next-word game</h1>
+      <p>"Once upon a time, there lived..." &mdash; what word comes next?</p>
+      <p>Probably "an old man" or "a princess." Not "a fridge."</p>
+      <p>That guess-the-next-word game is <strong>the only thing</strong> an LLM does.</p>
+      <p>It picks a word, adds it on, then guesses the next one. Do that again and again, and a whole story appears.</p>
     </div>
   </div>
   <div class="num">3 / 18</div>
@@ -271,34 +271,34 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- ロボット -->
+        <!-- robot -->
         <rect x="130" y="90" width="140" height="120" rx="20" fill="#f4f4f4" stroke="#111" stroke-width="3"/>
         <rect x="160" y="120" width="30" height="30" rx="6" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="210" y="120" width="30" height="30" rx="6" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="170" y="130" width="10" height="10" fill="#111"/><rect x="220" y="130" width="10" height="10" fill="#111"/>
         <rect x="170" y="170" width="60" height="12" rx="6" fill="#111"/>
         <line x1="200" y1="90" x2="200" y2="60" stroke="#111" stroke-width="3"/><circle cx="200" cy="55" r="8" fill="#d9773b"/>
-        <!-- 思考風船（空っぽ） -->
+        <!-- thought bubble（empty） -->
         <circle cx="95" cy="60" r="6" fill="#fff" stroke="#111" stroke-width="2"/>
         <circle cx="75" cy="40" r="9" fill="#fff" stroke="#111" stroke-width="2"/>
         <ellipse cx="45" cy="25" rx="40" ry="24" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="45" y="33" font-size="22" text-anchor="middle" fill="#999">・・・</text>
-        <!-- 出力 -->
+        <text x="45" y="33" font-size="22" text-anchor="middle" fill="#999">. . .</text>
+        <!-- output -->
         <rect x="285" y="110" width="112" height="60" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="341" y="135" font-size="16" text-anchor="middle" fill="#111">おじいさん</text>
-        <text x="341" y="158" font-size="12" text-anchor="middle" fill="#d9773b">つながりやすい！</text>
+        <text x="341" y="135" font-size="16" text-anchor="middle" fill="#111">an old man</text>
+        <text x="341" y="158" font-size="12" text-anchor="middle" fill="#d9773b">fits well!</text>
         <path d="M270 140 h12" stroke="#111" stroke-width="3" marker-end="url(#a)"/>
         <defs><marker id="a" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#111"/></marker></defs>
-        <text x="200" y="260" font-size="20" text-anchor="middle" fill="#111">「意味」は入っていない</text>
+        <text x="200" y="260" font-size="20" text-anchor="middle" fill="#111">no "meaning" inside</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">しくみ</span>
-      <h1>意味は分かっていない</h1>
-      <p>LLMは「おじいさん」が<ruby>誰<rt>だれ</rt></ruby>なのか、分かって答えているわけではないんだ。</p>
-      <p>「この言葉の後には、この言葉が来やすい」という<strong>つながりやすさ</strong>で選んでいるだけ。</p>
-      <p>人間のように、意味を分かって話しているのとは<ruby>違<rt>ちが</rt></ruby>う。</p>
-      <p>でも、つながりやすい言葉を選び続けると、まるで意味が分かっているような文章になるんだね。</p>
+      <span class="label">How it works</span>
+      <h1>It does not know what the words mean</h1>
+      <p>The LLM does not know who "an old man" is. It is not answering because it understands.</p>
+      <p>It is choosing by <strong>how well words fit together</strong> &mdash; "after this word, that word usually comes."</p>
+      <p>That is not the same as a person talking because they understand.</p>
+      <p>But keep picking words that fit, and out comes writing that looks like understanding.</p>
     </div>
   </div>
   <div class="num">4 / 18</div>
@@ -309,7 +309,7 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 本の山 -->
+        <!-- stack of books -->
         <g stroke="#111" stroke-width="2">
           <rect x="30" y="230" width="120" height="30" fill="#fff"/>
           <rect x="40" y="200" width="120" height="30" fill="#fff"/>
@@ -318,49 +318,49 @@
           <rect x="30" y="110" width="120" height="30" fill="#fff"/>
           <rect x="40" y="80" width="120" height="30" fill="#fff"/>
         </g>
-        <text x="90" y="60" font-size="18" text-anchor="middle" fill="#111">本・ニュース</text>
-        <!-- ウェブ -->
+        <text x="90" y="60" font-size="18" text-anchor="middle" fill="#111">books, news</text>
+        <!-- web -->
         <rect x="200" y="80" width="150" height="110" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
         <line x1="215" y1="105" x2="335" y2="105" stroke="#bbb" stroke-width="4"/>
         <line x1="215" y1="125" x2="320" y2="125" stroke="#bbb" stroke-width="4"/>
         <line x1="215" y1="145" x2="335" y2="145" stroke="#bbb" stroke-width="4"/>
         <line x1="215" y1="165" x2="300" y2="165" stroke="#bbb" stroke-width="4"/>
-        <text x="275" y="60" font-size="18" text-anchor="middle" fill="#111">インターネットの文章</text>
-        <!-- 矢印 -->
+        <text x="275" y="60" font-size="18" text-anchor="middle" fill="#111">text from the internet</text>
+        <!-- arrow -->
         <path d="M275 195 v40" stroke="#111" stroke-width="3" marker-end="url(#b)"/>
         <path d="M160 240 h40" stroke="#111" stroke-width="3" marker-end="url(#b)"/>
         <defs><marker id="b" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#111"/></marker></defs>
         <rect x="225" y="240" width="100" height="50" rx="12" fill="#f4f4f4" stroke="#111" stroke-width="3"/>
         <text x="275" y="272" font-size="20" text-anchor="middle" fill="#111">LLM</text>
-        <text x="345" y="235" font-size="14" text-anchor="middle" fill="#d9773b">ものすごい量！</text>
+        <text x="345" y="235" font-size="14" text-anchor="middle" fill="#d9773b">a LOT!</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">しくみ</span>
-      <h1>どうやって上手になったの？</h1>
-      <p>LLMは、インターネットにあるものすごい量の文章を読んだんだ。</p>
-      <p>本や記事、いろいろな人が書いた文章。図書館が何万個もあるくらいの量だよ。</p>
-      <p>そして「この言葉の次には、こういう言葉が来やすい」という<strong>パターン</strong>をたくさん覚えた。</p>
-      <p>これを「学習」と呼んでいる。</p>
-      <button class="more" data-dialog="dlg-data">もっと知りたい？</button>
+      <span class="label">How it works</span>
+      <h1>How did it get so good?</h1>
+      <p>The LLM read an enormous amount of text from the internet.</p>
+      <p>Books, articles, things written by all kinds of people. Think of many libraries&rsquo; worth.</p>
+      <p>From all that, it learned <strong>patterns</strong>: "after this word, that kind of word tends to follow."</p>
+      <p>We call that "training."</p>
+      <button class="more" data-dialog="dlg-data">Tell me more</button>
     </div>
   </div>
   <div class="num">5 / 18</div>
 
   <dialog class="deep" id="dlg-data">
     <div class="inner">
-      <h2>その文章は、どこから来たの？</h2>
-      <p class="sub">ここから先は、ちょっとむずかしい話。読まなくても大丈夫だよ。</p>
-      <p>AIが読んだのは、インターネットで公開されている文章が中心。ニュース、じてん、だれかのブログ、本の一部、プログラムのコード。ふつうの人が書いた、ふつうの文章がたくさん<ruby>含<rt>ふく</rt></ruby>まれているんだ。</p>
-      <p>ここから、3つのことが起きるよ。</p>
+      <h2>Where did all that text come from?</h2>
+      <p class="sub">This part is a bit harder. It is completely fine to skip it.</p>
+      <p>Mostly from text published on the internet: news, encyclopedias, someone&rsquo;s blog, parts of books, program code. A great deal of it is ordinary writing by ordinary people.</p>
+      <p>Three things follow from that.</p>
       <ol>
-        <li><span class="term">かたよる</span>：ネット上に多い言葉・多い考え方ほど、たくさん学ぶことになる。少ない意見は、あまり学べない。</li>
-        <li><span class="term">古くなる</span>：学習には時間もお金もかかるので、毎日は作り直せない。だから「ある時点まで」の文章しか知らないAIもある。</li>
-        <li><span class="term">書いた人がいる</span>：どの文章にも、書いた人がいる。だから「AIの答え」は、元をたどれば人の言葉なんだ。</li>
+        <li><span class="term">It leans.</span> The words and ideas that appear most often online are the ones it learns most. Rarer views it barely learns at all.</li>
+        <li><span class="term">It goes stale.</span> Training costs time and money, so nobody rebuilds it daily. Some AIs only know text up to a certain date.</li>
+        <li><span class="term">Somebody wrote it.</span> Every piece of that text had an author. Trace an AI answer back far enough and you reach a person&rsquo;s words.</li>
       </ol>
-      <p>今のAIは、そのあとに人が「この答え方はいいね」「これはよくないね」と教える<ruby>調整<rt>ちょうせい</rt></ruby>もされている。それでも、元になった文章のかたよりが完全になくなるわけではないよ。</p>
-      <p>だから、AIに聞くときは「これは、だれのどんな文章から出てきた答えだろう？」と考えてみるといいんだ。</p>
-      <p style="text-align:center;margin-top:1em;"><button class="close">とじる</button></p>
+      <p>Today&rsquo;s AIs are also tuned afterwards, by people telling them "this way of answering is good" and "this one is not." Even so, the lean in the original text does not vanish completely.</p>
+      <p>So when you ask an AI something, it is worth wondering: whose writing, about what, did this answer come out of?</p>
+      <p style="text-align:center;margin-top:1em;"><button class="close">Close</button></p>
     </div>
   </dialog>
 </section>
@@ -371,7 +371,7 @@
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
         <rect x="30" y="40" width="340" height="220" rx="16" fill="#f4f4f4" stroke="#111" stroke-width="3"/>
-        <!-- ダイヤル -->
+        <!-- dials -->
         <g stroke="#111" stroke-width="2">
           <g><circle cx="80" cy="90" r="20" fill="#fff"/><line x1="80" y1="90" x2="92" y2="76"/></g>
           <g><circle cx="140" cy="90" r="20" fill="#fff"/><line x1="140" y1="90" x2="126" y2="80"/></g>
@@ -389,37 +389,37 @@
           <g><circle cx="260" cy="210" r="20" fill="#fff"/><line x1="260" y1="210" x2="260" y2="192"/></g>
           <g><circle cx="320" cy="210" r="20" fill="#fff"/><line x1="320" y1="210" x2="334" y2="222"/></g>
         </g>
-        <text x="200" y="250" font-size="18" text-anchor="middle" fill="#111">…このダイヤルが何億個も！</text>
-        <text x="200" y="287" font-size="18" text-anchor="middle" fill="#d9773b">少しずつ回して、よく当たるように調整する</text>
+        <text x="200" y="250" font-size="18" text-anchor="middle" fill="#111">...billions of these dials!</text>
+        <text x="200" y="287" font-size="18" text-anchor="middle" fill="#d9773b">turned bit by bit, until the guesses get good</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">しくみ</span>
-      <h1>中身はたくさんの「ダイヤル」</h1>
-      <p>LLMの中には、小さなダイヤルが何億個も<ruby>並<rt>なら</rt></ruby>んでいると思ってみて。</p>
-      <p>文章を読んで「次の言葉」をあてる。はずれたら、ダイヤルを少しだけ回す。</p>
-      <p>これを何億回もくり返して、よく当たるように<strong>調整</strong>されたものがLLMなんだ。</p>
-      <p>だから「学習」といっても、人が勉強するのとは少し<ruby>違<rt>ちが</rt></ruby>うんだね。</p>
-      <button class="more" data-dialog="dlg-backprop">もっと知りたい？</button>
+      <span class="label">How it works</span>
+      <h1>Inside are billions of dials</h1>
+      <p>Picture billions of tiny dials inside the LLM.</p>
+      <p>It reads some text and guesses the next word. When it guesses wrong, each dial gets nudged a little.</p>
+      <p>Repeat that billions of times, and you get a machine <strong>tuned</strong> to guess well. That is an LLM.</p>
+      <p>So "training" is not quite the same thing as you studying for a test.</p>
+      <button class="more" data-dialog="dlg-backprop">Tell me more</button>
     </div>
   </div>
   <div class="num">6 / 18</div>
 
   <dialog class="deep" id="dlg-backprop">
     <div class="inner">
-      <h2>ダイヤルは、どうやって回すの？</h2>
-      <p class="sub">ここから先は、ちょっとむずかしい話。読まなくても大丈夫だよ。</p>
+      <h2>So who turns all those dials?</h2>
+      <p class="sub">This part is a bit harder. It is completely fine to skip it.</p>
       <ol>
-        <li><strong>やってみる</strong>：文章のとちゅうまでを見せて、次の言葉をあてさせる。</li>
-        <li><strong>点をつける</strong>：本当の続きと見くらべて、どれくらいまちがえたかを数で表す。</li>
-        <li><strong>原因をさかのぼる</strong>：そのまちがいは、どのダイヤルのせいだったのか。出口から入口へ、逆向きにたどって調べる。</li>
-        <li><strong>少しだけ回す</strong>：次はもっと当たるように、それぞれのダイヤルをほんの少し回す。</li>
+        <li><strong>Have a go.</strong> Show it a piece of text and let it guess the next word.</li>
+        <li><strong>Score it.</strong> Compare the guess with the real next word, and put a number on how far off it was.</li>
+        <li><strong>Trace the blame backwards.</strong> Which dials caused that error? Work backwards, from the output end towards the input end, to find out.</li>
+        <li><strong>Nudge them.</strong> Turn each dial a tiny bit, so that next time the guess lands closer.</li>
       </ol>
-      <p class="loop">① → ② → ③ → ④ → ① → ② → ③ → ④ → …（何億回も！）</p>
-      <p>この「まちがいを、出口から入口へ逆向きにたどる」やり方を <span class="term">バックプロパゲーション</span>（<ruby>誤差逆伝播<rt>ごさぎゃくでんぱ</rt></ruby>）というよ。</p>
-      <p>人が一つずつ回しているのではなく、コンピューターがこのくり返しを自動でやっている。テストして、点をつけて、直して、またテストする。これが「学習」の正体なんだ。</p>
-      <p>だから、うまく当たるようになっても、AIが意味を分かったわけではない。<strong>点が高くなるように調整された</strong>だけなんだね。</p>
-      <p style="text-align:center;margin-top:1em;"><button class="close">とじる</button></p>
+      <p class="loop">1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; ... (billions of times!)</p>
+      <p>That trick of tracing the error backwards through the machine has a name: <span class="term">backpropagation</span>.</p>
+      <p>No person sits there turning dials. A computer repeats this loop automatically: test, score, adjust, test again. That loop is what "training" actually is.</p>
+      <p>So even once it guesses well, the AI has not understood anything. It has just been <strong>tuned to score higher</strong>.</p>
+      <p style="text-align:center;margin-top:1em;"><button class="close">Close</button></p>
     </div>
   </dialog>
 </section>
@@ -429,16 +429,16 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 左：人 -->
+        <!-- left：person -->
         <circle cx="100" cy="120" r="40" fill="#fff" stroke="#111" stroke-width="3"/>
         <path d="M60 110 q40 -55 80 0" fill="#111"/>
         <circle cx="86" cy="122" r="4" fill="#111"/><circle cx="114" cy="122" r="4" fill="#111"/>
         <path d="M88 140 q12 8 24 0" stroke="#111" stroke-width="3" fill="none"/>
         <ellipse cx="100" cy="45" rx="55" ry="26" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="100" y="42" font-size="14" text-anchor="middle" fill="#111">うれしい！</text>
-        <text x="100" y="58" font-size="14" text-anchor="middle" fill="#111">〜したいな</text>
-        <text x="100" y="210" font-size="20" text-anchor="middle" fill="#111" font-weight="bold">考える・感じる</text>
-        <!-- 右：ロボ -->
+        <text x="100" y="42" font-size="14" text-anchor="middle" fill="#111">I'm happy!</text>
+        <text x="100" y="58" font-size="14" text-anchor="middle" fill="#111">I want to...</text>
+        <text x="100" y="210" font-size="20" text-anchor="middle" fill="#111" font-weight="bold">thinks and feels</text>
+        <!-- right：robot -->
         <rect x="240" y="80" width="120" height="100" rx="18" fill="#f4f4f4" stroke="#111" stroke-width="3"/>
         <rect x="265" y="105" width="26" height="26" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="309" y="105" width="26" height="26" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
@@ -447,28 +447,28 @@
         <ellipse cx="300" cy="45" rx="60" ry="26" fill="#fff" stroke="#111" stroke-width="2"/>
         <text x="300" y="42" font-size="14" text-anchor="middle" fill="#111">0.72  0.15</text>
         <text x="300" y="58" font-size="14" text-anchor="middle" fill="#111">0.08  0.05 …</text>
-        <text x="300" y="210" font-size="20" text-anchor="middle" fill="#d9773b" font-weight="bold">計算する</text>
+        <text x="300" y="210" font-size="20" text-anchor="middle" fill="#d9773b" font-weight="bold">calculates</text>
         <line x1="200" y1="30" x2="200" y2="230" stroke="#bbb" stroke-width="2" stroke-dasharray="6 6"/>
-        <text x="200" y="275" font-size="18" text-anchor="middle" fill="#111">気持ちや「〜したい」は入っていない</text>
+        <text x="200" y="275" font-size="18" text-anchor="middle" fill="#111">no feelings, no wants</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">しくみ</span>
-      <h1>考えているのではなく、計算している</h1>
-      <p>LLMの答えを見ると、まるで考えているように見えるよね。</p>
-      <p>でも中で起きているのは、「次に来やすい言葉はどれか」という<strong>計算</strong>だけ。</p>
-      <p>うれしい・かなしいという気持ちも、「〜したい」という<ruby>願<rt>ねが</rt></ruby>いも、LLMにはないんだ。</p>
-      <p>やさしい言葉を返してくれても、それは「やさしい言葉が来やすい」と計算した結果なんだよ。</p>
+      <span class="label">How it works</span>
+      <h1>It is calculating, not thinking</h1>
+      <p>When you read what an LLM writes, it really looks like it is thinking.</p>
+      <p>But what is happening inside is a <strong>calculation</strong>: which word is most likely to come next?</p>
+      <p>It does not feel happy or sad. It does not want anything.</p>
+      <p>Even when it says something kind, that is the result of a calculation that kind words fit there.</p>
     </div>
   </div>
   <div class="num">7 / 18</div>
 </section>
 
-<!-- やってみよう: しくみ -->
+<!-- try it -->
 <section class="quiz-slide">
-  <span class="label">やってみよう</span>
-  <h1>次の言葉あてゲーム</h1>
-  <p class="lead">次に来る言葉を、自分で選んで文を作ろう。数字（%）は「AIが選びやすい度合い」だよ。</p>
+  <span class="label">Try it</span>
+  <h1>Guess the next word</h1>
+  <p class="lead">Pick the next word yourself and build a sentence. The % is how likely an AI is to pick that word.</p>
   <div class="quiz" id="quiz-words"></div>
 </section>
 
@@ -479,23 +479,23 @@
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
         <rect x="40" y="40" width="320" height="220" rx="16" fill="#fff" stroke="#111" stroke-width="3"/>
         <g font-size="19" fill="#111">
-          <text x="60" y="90">✔ 文章を作る</text>
-          <text x="60" y="130">✔ 言いかえる</text>
-          <text x="60" y="170">✔ 短くまとめる</text>
-          <text x="60" y="210">✔ ほかの国の言葉にする</text>
+          <text x="60" y="90">write text</text>
+          <text x="60" y="130">reword things</text>
+          <text x="60" y="170">shorten things</text>
+          <text x="60" y="210">translate</text>
         </g>
         <text x="315" y="120" font-size="56" text-anchor="middle" fill="#d9773b">◎</text>
-        <text x="315" y="160" font-size="15" text-anchor="middle" fill="#d9773b">ことばは</text>
-        <text x="315" y="180" font-size="15" text-anchor="middle" fill="#d9773b">とくい！</text>
+        <text x="315" y="160" font-size="15" text-anchor="middle" fill="#d9773b">great with</text>
+        <text x="315" y="180" font-size="15" text-anchor="middle" fill="#d9773b">words!</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">とくい・にがて</span>
-      <h1>だから「ことば」はとくい</h1>
-      <p>LLMは、文章という「デジタルになった言葉」で学習した。</p>
-      <p>だから、言葉に関することはとても<strong>得意</strong>なんだ。</p>
-      <p>文章を作る、言いかえる、長い文章を短くまとめる、ほかの国の言葉に<ruby>訳<rt>やく</rt></ruby>す。</p>
-      <p>こういうことは、人間よりも速く、上手にできることもあるよ。</p>
+      <span class="label">Good and bad at</span>
+      <h1>Words are its strong suit</h1>
+      <p>The LLM was trained on text &mdash; language turned into data.</p>
+      <p>So anything to do with words is where it is genuinely <strong>strong</strong>.</p>
+      <p>Writing something, saying it a different way, shortening a long text, translating into another language.</p>
+      <p>At those jobs it can sometimes be faster and smoother than a person.</p>
     </div>
   </div>
   <div class="num">8 / 18</div>
@@ -506,26 +506,26 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 話し上手な人 -->
+        <!-- a smooth talker -->
         <circle cx="120" cy="130" r="45" fill="#fff" stroke="#111" stroke-width="3"/>
         <path d="M75 118 q45 -60 90 0" fill="#111"/>
         <circle cx="105" cy="132" r="4" fill="#111"/><circle cx="135" cy="132" r="4" fill="#111"/>
         <path d="M100 152 q20 16 40 0" stroke="#111" stroke-width="3" fill="none"/>
         <rect x="75" y="178" width="90" height="80" rx="20" fill="#fff" stroke="#111" stroke-width="3"/>
         <path d="M170 60 h150 a12 12 0 0 1 12 12 v60 a12 12 0 0 1 -12 12 h-110 l-20 20 v-20 h-20 a12 12 0 0 1 -12 -12 v-60 a12 12 0 0 1 12 -12z" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="250" y="90" font-size="16" text-anchor="middle" fill="#111">ペラペラ〜</text>
-        <text x="250" y="115" font-size="16" text-anchor="middle" fill="#111">なんでも知ってるよ！</text>
-        <text x="270" y="200" font-size="18" text-anchor="middle" fill="#111">話し上手 ＝ なんでもできる？</text>
+        <text x="250" y="90" font-size="16" text-anchor="middle" fill="#111">blah blah blah~</text>
+        <text x="250" y="115" font-size="16" text-anchor="middle" fill="#111">I know everything!</text>
+        <text x="270" y="200" font-size="18" text-anchor="middle" fill="#111">good talker = knows everything?</text>
         <text x="270" y="250" font-size="40" text-anchor="middle" fill="#c1442e" font-weight="bold">×</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">とくい・にがて</span>
-      <h1>でも、万能じゃない</h1>
-      <p>話し方がとても上手な人がいたら、「この人はなんでも知っている」と思ってしまうかもしれない。</p>
-      <p>LLMも同じ。言葉が上手なので、なんでもできるように見える。</p>
-      <p>でも「言葉が上手」と「なんでも正しい」は<strong>別のこと</strong>なんだ。</p>
-      <p>計算をまちがえたり、最近のことを知らなかったりすることもあるよ。</p>
+      <span class="label">Good and bad at</span>
+      <h1>But it is not all-powerful</h1>
+      <p>If someone speaks really well, you might assume they know everything.</p>
+      <p>Same with an LLM. It is so good with words that it looks capable of anything.</p>
+      <p>"Good with words" and "always right" are <strong>two different things</strong>.</p>
+      <p>It can get arithmetic wrong, or simply not know about recent events.</p>
     </div>
   </div>
   <div class="num">9 / 18</div>
@@ -537,51 +537,51 @@
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
         <rect x="30" y="30" width="200" height="44" rx="12" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="130" y="59" font-size="17" text-anchor="middle" fill="#111">〇〇小学校の校歌は？</text>
-        <!-- ロボ -->
+        <text x="130" y="59" font-size="17" text-anchor="middle" fill="#111">What is Pine Hill School’s song?</text>
+        <!-- robot -->
         <rect x="40" y="110" width="110" height="90" rx="16" fill="#f4f4f4" stroke="#111" stroke-width="3"/>
         <rect x="60" y="132" width="24" height="24" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="106" y="132" width="24" height="24" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="68" y="140" width="8" height="8" fill="#111"/><rect x="114" y="140" width="8" height="8" fill="#111"/>
         <path d="M75 178 q20 12 40 0" stroke="#111" stroke-width="3" fill="none"/>
-        <!-- 答え -->
+        <!-- answer -->
         <rect x="165" y="110" width="225" height="110" rx="12" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="277" y="140" font-size="14" text-anchor="middle" fill="#111">「みどりの山に　かぜふいて</text>
-        <text x="277" y="165" font-size="14" text-anchor="middle" fill="#111">　ぼくらの学校　〇〇小」</text>
-        <text x="275" y="200" font-size="14" text-anchor="middle" fill="#111">という歌です！（自信まんまん）</text>
-        <!-- ほんとは -->
-        <text x="200" y="262" font-size="20" text-anchor="middle" fill="#c1442e" font-weight="bold">→ そんな歌は、ありません</text>
-        <text x="200" y="288" font-size="15" text-anchor="middle" fill="#666">「それらしい言葉」をつなげただけ</text>
+        <text x="277" y="140" font-size="14" text-anchor="middle" fill="#111">"Green hills and gentle breeze,</text>
+        <text x="277" y="165" font-size="14" text-anchor="middle" fill="#111">Pine Hill School, our home..."</text>
+        <text x="275" y="200" font-size="14" text-anchor="middle" fill="#111">That's how it goes! (very confident)</text>
+        <!-- in fact -->
+        <text x="200" y="262" font-size="20" text-anchor="middle" fill="#c1442e" font-weight="bold">→ That song does not exist</text>
+        <text x="200" y="288" font-size="15" text-anchor="middle" fill="#666">just plausible words, strung together</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">とくい・にがて</span>
-      <h1>もっともらしい<ruby>嘘<rt>うそ</rt></ruby>をつく</h1>
-      <p>LLMは「次に来やすい言葉」をつなげるだけだったよね。</p>
-      <p>だから、知らないことを聞かれても、<strong>それらしい言葉</strong>をつなげて答えてしまう。</p>
-      <p>しかも、自信まんまんに。本当のことと<ruby>嘘<rt>うそ</rt></ruby>が、同じ顔をして出てくるんだ。</p>
-      <p>これはLLMの一番の注意点。おぼえておいてね。</p>
-      <button class="more" data-dialog="dlg-halluc">もっと知りたい？</button>
+      <span class="label">Good and bad at</span>
+      <h1>It tells convincing lies</h1>
+      <p>Remember: the LLM only strings together words that are likely to come next.</p>
+      <p>So when you ask about something it does not know, it strings together <strong>plausible-sounding words</strong> anyway.</p>
+      <p>And it says them with total confidence. Truth and made-up things come out wearing the same face.</p>
+      <p>This is the single most important thing to watch out for. Keep it in mind.</p>
+      <button class="more" data-dialog="dlg-halluc">Tell me more</button>
     </div>
   </div>
   <div class="num">10 / 18</div>
 
   <dialog class="deep" id="dlg-halluc">
     <div class="inner">
-      <h2>どうして、自信まんまんに<ruby>嘘<rt>うそ</rt></ruby>をつくの？</h2>
-      <p class="sub">ここから先は、ちょっとむずかしい話。読まなくても大丈夫だよ。</p>
-      <p>AIには「知らない」というボタンがないんだ。答えを作るとき、AIがやっているのは、いつでも同じ「次に来やすい言葉をえらぶ」という作業だけ。</p>
-      <p>だから、知っていることを答えるときも、知らないことを答えるときも、<strong>まったく同じやり方</strong>で言葉が出てくる。本当のことと<ruby>嘘<rt>うそ</rt></ruby>が同じ顔をしているのは、そのためなんだ。</p>
-      <p>この「もっともらしい<ruby>嘘<rt>うそ</rt></ruby>」を、大人は <span class="term">ハルシネーション</span>（<ruby>幻覚<rt>げんかく</rt></ruby>）と呼んでいる。まぼろしを見ている、という意味の言葉だよ。</p>
-      <p>出やすいのは、こんなとき。</p>
+      <h2>Why does it lie so confidently?</h2>
+      <p class="sub">This part is a bit harder. It is completely fine to skip it.</p>
+      <p>An AI has no "I don&rsquo;t know" button. Whenever it builds an answer, it is doing the one same job: pick the word most likely to come next.</p>
+      <p>So whether it is answering something it learned well or something it never saw, the words come out by <strong>exactly the same process</strong>. That is why truth and invention wear the same face.</p>
+      <p>Grown-ups have a name for these convincing inventions: <span class="term">hallucinations</span>. As in, seeing something that is not there.</p>
+      <p>They show up most when you ask about:</p>
       <ol>
-        <li>ネットにあまり書かれていないこと（近所のお店、あなたの学校のこと）</li>
-        <li>数や日づけ、名前など、少しちがうだけでまちがいになること</li>
-        <li>そもそも存在しないもの（「〇〇という本の感想は？」と、ありもしない本を聞いたとき）</li>
+        <li>things barely written about online (a shop near you, your own school)</li>
+        <li>numbers, dates and names, where being slightly off means being wrong</li>
+        <li>things that do not exist at all (ask "what did you think of the book <em>X</em>?" about a book nobody wrote, and you will still get a review)</li>
       </ol>
-      <p>研究者たちも、この問題を減らそうとがんばっている。調べた結果をいっしょに見せるAIも増えてきた。でも、<strong>ゼロにはなっていない</strong>。</p>
-      <p>だから今のところ、いちばん<ruby>確実<rt>かくじつ</rt></ruby>な見分け方は一つだけ。<strong>自分で確かめること</strong>だよ。</p>
-      <p style="text-align:center;margin-top:1em;"><button class="close">とじる</button></p>
+      <p>Researchers are working hard to reduce this, and more AIs now show you the sources they looked at. But it is <strong>not down to zero</strong>.</p>
+      <p>Which leaves one reliable way to tell: <strong>check it yourself</strong>.</p>
+      <p style="text-align:center;margin-top:1em;"><button class="close">Close</button></p>
     </div>
   </dialog>
 </section>
@@ -591,49 +591,49 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 文章の山 -->
+        <!-- pile of text -->
         <g stroke="#111" stroke-width="2" font-size="15">
           <rect x="30" y="40" width="150" height="34" rx="8" fill="#fff"/>
-          <text x="105" y="63" text-anchor="middle" fill="#111" stroke="none">正しい文章</text>
+          <text x="105" y="63" text-anchor="middle" fill="#111" stroke="none">correct text</text>
           <rect x="30" y="84" width="150" height="34" rx="8" fill="#fff"/>
-          <text x="105" y="107" text-anchor="middle" fill="#111" stroke="none">正しい文章</text>
+          <text x="105" y="107" text-anchor="middle" fill="#111" stroke="none">correct text</text>
           <rect x="30" y="128" width="150" height="34" rx="8" fill="#fff"/>
-          <text x="105" y="151" text-anchor="middle" fill="#c1442e" stroke="none">まちがった文章</text>
+          <text x="105" y="151" text-anchor="middle" fill="#c1442e" stroke="none">wrong text</text>
           <rect x="30" y="172" width="150" height="34" rx="8" fill="#fff"/>
-          <text x="105" y="195" text-anchor="middle" fill="#111" stroke="none">正しい文章</text>
+          <text x="105" y="195" text-anchor="middle" fill="#111" stroke="none">correct text</text>
           <rect x="30" y="216" width="150" height="34" rx="8" fill="#fff"/>
-          <text x="105" y="239" text-anchor="middle" fill="#c1442e" stroke="none">古い情報</text>
+          <text x="105" y="239" text-anchor="middle" fill="#c1442e" stroke="none">outdated info</text>
         </g>
         <path d="M195 145 h40" stroke="#111" stroke-width="3" marker-end="url(#c)"/>
         <defs><marker id="c" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#111"/></marker></defs>
-        <!-- ロボ -->
+        <!-- robot -->
         <rect x="250" y="95" width="120" height="100" rx="18" fill="#f4f4f4" stroke="#111" stroke-width="3"/>
         <rect x="275" y="120" width="26" height="26" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="319" y="120" width="26" height="26" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="284" y="129" width="8" height="8" fill="#111"/><rect x="328" y="129" width="8" height="8" fill="#111"/>
         <rect x="290" y="165" width="40" height="10" rx="5" fill="#111"/>
-        <text x="310" y="235" font-size="16" text-anchor="middle" fill="#111">ぜんぶまとめて</text>
-        <text x="310" y="258" font-size="16" text-anchor="middle" fill="#111">おぼえた</text>
+        <text x="310" y="235" font-size="16" text-anchor="middle" fill="#111">learned it all,</text>
+        <text x="310" y="258" font-size="16" text-anchor="middle" fill="#111">mistakes included</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">とくい・にがて</span>
-      <h1>まちがいも、おぼえている</h1>
-      <p>LLMが読んだインターネットの文章は、ぜんぶ正しいわけじゃない。</p>
-      <p>まちがったこと、古くなったこと、だれかの思いこみも、まざっている。</p>
-      <p>LLMはそれを<strong>まちがいごと</strong>おぼえてしまうんだ。</p>
-      <p>だから、すらすら答えてくれても、それが正しいとはかぎらないんだね。</p>
+      <span class="label">Good and bad at</span>
+      <h1>It memorised the mistakes too</h1>
+      <p>Not everything the LLM read on the internet was correct.</p>
+      <p>Mistakes, things that are out of date, someone’s wrong assumption &mdash; it is all mixed in there.</p>
+      <p>And the LLM learned it <strong>mistakes and all</strong>.</p>
+      <p>So a smooth, instant answer is not the same as a correct one.</p>
     </div>
   </div>
   <div class="num">11 / 18</div>
 </section>
 
-<!-- 12: 人間の意見 -->
+<!-- 12 -->
 <section>
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 人々と吹き出し -->
+        <!-- person々and speech bubbles -->
         <g stroke="#111" stroke-width="2">
           <circle cx="50" cy="70" r="18" fill="#fff"/><path d="M32 64 q18 -26 36 0" fill="#111"/>
           <circle cx="50" cy="150" r="18" fill="#fff"/><path d="M32 144 q18 -26 36 0" fill="#111"/>
@@ -641,13 +641,13 @@
         </g>
         <g font-size="13" fill="#111">
           <rect x="80" y="50" width="110" height="38" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
-          <text x="135" y="74" text-anchor="middle">ぼくはこう思う</text>
+          <text x="135" y="74" text-anchor="middle">I think this</text>
           <rect x="80" y="130" width="110" height="38" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
-          <text x="135" y="154" text-anchor="middle">わたしはこう！</text>
+          <text x="135" y="154" text-anchor="middle">I say this!</text>
           <rect x="80" y="210" width="110" height="38" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
-          <text x="135" y="234" text-anchor="middle">これが正しい！</text>
+          <text x="135" y="234" text-anchor="middle">This is right!</text>
         </g>
-        <!-- 矢印 → 文章の山 → ロボ -->
+        <!-- arrow → pile of text → robot -->
         <path d="M200 150 h30" stroke="#111" stroke-width="3" marker-end="url(#g)"/>
         <defs><marker id="g" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#111"/></marker></defs>
         <rect x="245" y="110" width="60" height="80" rx="6" fill="#fff" stroke="#111" stroke-width="2"/>
@@ -660,28 +660,28 @@
         <rect x="348" y="130" width="12" height="12" rx="3" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="371" y="130" width="12" height="12" rx="3" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="353" y="160" width="25" height="6" rx="3" fill="#111"/>
-        <text x="275" y="220" font-size="13" text-anchor="middle" fill="#666">人が書いた文章</text>
+        <text x="275" y="220" font-size="13" text-anchor="middle" fill="#666">text written by people</text>
         <text x="365" y="220" font-size="13" text-anchor="middle" fill="#666">AI</text>
-        <text x="200" y="280" font-size="17" text-anchor="middle" fill="#111">AIの答えの元は、人間のだれかの意見</text>
+        <text x="200" y="280" font-size="17" text-anchor="middle" fill="#111">behind AI's answer: somebody's opinion</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">とくい・にがて</span>
-      <h1>だれかの意見を参考にしている</h1>
-      <p>AIが学んだ文章は、ぜんぶ<strong>人間が書いたもの</strong>だったよね。</p>
-      <p>ということは、AIの答えの元になっているのは、人間の<ruby>誰<rt>だれ</rt></ruby>かの考えや意見なんだ。</p>
-      <p>「AIが言った」は、「正しい」という意味ではない。「誰かがそう書いていた」という意味に近い。</p>
-      <p>人によって意見がちがうように、AIの答えも、そのうちの一つの意見だと思っておこう。</p>
+      <span class="label">Good and bad at</span>
+      <h1>It is echoing somebody’s opinion</h1>
+      <p>Every piece of text the LLM learned from was <strong>written by a human being</strong>.</p>
+      <p>Which means what sits behind its answers is some person’s thoughts and opinions.</p>
+      <p>"The AI said so" does not mean "it is true." It is closer to "somebody wrote that somewhere."</p>
+      <p>People disagree with each other. Treat the AI’s answer as one more opinion in that mix.</p>
     </div>
   </div>
   <div class="num">12 / 18</div>
 </section>
 
-<!-- やってみよう: 得意・不得意 -->
+<!-- try it -->
 <section class="quiz-slide">
-  <span class="label">やってみよう</span>
-  <h1>クイズ：本当？それとも<ruby>嘘<rt>うそ</rt></ruby>？</h1>
-  <p class="lead">AIが自信まんまんに答えたよ。本当か嘘か、見やぶれるかな？</p>
+  <span class="label">Try it</span>
+  <h1>Quiz: true, or made up?</h1>
+  <p class="lead">An AI answered with total confidence. Can you tell what is true and what it made up?</p>
   <div class="quiz" id="quiz-lie"></div>
 </section>
 
@@ -690,34 +690,34 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- AIの答え -->
+        <!-- AI answer -->
         <rect x="30" y="40" width="160" height="60" rx="12" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="110" y="65" font-size="15" text-anchor="middle" fill="#111">AI の答え</text>
-        <text x="110" y="88" font-size="15" text-anchor="middle" fill="#d9773b">＝ ヒント</text>
-        <!-- 矢印 -->
+        <text x="110" y="65" font-size="15" text-anchor="middle" fill="#111">AI's answer</text>
+        <text x="110" y="88" font-size="15" text-anchor="middle" fill="#d9773b">= a hint</text>
+        <!-- arrow -->
         <path d="M110 105 v40" stroke="#111" stroke-width="3" marker-end="url(#d)"/>
         <defs><marker id="d" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#111"/></marker></defs>
-        <!-- 確かめる -->
+        <!-- check it -->
         <rect x="20" y="150" width="90" height="70" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
         <text x="65" y="180" font-size="30" text-anchor="middle">📖</text>
-        <text x="65" y="208" font-size="14" text-anchor="middle" fill="#111">本・辞書</text>
+        <text x="65" y="208" font-size="14" text-anchor="middle" fill="#111">books</text>
         <rect x="120" y="150" width="90" height="70" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
         <text x="165" y="180" font-size="30" text-anchor="middle">🧑‍🏫</text>
-        <text x="165" y="208" font-size="14" text-anchor="middle" fill="#111">先生・家族</text>
+        <text x="165" y="208" font-size="14" text-anchor="middle" fill="#111">grown-ups</text>
         <rect x="220" y="150" width="90" height="70" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
         <text x="265" y="180" font-size="30" text-anchor="middle">🔍</text>
-        <text x="265" y="208" font-size="13" text-anchor="middle" fill="#111">調べ直す</text>
-        <text x="200" y="265" font-size="22" text-anchor="middle" fill="#111" font-weight="bold">本当かな？ と確かめる</text>
+        <text x="265" y="208" font-size="13" text-anchor="middle" fill="#111">look it up</text>
+        <text x="200" y="265" font-size="22" text-anchor="middle" fill="#111" font-weight="bold">ask "is that true?" and check</text>
         <text x="340" y="70" font-size="40" text-anchor="middle" fill="#d9773b" font-weight="bold">？</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">心がまえ ①</span>
-      <h1>AIはまちがえる。自分で確かめよう</h1>
-      <p>AIの答えは、「正解」ではなく<strong>「ヒント」</strong>だと思おう。</p>
-      <p>大事なことは、本や辞書で調べたり、先生や家族に聞いたりして確かめる。</p>
-      <p>「本当かな？」と一度考えるクセをつけると、AIにだまされにくくなるよ。</p>
-      <p>確かめるのは、めんどうに見えて、じつは一番の近道なんだ。</p>
+      <span class="label">Rule of thumb 1</span>
+      <h1>AI gets things wrong. Check for yourself.</h1>
+      <p>Treat an AI answer as <strong>a hint</strong>, never as the correct answer.</p>
+      <p>For anything that matters, look it up in a book, or ask a teacher or someone at home.</p>
+      <p>Get into the habit of pausing to ask "is that actually true?" and you become much harder to fool.</p>
+      <p>Checking feels like extra work, but it is the fastest route in the end.</p>
     </div>
   </div>
   <div class="num">13 / 18</div>
@@ -728,32 +728,32 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 左：丸投げ × -->
+        <!-- left：dumping it on AI × -->
         <rect x="20" y="40" width="170" height="200" rx="14" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="105" y="70" font-size="16" text-anchor="middle" fill="#c1442e" font-weight="bold">まるなげ</text>
+        <text x="105" y="70" font-size="16" text-anchor="middle" fill="#c1442e" font-weight="bold">dumping it on AI</text>
         <text x="105" y="120" font-size="40" text-anchor="middle">📝</text>
         <path d="M85 135 h40" stroke="#111" stroke-width="3" marker-end="url(#e)"/>
         <text x="105" y="185" font-size="40" text-anchor="middle">🤖</text>
-        <text x="105" y="225" font-size="14" text-anchor="middle" fill="#111">「ぜんぶやって」</text>
+        <text x="105" y="225" font-size="14" text-anchor="middle" fill="#111">"do all of it"</text>
         <text x="105" y="275" font-size="36" text-anchor="middle" fill="#c1442e" font-weight="bold">×</text>
-        <!-- 右：道具 ◎ -->
+        <!-- right：tool ◎ -->
         <rect x="210" y="40" width="170" height="200" rx="14" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="295" y="70" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">道具として使う</text>
+        <text x="295" y="70" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">using it as a tool</text>
         <text x="295" y="120" font-size="40" text-anchor="middle">🧠</text>
-        <text x="295" y="150" font-size="14" text-anchor="middle" fill="#111">自分で考える</text>
+        <text x="295" y="150" font-size="14" text-anchor="middle" fill="#111">think it through</text>
         <text x="295" y="190" font-size="30" text-anchor="middle">🤖</text>
-        <text x="295" y="225" font-size="14" text-anchor="middle" fill="#111">「ヒントちょうだい」</text>
+        <text x="295" y="225" font-size="14" text-anchor="middle" fill="#111">"give me a hint"</text>
         <text x="295" y="275" font-size="36" text-anchor="middle" fill="#111" font-weight="bold">◎</text>
         <defs><marker id="e" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#111"/></marker></defs>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">心がまえ ②</span>
-      <h1>道具として、上手に使おう</h1>
-      <p>宿題をぜんぶAIにやらせたら、どうなるかな？</p>
-      <p>答えは出るかもしれない。でも、それはまちがっているかもしれないし、自分の力にもならない。</p>
-      <p>AIは、えんぴつや辞書と同じ<strong>「道具」</strong>。使うのは自分だよ。</p>
-      <p>まず自分で考えて、こまったときにヒントをもらう。そんな使い方がいいね。</p>
+      <span class="label">Rule of thumb 2</span>
+      <h1>Use it as a tool, well</h1>
+      <p>What happens if you let an AI do your entire homework?</p>
+      <p>You get an answer. It might be wrong &mdash; and either way, none of it becomes your own ability.</p>
+      <p>An AI is <strong>a tool</strong>, like a pencil or a dictionary. You are the one using it.</p>
+      <p>Think it through yourself first, then ask for a hint when you are stuck. That is a good way to use it.</p>
     </div>
   </div>
   <div class="num">14 / 18</div>
@@ -764,34 +764,34 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 入力欄 -->
+        <!-- input box -->
         <rect x="30" y="50" width="340" height="60" rx="12" fill="#fff" stroke="#111" stroke-width="3"/>
-        <text x="50" y="88" font-size="18" fill="#999">ここに入力…</text>
-        <!-- 入れないもの -->
+        <text x="50" y="88" font-size="18" fill="#999">type here...</text>
+        <!-- do not enter -->
         <g font-size="15" fill="#111">
           <rect x="30" y="140" width="100" height="70" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
           <text x="80" y="170" font-size="26" text-anchor="middle">🏠</text>
-          <text x="80" y="198" text-anchor="middle">住所</text>
+          <text x="80" y="198" text-anchor="middle">address</text>
           <rect x="150" y="140" width="100" height="70" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
           <text x="200" y="170" font-size="26" text-anchor="middle">🪪</text>
-          <text x="200" y="198" text-anchor="middle">本名・学校名</text>
+          <text x="200" y="198" text-anchor="middle">real name, school</text>
           <rect x="270" y="140" width="100" height="70" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
           <text x="320" y="170" font-size="26" text-anchor="middle">📷</text>
-          <text x="320" y="198" text-anchor="middle">写真</text>
+          <text x="320" y="198" text-anchor="middle">photos</text>
         </g>
-        <!-- 大きな× -->
+        <!-- big× -->
         <line x1="40" y1="130" x2="360" y2="220" stroke="#c1442e" stroke-width="6" opacity="0.5"/>
         <line x1="360" y1="130" x2="40" y2="220" stroke="#c1442e" stroke-width="6" opacity="0.5"/>
-        <text x="200" y="265" font-size="18" text-anchor="middle" fill="#c1442e" font-weight="bold">自分や友だちのことは、入れない</text>
+        <text x="200" y="265" font-size="18" text-anchor="middle" fill="#c1442e" font-weight="bold">don't type in things about you or your friends</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">心がまえ ③</span>
-      <h1>自分のことは、入れない</h1>
-      <p>AIに入力した言葉は、どこか遠くのコンピューターに送られている。</p>
-      <p>だれが見るか、どう使われるかは、自分では決められないんだ。</p>
-      <p>だから、自分や友だちの<strong>本名・住所・学校名・写真</strong>は入力しない。</p>
-      <p>「知らない人に見せてもいいこと」だけを書く、と決めておこう。</p>
+      <span class="label">Rule of thumb 3</span>
+      <h1>Keep yourself out of it</h1>
+      <p>Whatever you type into an AI gets sent to a computer far away.</p>
+      <p>You cannot control who sees it or what it gets used for.</p>
+      <p>So do not type in <strong>real names, addresses, your school, or photos</strong> &mdash; yours or your friends’.</p>
+      <p>A good rule: only write things you would be fine showing to a stranger.</p>
     </div>
   </div>
   <div class="num">15 / 18</div>
@@ -802,66 +802,66 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 子ども中央 -->
+        <!-- child, centre -->
         <circle cx="200" cy="170" r="38" fill="#fff" stroke="#111" stroke-width="3"/>
         <path d="M162 160 q38 -55 76 0" fill="#111"/>
         <circle cx="187" cy="172" r="4" fill="#111"/><circle cx="213" cy="172" r="4" fill="#111"/>
         <path d="M190 190 q10 8 20 0" stroke="#111" stroke-width="3" fill="none"/>
         <rect x="165" y="208" width="70" height="70" rx="18" fill="#fff" stroke="#111" stroke-width="3"/>
-        <!-- 周りの人 -->
+        <!-- people around -->
         <g stroke="#111" stroke-width="2">
           <circle cx="70" cy="90" r="28" fill="#fff"/><path d="M42 82 q28 -40 56 0" fill="#111"/>
-          <text x="70" y="140" font-size="14" text-anchor="middle" fill="#111" stroke="none">家族</text>
+          <text x="70" y="140" font-size="14" text-anchor="middle" fill="#111" stroke="none">family</text>
           <circle cx="330" cy="90" r="28" fill="#fff"/><path d="M302 82 q28 -40 56 0" fill="#111"/>
-          <text x="330" y="140" font-size="14" text-anchor="middle" fill="#111" stroke="none">先生</text>
+          <text x="330" y="140" font-size="14" text-anchor="middle" fill="#111" stroke="none">teachers</text>
           <circle cx="330" cy="220" r="28" fill="#fff"/><path d="M302 212 q28 -40 56 0" fill="#111"/>
-          <text x="330" y="270" font-size="14" text-anchor="middle" fill="#111" stroke="none">友だち</text>
+          <text x="330" y="270" font-size="14" text-anchor="middle" fill="#111" stroke="none">friends</text>
         </g>
-        <!-- ハート線 -->
+        <!-- connection lines -->
         <path d="M100 100 q50 30 70 50" stroke="#d9773b" stroke-width="3" fill="none" stroke-dasharray="6 5"/>
         <path d="M300 100 q-50 30 -70 50" stroke="#d9773b" stroke-width="3" fill="none" stroke-dasharray="6 5"/>
         <path d="M300 220 q-40 -10 -60 -20" stroke="#d9773b" stroke-width="3" fill="none" stroke-dasharray="6 5"/>
-        <!-- ロボ小さく -->
+        <!-- small robot -->
         <rect x="40" y="200" width="60" height="50" rx="10" fill="#f4f4f4" stroke="#111" stroke-width="2"/>
         <rect x="52" y="212" width="12" height="12" rx="3" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="76" y="212" width="12" height="12" rx="3" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="58" y="235" width="24" height="6" rx="3" fill="#111"/>
-        <text x="70" y="272" font-size="14" text-anchor="middle" fill="#666">AI は道具</text>
+        <text x="70" y="272" font-size="14" text-anchor="middle" fill="#666">AI is a tool</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">心がまえ ④</span>
-      <h1>大事なことは、人に相談しよう</h1>
-      <p>AIは考えていない。気持ちもない。計算しているだけだったよね。</p>
-      <p>だから、<ruby>悩<rt>なや</rt></ruby>みごとや、大事なことを決めるときは、AIではなく<strong>人</strong>に相談しよう。</p>
-      <p>家族、先生、友だち。あなたのことを本当に考えてくれるのは、人だよ。</p>
-      <p>AIはべんりな道具。しくみを知って、上手に使っていこう。</p>
+      <span class="label">Rule of thumb 4</span>
+      <h1>Talk to a person about the things that matter</h1>
+      <p>An AI does not think. It has no feelings. It is running a calculation.</p>
+      <p>So when you are worried about something, or deciding something important, talk to <strong>a person</strong>, not an AI.</p>
+      <p>Family, teachers, friends. The ones who actually care about you are people.</p>
+      <p>AI is a handy tool. Now that you know how it works, use it well.</p>
     </div>
   </div>
   <div class="num">16 / 18</div>
 </section>
 
-<!-- 17: ガバナンス -->
+<!-- 17 -->
 <section>
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- 多数決の板 -->
+        <!-- vote tally -->
         <rect x="30" y="30" width="340" height="150" rx="12" fill="#fff" stroke="#111" stroke-width="3"/>
-        <text x="60" y="65" font-size="17" fill="#111">A の意見</text>
+        <text x="60" y="65" font-size="17" fill="#111">Opinion A</text>
         <g fill="#fff" stroke="#111" stroke-width="2">
           <rect x="150" y="48" width="22" height="22" rx="4"/><rect x="178" y="48" width="22" height="22" rx="4"/>
           <rect x="206" y="48" width="22" height="22" rx="4"/><rect x="234" y="48" width="22" height="22" rx="4"/>
           <rect x="262" y="48" width="22" height="22" rx="4"/><rect x="290" y="48" width="22" height="22" rx="4"/>
           <rect x="318" y="48" width="22" height="22" rx="4"/>
         </g>
-        <text x="60" y="115" font-size="17" fill="#111">B の意見</text>
+        <text x="60" y="115" font-size="17" fill="#111">Opinion B</text>
         <g fill="#fff" stroke="#111" stroke-width="2">
           <rect x="150" y="98" width="22" height="22" rx="4"/><rect x="178" y="98" width="22" height="22" rx="4"/>
         </g>
-        <text x="215" y="115" font-size="13" fill="#c1442e">← 少ないけど大事かも</text>
-        <text x="200" y="160" font-size="15" text-anchor="middle" fill="#111">AIは「多いほう（A）」を返しやすい</text>
-        <!-- 話し合いの輪 -->
+        <text x="215" y="115" font-size="13" fill="#c1442e">← few, but maybe important</text>
+        <text x="200" y="160" font-size="15" text-anchor="middle" fill="#111">AI leans toward the bigger pile (A)</text>
+        <!-- talking it over -->
         <g stroke="#111" stroke-width="2">
           <circle cx="120" cy="240" r="16" fill="#fff"/><path d="M104 234 q16 -24 32 0" fill="#111"/>
           <circle cx="170" cy="255" r="16" fill="#fff"/><path d="M154 249 q16 -24 32 0" fill="#111"/>
@@ -869,17 +869,17 @@
           <circle cx="280" cy="240" r="16" fill="#fff"/><path d="M264 234 q16 -24 32 0" fill="#111"/>
         </g>
         <rect x="150" y="200" width="100" height="26" rx="13" fill="#fff" stroke="#111" stroke-width="2"/>
-        <text x="200" y="218" font-size="13" text-anchor="middle" fill="#111">みんなで決める</text>
-        <text x="200" y="292" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">ルールづくり ＝ ガバナンス</text>
+        <text x="200" y="218" font-size="13" text-anchor="middle" fill="#111">decide together</text>
+        <text x="200" y="292" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">making rules = governance</text>
       </svg>
     </div>
     <div class="txt">
-      <span class="label">心がまえ ⑤</span>
-      <h1>みんなでルールを決める</h1>
-      <p>AIは「たくさんの人がそう書いていた意見」を返しやすい。<ruby>多数決<rt>たすうけつ</rt></ruby>みたいなものだね。</p>
-      <p>でも、少ない意見や、ちがう考えの中にも大事なものがある。</p>
-      <p>だから、AIをどう作り、どう使うかは、<strong>みんなで話し合ってルールを決める</strong>ことが大切なんだ。</p>
-      <p>この考え方を「ガバナンス」というよ。クラスのルールをみんなで決めるのと同じだね。</p>
+      <span class="label">Rule of thumb 5</span>
+      <h1>Rules are something we make together</h1>
+      <p>An LLM leans toward "what lots of people wrote." A bit like a majority vote.</p>
+      <p>But smaller voices, and views that go against the crowd, matter too.</p>
+      <p>So how AI gets built and how it gets used should be decided by <strong>people talking it over together</strong>.</p>
+      <p>That idea has a name: governance. It is the same as your class agreeing on class rules.</p>
     </div>
   </div>
   <div class="num">17 / 18</div>
@@ -890,17 +890,17 @@
   <div class="slide">
     <div class="pic">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- スマホ -->
+        <!-- phone -->
         <rect x="20" y="90" width="70" height="120" rx="12" fill="#fff" stroke="#111" stroke-width="3"/>
         <rect x="32" y="108" width="46" height="20" rx="6" fill="#fff" stroke="#111" stroke-width="2"/>
         <rect x="32" y="136" width="46" height="20" rx="6" fill="#f4f4f4" stroke="#111" stroke-width="2"/>
         <rect x="32" y="164" width="46" height="20" rx="6" fill="#fff" stroke="#111" stroke-width="2"/>
         <circle cx="55" cy="199" r="5" fill="#111"/>
-        <text x="55" y="235" font-size="14" text-anchor="middle" fill="#111">チャット</text>
-        <!-- 線 -->
+        <text x="55" y="235" font-size="14" text-anchor="middle" fill="#111">your chat</text>
+        <!-- line -->
         <path d="M96 150 h34" stroke="#111" stroke-width="3" marker-end="url(#p)"/>
         <defs><marker id="p" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#111"/></marker></defs>
-        <!-- サーバー -->
+        <!-- servers -->
         <g stroke="#111" stroke-width="3" fill="#f4f4f4">
           <rect x="140" y="80" width="110" height="34" rx="6"/>
           <rect x="140" y="122" width="110" height="34" rx="6"/>
@@ -912,13 +912,13 @@
         <g stroke="#111" stroke-width="2">
           <line x1="178" y1="97" x2="232" y2="97"/><line x1="178" y1="139" x2="232" y2="139"/><line x1="178" y1="181" x2="232" y2="181"/>
         </g>
-        <text x="195" y="225" font-size="14" text-anchor="middle" fill="#111">AI のコンピューター</text>
-        <!-- 電気 -->
+        <text x="195" y="225" font-size="14" text-anchor="middle" fill="#111">AI's computers</text>
+        <!-- electricity -->
         <path d="M256 139 h30" stroke="#111" stroke-width="3" marker-end="url(#p)"/>
         <path d="M330 60 l-26 52 h20 l-16 46 34 -56 h-20 z" fill="#d9773b" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-        <text x="325" y="185" font-size="16" text-anchor="middle" fill="#111">たくさんの</text>
-        <text x="325" y="207" font-size="16" text-anchor="middle" fill="#111">でんき</text>
-        <!-- 地球 -->
+        <text x="325" y="185" font-size="16" text-anchor="middle" fill="#111">a lot of</text>
+        <text x="325" y="207" font-size="16" text-anchor="middle" fill="#111">electricity</text>
+        <!-- earth -->
         <path d="M325 218 v18" stroke="#111" stroke-width="3" stroke-dasharray="5 5"/>
         <circle cx="325" cy="264" r="26" fill="#fff" stroke="#111" stroke-width="3"/>
         <path d="M302 253 q12 7 22 0 t24 3" stroke="#111" stroke-width="2" fill="none"/>
@@ -927,45 +927,45 @@
       </svg>
     </div>
     <div class="txt">
-      <span class="label">さいごに</span>
-      <h1>べんりのうらがわ</h1>
-      <p>このクイズも、みんなが見ているウェブサイトも、電気を使って動いているんだ。</p>
-      <p>とくにAIは、考え方（モデル）を作るときにも、質問に答えるときにも、<strong>たくさんの電気</strong>を使うよ。</p>
-      <p>「チャットと電気」「チャットと<ruby>温暖化<rt>おんだんか</rt></ruby>」なんて、すぐにはピンと来ないかもしれないね。</p>
-      <p>でも、べんりなしくみは、いろいろな<ruby>資源<rt>しげん</rt></ruby>の上に成り立っている。そのことは、忘れないでいたいな。</p>
-      <p>だから、なんでもAIに聞く前に、<strong>自分で考えてみることも、たいせつだよ！</strong></p>
+      <span class="label">One last thing</span>
+      <h1>What is behind the convenience</h1>
+      <p>This quiz, and every website you visit, runs on electricity.</p>
+      <p>AI especially: building the model and answering your questions both take <strong>a great deal of electricity</strong>.</p>
+      <p>"Chatting and electricity"? "Chatting and climate change"? It may not click straight away.</p>
+      <p>But convenient things are built on top of real resources. That is worth remembering.</p>
+      <p>So before you ask an AI everything &mdash; <strong>thinking for yourself matters too!</strong></p>
     </div>
   </div>
   <div class="num">18 / 18</div>
 </section>
 
-<!-- やってみよう: 心構え -->
+<!-- try it -->
 <section class="quiz-slide">
-  <span class="label">やってみよう</span>
-  <h1>クイズ：この使い方は ○？ ×？</h1>
-  <p class="lead">AIの使い方として、いいと思ったら ○、よくないと思ったら × をおしてね。</p>
+  <span class="label">Try it</span>
+  <h1>Quiz: good use, or not?</h1>
+  <p class="lead">Tap OK if you think it is a good way to use AI, or NO if you think it is not.</p>
   <div class="quiz" id="quiz-rules"></div>
 </section>
 
-<!-- まとめ -->
+<!-- wrap-up -->
 <section class="title-slide">
-  <h1>まとめ</h1>
+  <h1>To sum up</h1>
   <ul class="summary">
-    <li>LLMは「次の言葉あて」をくり返しているだけ。意味は分かっていない</li>
-    <li>ものすごい量の文章からパターンを覚えた。まちがいも一<ruby>緒<rt>しょ</rt></ruby>に覚えている</li>
-    <li>考えているのではなく、計算している。気持ちはない</li>
-    <li>ことばは得意。でも万能ではなく、もっともらしい<ruby>嘘<rt>うそ</rt></ruby>をつくことがある</li>
-    <li>答えの元は、人間のだれかの意見。だから AI の使い方は、みんなでルールを決める（ガバナンス）</li>
+    <li>An LLM just repeats "guess the next word." It does not know what the words mean</li>
+    <li>It learned patterns from an enormous amount of text &mdash; and learned the mistakes along with them</li>
+    <li>It is calculating, not thinking. There are no feelings in there</li>
+    <li>It is great with words, but not all-powerful, and it tells convincing lies</li>
+    <li>Its answers come from somebody&rsquo;s writing, so how we use AI is something we decide together (governance)</li>
   </ul>
-  <p style="margin-top:0.8em;color:#111;"><strong>確かめる ・ 道具として使う ・ 自分のことは入れない ・ 人に相談する ・ みんなでルールを決める</strong></p>
+  <p style="margin-top:0.8em;color:#111;"><strong>Check it &middot; Use it as a tool &middot; Keep yourself out of it &middot; Talk to people &middot; Make the rules together</strong></p>
 
-  <p class="note">あなたの住んでいる国や地域、生活習慣によってルールが異なることがあります。<br>
-  身近で相談できる大人と、このスライドの内容を話し合ってみてください。</p>
+  <p class="note">Rules can differ depending on the country or region you live in, and on how people around you do things.<br>
+  Talk about what is in these slides with a grown-up you trust.</p>
 
   <div class="ack">
     <h2>Acknowledgement &amp; References</h2>
     <ul>
-      <li><a href="https://www.kadokawa.co.jp/product/search/?auth=%E5%B7%9D%E5%8E%9F%E7%B9%81%E4%BA%BA&amp;indexFlg=2" target="_blank" rel="noopener noreferrer">川原繁人</a>『友だち以上恋人未満の人工知能 言語学者のAI倫理ノート』KADOKAWA (2026)</li>
+      <li><a href="https://www.kadokawa.co.jp/product/search/?auth=%E5%B7%9D%E5%8E%9F%E7%B9%81%E4%BA%BA&amp;indexFlg=2" target="_blank" rel="noopener noreferrer">Shigeto Kawahara</a>, <em>Tomodachi ijou koibito miman no jinkou chinou</em> (An AI Ethics Notebook by a Linguist), KADOKAWA (2026)</li>
       <li>Anthropic, <a href="https://www.anthropic.com/ai-fluency/overview" target="_blank" rel="noopener noreferrer">AI Fluency: Framework &amp; Foundations</a></li>
     </ul>
   </div>
@@ -973,7 +973,7 @@
 
 </div>
 </div>
-<script src="reveal/reveal.js"></script>
+<script src="../reveal/reveal.js"></script>
 <script>
   Reveal.initialize({
     hash: true,
@@ -985,7 +985,7 @@
     center: true,
     transition: 'slide'
   });
-  // 「もっと知りたい？」ダイアログ
+  // "Tell me more" dialogs
   document.querySelectorAll('.more').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
@@ -999,7 +999,7 @@
     if (c) c.addEventListener('click', function () { dlg.close(); });
   });
 
-  // ページ番号をフッタ（コピーライトの隣）に表示する
+  // show the page number in the footer, next to the copyright
   function updatePageNo() {
     const cur = Reveal.getCurrentSlide();
     const n = cur && cur.querySelector('.num');
@@ -1008,7 +1008,7 @@
   Reveal.on('ready', updatePageNo);
   Reveal.on('slidechanged', updatePageNo);
 
-  // 画面のどこをクリック/タップしても次へ進む（クイズの操作部分とナビ矢印は除く）
+  // click or tap anywhere to advance (except quiz controls and nav arrows)
   document.querySelector('.reveal').addEventListener('click', function (e) {
     if (e.target.closest('.quiz, button, a, dialog, .controls, .progress')) return;
     Reveal.next();
@@ -1017,7 +1017,7 @@
 
 <script>
 (function () {
-  // ---- 共通: 選択式クイズ ----
+  // ---- shared: multiple-choice quiz ----
   function makeQuiz(el, questions, opts) {
     opts = opts || {};
     let i = 0, score = 0;
@@ -1025,11 +1025,10 @@
     function render() {
       if (i >= questions.length) {
         const perfect = score === questions.length;
-        el.innerHTML = '<p class="q">' + (perfect ? 'ぜんぶ正解！すごい！' : 'おわり！') + '</p>' +
-          '<p>' + questions.length + '問中 <span class="score">' + score + '問</span> 正解。</p>' +
+        el.innerHTML = '<p class="q">' + (perfect ? 'A perfect score! Nice one!' : 'That&rsquo;s the end!') + '</p>' +
+          '<p>You got <span class="score">' + score + '</span> out of ' + questions.length + ' right.</p>' +
           '<p>' + (opts.closing || '') + '</p>' +
-          '<p class="opts"><button class="retry">もう一回</button>' +
-          (perfect ? '<button class="next">次のおはなしへ →</button>' : '') + '</p>';
+          '<p class="opts"><button class="retry">Play again</button>' +(perfect ? '<button class="next">On with the story &rarr;</button>' : '') + '</p>';
         el.querySelector('button.retry').onclick = function(){ i = 0; score = 0; render(); };
         const nb = el.querySelector('button.next');
         if (nb) nb.onclick = function(){ Reveal.next(); };
@@ -1053,8 +1052,8 @@
           if (o.ok) score++;
           const fb = el.querySelector('.fb');
           fb.className = 'fb ' + (o.ok ? 'ok' : 'ng');
-          fb.innerHTML = (o.ok ? '○ せいかい！ ' : '× ざんねん。 ') + esc(o.fb || q.fb || '');
-          el.querySelector('.nextp').innerHTML = '<button class="next">' + (i+1 < questions.length ? 'つぎへ →' : 'けっかを見る') + '</button>';
+          fb.innerHTML = (o.ok ? 'Correct! ' : 'Not quite. ') + esc(o.fb || q.fb || '');
+          el.querySelector('.nextp').innerHTML = '<button class="next">' + (i+1 < questions.length ? 'Next &rarr;' : 'See how you did') + '</button>';
           el.querySelector('button.next').onclick = function(){ i++; render(); };
         };
       });
@@ -1062,42 +1061,41 @@
     render();
   }
 
-  // ---- 1. はじめに ----
+  // ---- 1. getting started ----
   makeQuiz(document.getElementById('quiz-intro'), [
-    { q: 'この中で「LLM」（文章を作るAI）はどれ？',
+    { q: 'Which of these is an LLM (an AI that writes text)?',
       opts: [
-        { t: '🧹 じどうで部屋をそうじするロボット', fb: 'これも「AI」と呼ばれることはあるけど、文章は作らないね。' },
-        { t: '💬 質問を書くと、文章で答えてくれるAI', ok: true, fb: '文章を作るAI、それがLLMだよ。' },
-        { t: '🧮 数を入れると計算してくれる電卓', fb: '電卓は決まった計算をするだけ。文章は作らないね。' }
+        { t: 'A robot that vacuums the floor by itself', fb: 'People do call that "AI" sometimes, but it does not write text.' },
+        { t: 'Something you type a question to, that answers in sentences', ok: true, fb: 'An AI that writes text. That is an LLM.' },
+        { t: 'A calculator that adds up numbers for you', fb: 'A calculator only does the sums it was built for. No writing involved.' }
       ] },
-    { q: '「LLM」の名前の意味に近いのはどれ？',
+    { q: 'What does the name "LLM" actually mean?',
       opts: [
-        { t: '大きな言葉のしくみ', ok: true, fb: '「大きな言葉のモデル（しくみ）」という英語を短くした名前だったね。' },
-        { t: '小さなロボットの友だち', fb: 'ロボットの名前ではないよ。' },
-        { t: '光るライトのマーク', fb: 'ライトは関係ないよ。' }
+        { t: 'Large Language Model', ok: true, fb: 'A "model" of language, built from a very large amount of text.' },
+        { t: 'Little Learning Machine', fb: 'Close-sounding, but no. The first L is for "Large".' },
+        { t: 'Long Lasting Memory', fb: 'Not that either. It is Large Language Model.' }
       ] }
-  ], { closing: 'LLMは「文章を作るAI」。次は、どうやって文章を作っているのか見てみよう。' });
+  ], { closing: 'An LLM is an AI that writes text. Next: how on earth does it write it?' });
 
-  // ---- 2. しくみ: 次の言葉あてゲーム ----
+  // ---- 2. guess the next word ----
   (function () {
     const el = document.getElementById('quiz-words');
-    const END_A = [ {w:'すんでいました。', p:85}, {w:'あそんでいました。', p:8}, {w:'ういていました。', p:1} ];
-    const END_B = [ {w:'ありました。', p:70}, {w:'おちていました。', p:12}, {w:'おどっていました。', p:1} ];
+    const END_A = [ {w:'in a cottage in the woods.', p:80}, {w:'at the edge of the forest.', p:12}, {w:'inside a giant pumpkin.', p:1} ];
     const TREE = {
-      text: 'むかしむかし、あるところに',
+      text: 'Once upon a time, there lived',
       next: [
-        { w:'おじいさんと', p:55, next: [
-            { w:'おばあさんが', p:75, next: END_A },
-            { w:'くまが', p:6, next: END_A },
-            { w:'ロボットが', p:1, next: END_A } ] },
-        { w:'おばあさんが', p:30, next: [
-            { w:'ひとりで', p:60, next: END_A },
-            { w:'ねこと', p:15, next: END_A },
-            { w:'ドラゴンと', p:1, next: END_A } ] },
-        { w:'れいぞうこが', p:2, next: [
-            { w:'ひとつ', p:50, next: END_B },
-            { w:'ぽつんと', p:20, next: END_B },
-            { w:'元気に', p:3, next: END_B } ] }
+        { w:'an old woodcutter and', p:55, next: [
+            { w:'his wife,', p:70, next: END_A },
+            { w:'his three sons,', p:20, next: END_A },
+            { w:'a very tired dragon,', p:2, next: END_A } ] },
+        { w:'a young princess and', p:30, next: [
+            { w:'her father the king,', p:65, next: END_A },
+            { w:'a clever little fox,', p:18, next: END_A },
+            { w:'a robot named Bob,', p:1, next: END_A } ] },
+        { w:'a talking fridge and', p:2, next: [
+            { w:'its best friend,', p:50, next: END_A },
+            { w:'a lonely sock,', p:20, next: END_A },
+            { w:'a knight in armour,', p:3, next: END_A } ] }
       ]
     };
     let node, picks, aiPicks, trials = 0;
@@ -1107,20 +1105,20 @@
       return TREE.text + list.map(function(x){ return ' <span class="' + cls + '">' + x.w + '</span>'; }).join('');
     }
     function render(){
-      let html = '<div class="sent">' + sentence(picks, 'pick') + (node.next ? ' <span style="color:#d9773b">＿＿</span>' : '') + '</div>';
+      let html = '<div class="sent">' + sentence(picks, 'pick') + (node.next ? ' <span style="color:#d9773b">_____</span>' : '') + '</div>';
       if (node.next) {
-        html += '<p class="q">次の言葉を選んでね</p><div class="opts">';
+        html += '<p class="q">Choose what comes next</p><div class="opts">';
         node.next.forEach(function(o, k){ html += '<button data-k="' + k + '">' + o.w + '<span class="pct">' + o.p + '%</span></button>'; });
-        html += '</div><p class="hint">%が高いほど「よく出てくるつながり」。AIは高いほうを選びやすいよ。</p>';
+        html += '</div><p class="hint">A higher % means those words go together more often. An AI leans towards the higher numbers.</p>';
       } else {
         const lowest = Math.min.apply(null, picks.map(function(x){ return x.p; }));
-        html += '<div class="ai">🤖 AIならたぶんこう選ぶ：<br><span class="aitxt">' + sentence(aiPicks, 'aitxt') + '</span></div>';
+        html += '<div class="ai">&#129302; Here is what an AI would probably have picked:<br><span class="aitxt">' + sentence(aiPicks, 'aitxt') + '</span></div>';
         html += '<p class="hint">' + (lowest <= 5
-          ? '%の低い言葉を選ぶと、へんな文になったね。AIは%の高い言葉を選ぶことが多いから、「よくある文」ができやすいんだ。'
-          : 'AIと同じような文になったね。%の高い言葉ばかり選ぶと、「よくある文」ができる。低い言葉を選ぶとどうなるか、もう一回ためしてみよう。') + '</p>';
+          ? 'Picking the low-% words gave you an odd sentence, didn&rsquo;t it? An AI usually picks the high-% ones, so it tends to produce the ordinary, expected sentence.'
+          : 'You ended up close to what an AI would write. Stick to the high-% words and you get the expected sentence. Try again and see what the low ones do.') + '</p>';
         trials++;
-        html += '<p class="opts"><button class="retry">もう一回</button>' +
-          (trials >= 2 ? '<button class="next">次のおはなしへ →</button>' : '') + '</p>';
+        html += '<p class="opts"><button class="retry">Try again</button>' +
+          (trials >= 2 ? '<button class="next">On with the story &rarr;</button>' : '') + '</p>';
       }
       el.innerHTML = html;
       el.querySelectorAll('.opts button').forEach(function(b){
@@ -1138,33 +1136,33 @@
     start();
   })();
 
-  // ---- 3. 得意・不得意: 本当？嘘？ ----
+  // ---- 3. true or made up ----
   makeQuiz(document.getElementById('quiz-lie'), [
-    { said: '日本でいちばん高い山は富士山で、高さは3776メートルです。', q: 'この答えは？',
-      opts: [ { t:'本当', ok:true, fb:'これは本当。でも、本当かどうかは「言い方」では分からないよね。' }, { t:'嘘', fb:'これは本当だよ。自信まんまんでも、本当のこともある。' } ] },
-    { said: 'カブトムシは鳥のなかまで、冬になると南の国へわたります。', q: 'この答えは？',
-      opts: [ { t:'本当', fb:'カブトムシは虫（こん虫）。鳥ではないよ。すらすら言われると信じそうになるね。' }, { t:'嘘', ok:true, fb:'カブトムシはこん虫。それらしい言葉をつなげただけの答えだったね。' } ] },
-    { said: '1週間は7日で、1年はふつう365日です。', q: 'この答えは？',
-      opts: [ { t:'本当', ok:true, fb:'本当。知っていることなら、自分で見ぬけるね。' }, { t:'嘘', fb:'これは本当だよ。' } ] },
-    { said: '〇〇小学校の校歌は「みどりの山に かぜふいて」で始まります。', q: 'この答えは？',
-      opts: [ { t:'本当', fb:'AIはこの学校のことを知らないのに、それらしく作ってしまったんだ。' }, { t:'嘘', ok:true, fb:'知らないことでも、それらしい言葉をつなげて答えてしまう。これが「もっともらしい嘘」。' } ] }
-  ], { closing: '本当も嘘も、同じ自信まんまんの顔で出てくる。だから「本当かな？」と確かめることが大事なんだ。' });
+    { said: 'The tallest mountain on Earth is Mount Everest, at 8,849 metres.', q: 'Is that answer...',
+      opts: [ { t:'True', ok:true, fb:'True. But notice: you could not tell that from how confidently it was said.' }, { t:'Made up', fb:'That one is actually true. Confident does not mean wrong, either.' } ] },
+    { said: 'Beetles are a kind of bird, and they fly south for the winter.', q: 'Is that answer...',
+      opts: [ { t:'True', fb:'Beetles are insects, not birds. Said smoothly enough, though, it almost sounds right.' }, { t:'Made up', ok:true, fb:'Beetles are insects. That answer was just plausible-sounding words, strung together.' } ] },
+    { said: 'A week has 7 days, and a year usually has 365 days.', q: 'Is that answer...',
+      opts: [ { t:'True', ok:true, fb:'True. When it is something you already know, you can spot it yourself.' }, { t:'Made up', fb:'That one is true.' } ] },
+    { said: 'The Pine Hill School song begins "Green hills and gentle breeze."', q: 'Is that answer...',
+      opts: [ { t:'True', fb:'The AI knows nothing about that school, but it invented something that sounds right anyway.' }, { t:'Made up', ok:true, fb:'It had no idea, so it made something plausible. That is exactly the convincing lie we were talking about.' } ] }
+  ], { closing: 'True and invented come out wearing the same confident face. That is why checking matters.' });
 
-  // ---- 4. 心構え: ○×クイズ ----
+  // ---- 4. rules of thumb ----
   makeQuiz(document.getElementById('quiz-rules'), [
-    { q: '作文の宿題をAIに全部書いてもらって、そのまま出した。',
-      opts: [ { t:'○', fb:'まちがっているかもしれないし、自分の力にもならない。AIは道具、使うのは自分だよ。' }, { t:'×', ok:true, fb:'まず自分で考えて、こまったときにヒントをもらうのがいい使い方だね。' } ] },
-    { q: '調べ学習でAIにヒントをもらい、本で本当か確かめてからまとめた。',
-      opts: [ { t:'○', ok:true, fb:'AIの答えはヒント。確かめてから使う、いい使い方だね。' }, { t:'×', fb:'これはいい使い方だよ。ヒントをもらって、確かめてから使っているね。' } ] },
-    { q: '近くの公園を教えてほしくて、AIに自分の家の住所と学校名を入力した。',
-      opts: [ { t:'○', fb:'住所や学校名は入力しないほうがいい。だれが見るか分からないからね。' }, { t:'×', ok:true, fb:'自分のことは入れない。「知らない人に見せてもいいこと」だけを書こう。' } ] },
-    { q: '友だちとケンカした。どうすればいいか、AIにだけ聞いて決めた。',
-      opts: [ { t:'○', fb:'AIは考えていないし、あなたのことを知らない。大事なことは人に相談しよう。' }, { t:'×', ok:true, fb:'大事なことは、家族や先生、友だちに相談しよう。AIはヒントをくれる道具だよ。' } ] },
-    { q: '英語の文を日本語にしてもらって、意味が合っているか辞書でも確かめた。',
-      opts: [ { t:'○', ok:true, fb:'言葉のことはAIの得意分野。確かめもしていて、いい使い方だね。' }, { t:'×', fb:'これはいい使い方だよ。得意なことを道具として使い、確かめてもいるね。' } ] },
-    { q: '「今回は自分の感想を出してください」という宿題。「AIを使っちゃダメとは言われてないからいいよね」と、AIの答えをそのまま出した。',
-      opts: [ { t:'○', fb:'AIの答えは「だれかの意見」で、あなたの感想ではないよね。先生は「みんなの意見」を集めたかったはず。ルールに書いてなくても、ルールの「ねらい」を考えよう。' }, { t:'×', ok:true, fb:'そのとおり。AIの答えはだれかの意見で、あなたの感想ではない。ルールに書いていないことは、「なぜこのルールがあるのか」を考えて、迷ったら先生やみんなに聞こう。' } ] }
-  ], { closing: '確かめる・道具として使う・自分のことは入れない・人に相談する・みんなでルールを決める。この5つをおぼえておいてね。' });
+    { q: 'You had an essay for homework, so you got an AI to write the whole thing and handed it in as it was.',
+      opts: [ { t:'OK', fb:'It might be wrong, and either way none of it became your own ability. AI is a tool; you are the one using it.' }, { t:'Not OK', ok:true, fb:'Right. Think it through yourself first, then ask for a hint when you get stuck.' } ] },
+    { q: 'For a research project you asked an AI for some leads, then checked them in a book before writing it up.',
+      opts: [ { t:'OK', ok:true, fb:'Exactly. An AI answer is a hint, and you checked it before using it.' }, { t:'Not OK', fb:'This one is fine. You took a hint and verified it.' } ] },
+    { q: 'You wanted to find a park nearby, so you typed your home address and school name into an AI.',
+      opts: [ { t:'OK', fb:'Better to leave those out. You cannot control who ends up seeing them.' }, { t:'Not OK', ok:true, fb:'Keep yourself out of it. Only write things you would be fine showing to a stranger.' } ] },
+    { q: 'You fell out with a friend, so you asked an AI what to do and did exactly that, without talking to anyone.',
+      opts: [ { t:'OK', fb:'An AI does not think, and it does not know you. Talk to a person about the things that matter.' }, { t:'Not OK', ok:true, fb:'Talk to family, a teacher, a friend. The AI is a tool that offers hints, nothing more.' } ] },
+    { q: 'You had an AI translate an English sentence, then double-checked the meaning in a dictionary.',
+      opts: [ { t:'OK', ok:true, fb:'Language is where an AI is genuinely strong, and you checked. Good use of the tool.' }, { t:'Not OK', fb:'This one is fine. You used its strength and verified the result.' } ] },
+    { q: 'The homework said "write your own thoughts on this." You thought "well, nobody said I could not use AI," and handed in the AI&rsquo;s answer unchanged.',
+      opts: [ { t:'OK', fb:'An AI answer is somebody else&rsquo;s words, not your thoughts. Your teacher was asking what everyone in the class actually thinks. When a rule does not spell something out, think about what the rule is for.' }, { t:'Not OK', ok:true, fb:'Right. That answer is not your thoughts. When the rules do not cover something, ask what the rule is there for, and check with your teacher or your class if you are unsure.' } ] }
+  ], { closing: 'Check it, use it as a tool, keep yourself out of it, talk to people, and make the rules together. Those five are worth remembering.' });
 })();
 </script>
 </body>
