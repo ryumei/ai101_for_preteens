@@ -44,7 +44,7 @@
     .reveal .txt { flex: 1; }
     .reveal .txt p { font-size: 0.8em; margin: 0 0 0.6em 0; }
     .reveal .txt p strong { color: #c1442e; }
-    .reveal .num { position: absolute; right: 24px; bottom: 16px; font-size: 0.5em; color: #999; }
+    .reveal .num { display: none; }
     .reveal ruby rt { font-size: 0.5em; color: #666; }
     .reveal .title-slide { text-align: center; }
     .reveal .title-slide h1 { font-size: 1.8em; }
@@ -66,9 +66,11 @@
       border: 2px solid #111; border-radius: 14px 18px 12px 20px / 18px 12px 20px 14px;
       padding: 0.6em 1em; line-height: 1.7;
     }
+    .footer .pageno { color: #aaa; }
     .footer {
       position: fixed; left: 16px; bottom: 12px; z-index: 30;
       font-family: var(--r-main-font); font-size: 13px; color: #999; pointer-events: none;
+      display: flex; gap: 0.9em; align-items: baseline;
     }
 
     /* --- やってみよう（クイズ） --- */
@@ -116,7 +118,7 @@
   </filter>
 </svg>
 <div class="reveal">
-<div class="footer">&copy; 2026 NAKAJIMA Takaaki</div>
+<div class="footer"><span>&copy; 2026 NAKAJIMA Takaaki</span><span class="pageno" id="pageno"></span></div>
 <div class="slides">
 
 <!-- 表紙 -->
@@ -844,6 +846,15 @@
     center: true,
     transition: 'slide'
   });
+  // ページ番号をフッタ（コピーライトの隣）に表示する
+  function updatePageNo() {
+    const cur = Reveal.getCurrentSlide();
+    const n = cur && cur.querySelector('.num');
+    document.getElementById('pageno').textContent = n ? n.textContent : '';
+  }
+  Reveal.on('ready', updatePageNo);
+  Reveal.on('slidechanged', updatePageNo);
+
   // 画面のどこをクリック/タップしても次へ進む（クイズの操作部分とナビ矢印は除く）
   document.querySelector('.reveal').addEventListener('click', function (e) {
     if (e.target.closest('.quiz, button, a, .controls, .progress')) return;
