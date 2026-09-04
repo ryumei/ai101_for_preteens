@@ -713,11 +713,15 @@
     function esc(t){ return t; }
     function render() {
       if (i >= questions.length) {
-        el.innerHTML = '<p class="q">おわり！</p>' +
+        const perfect = score === questions.length;
+        el.innerHTML = '<p class="q">' + (perfect ? 'ぜんぶ正解！すごい！' : 'おわり！') + '</p>' +
           '<p>' + questions.length + '問中 <span class="score">' + score + '問</span> 正解。</p>' +
           '<p>' + (opts.closing || '') + '</p>' +
-          '<p><button class="next">もう一回</button></p>';
-        el.querySelector('button.next').onclick = function(){ i = 0; score = 0; render(); };
+          '<p class="opts"><button class="retry">もう一回</button>' +
+          (perfect ? '<button class="next">次のおはなしへ →</button>' : '') + '</p>';
+        el.querySelector('button.retry').onclick = function(){ i = 0; score = 0; render(); };
+        const nb = el.querySelector('button.next');
+        if (nb) nb.onclick = function(){ Reveal.next(); };
         return;
       }
       const q = questions[i];
