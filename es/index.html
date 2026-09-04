@@ -94,6 +94,22 @@
       border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
     }
     dialog.deep ruby rt { font-size: 0.5em; color: #666; }
+    dialog.deep .page { display: none; }
+    dialog.deep .page.on { display: block; }
+    dialog.deep .pagenav {
+      display: flex; align-items: center; justify-content: center; gap: 14px;
+      margin-top: 1em; font-size: 14px; color: #666;
+    }
+    dialog.deep .pagenav button {
+      font: inherit; font-size: 15px; padding: 0.3em 1.1em; cursor: pointer;
+      background: #fff; color: #111; border: 3px solid #111;
+      border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
+    }
+    dialog.deep .pagenav button:disabled { opacity: 0.3; cursor: default; }
+    dialog.deep .pagenav .close { background: #111; color: #fff; }
+    dialog.deep figure { margin: 0.4em 0 0.8em; }
+    dialog.deep figure svg { width: 100%; height: auto; display: block; }
+    dialog.deep figcaption { font-size: 13px; color: #666; text-align: center; margin-top: 0.2em; }
     .footer {
       position: fixed; left: 16px; bottom: 12px; z-index: 30;
       font-family: var(--r-main-font); font-size: 13px; color: #999; pointer-events: none;
@@ -460,9 +476,134 @@
       <p>Pero por dentro solo hay un <strong>cálculo</strong>: ¿qué palabra es la más probable ahora?</p>
       <p>No se alegra ni se entristece. No quiere nada.</p>
       <p>Aunque te diga algo amable, eso es el resultado de calcular que ahí encajan palabras amables.</p>
+      <button class="more" data-dialog="dlg-vector">¿Quieres saber más?</button>
     </div>
   </div>
   <div class="num">7 / 18</div>
+
+  <dialog class="deep" id="dlg-vector">
+    <div class="inner">
+<div class="page on">
+        <h2>1. Cortar el lenguaje en trocitos</h2>
+        <p class="sub">Esta parte es un poco más difícil. Puedes saltártela sin problema.</p>
+        <p>Un ordenador no puede manejar las letras tal cual. Así que lo primero que hace es cortar la frase en <span class="term">trocitos</span>. A cada trocito se le llama "token".</p>
+<figure>
+          <svg viewBox="0 0 660 150" xmlns="http://www.w3.org/2000/svg">
+            <text x="20" y="34" font-size="20" fill="#111">Hoy hace muy buen día</text>
+            <path d="M120 46 v18" stroke="#111" stroke-width="2" marker-end="url(#tk)"/>
+            <defs><marker id="tk" markerWidth="9" markerHeight="9" refX="5" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9z" fill="#111"/></marker></defs>
+            <g font-size="19" text-anchor="middle">
+              <rect x="20" y="76" width="80" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="103" fill="#111">Hoy</text>
+              <rect x="112" y="76" width="52" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="138" y="103" fill="#111">hace</text>
+              <rect x="176" y="76" width="70" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="211" y="103" fill="#111">muy</text>
+              <rect x="258" y="76" width="80" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="298" y="103" fill="#111">buen</text>
+              <rect x="350" y="76" width="70" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="385" y="103" fill="#111">dí</text>
+              <rect x="432" y="76" width="52" height="42" rx="10" fill="#fff" stroke="#111" stroke-width="3"/><text x="458" y="103" fill="#111">a</text>
+            </g>
+            <text x="510" y="103" font-size="15" fill="#d9773b">← 6 "tokens"</text>
+          </svg>
+          <figcaption>Un token no siempre es una palabra entera: "día" se parte en "dí" y "a".</figcaption>
+        </figure>
+        <p>Por eso, lo que una IA lee no son letras, sino <strong>una fila de trocitos</strong>.</p>
+      </div>
+
+      <div class="page">
+        <h2>2. Convertir cada trocito en números</h2>
+        <p>Después, cada token se cambia por <span class="term">una fila de números</span>. Esa fila se llama "vector", y el cambio se llama "embedding".</p>
+<figure>
+          <svg viewBox="0 0 660 190" xmlns="http://www.w3.org/2000/svg">
+            <g font-size="17">
+              <text x="20" y="34" fill="#666">token</text>
+              <text x="150" y="34" fill="#666">una fila de números (un vector)</text>
+              <g stroke="#111" stroke-width="2" fill="none">
+                <rect x="14" y="46" width="90" height="36" rx="8"/>
+                <rect x="14" y="90" width="90" height="36" rx="8"/>
+                <rect x="14" y="134" width="90" height="36" rx="8"/>
+              </g>
+              <text x="59" y="70" text-anchor="middle" fill="#111">gato</text>
+              <text x="59" y="114" text-anchor="middle" fill="#111">perro</text>
+              <text x="59" y="158" text-anchor="middle" fill="#111">coche</text>
+              <g fill="#111" font-size="16">
+                <text x="130" y="70">[  0.82   0.31  −0.47   0.05   …  ]</text>
+                <text x="130" y="114">[  0.79   0.28  −0.51   0.11   …  ]</text>
+                <text x="130" y="158">[ −0.34   0.66   0.22  −0.73   …  ]</text>
+              </g>
+              <path d="M108 64 h16" stroke="#111" stroke-width="2" marker-end="url(#tk)"/>
+              <path d="M108 108 h16" stroke="#111" stroke-width="2" marker-end="url(#tk)"/>
+              <path d="M108 152 h16" stroke="#111" stroke-width="2" marker-end="url(#tk)"/>
+            </g>
+            <text x="330" y="186" font-size="14" text-anchor="middle" fill="#d9773b">"gato" y "perro" tienen números parecidos. "coche" no se parece en nada.</text>
+          </svg>
+        </figure>
+        <p>En una fila puede haber cientos o miles de números. Nadie los eligió a mano: <strong>se fueron colocando solos</strong> durante el entrenamiento con todo aquel texto.</p>
+      </div>
+
+      <div class="page">
+        <h2>3. Una fila de números es un lugar</h2>
+        <p>Imagina esa fila de números como un punto en un mapa. Las palabras de significado parecido acaban en <span class="term">puntos cercanos</span>.</p>
+<figure>
+          <svg viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg">
+            <rect x="40" y="14" width="580" height="212" rx="10" fill="#fff" stroke="#111" stroke-width="3"/>
+            <g stroke="#ddd" stroke-width="1">
+              <line x1="185" y1="14" x2="185" y2="226"/><line x1="330" y1="14" x2="330" y2="226"/><line x1="475" y1="14" x2="475" y2="226"/>
+              <line x1="40" y1="67" x2="620" y2="67"/><line x1="40" y1="120" x2="620" y2="120"/><line x1="40" y1="173" x2="620" y2="173"/>
+            </g>
+            <g font-size="16" text-anchor="middle">
+              <circle cx="130" cy="60" r="5" fill="#d9773b"/><text x="130" y="50" fill="#111">gato</text>
+              <circle cx="168" cy="82" r="5" fill="#d9773b"/><text x="176" y="103" fill="#111">perro</text>
+              <circle cx="108" cy="96" r="5" fill="#d9773b"/><text x="98" y="116" fill="#111">conejo</text>
+              <circle cx="470" cy="70" r="5" fill="#2b7a3e"/><text x="470" y="58" fill="#111">coche</text>
+              <circle cx="518" cy="96" r="5" fill="#2b7a3e"/><text x="528" y="116" fill="#111">autobús</text>
+              <circle cx="440" cy="112" r="5" fill="#2b7a3e"/><text x="430" y="132" fill="#111">tren</text>
+              <circle cx="300" cy="192" r="5" fill="#111"/><text x="300" y="212" fill="#111">comer</text>
+              <circle cx="352" cy="176" r="5" fill="#111"/><text x="362" y="196" fill="#111">beber</text>
+            </g>
+            <ellipse cx="136" cy="82" rx="72" ry="52" fill="none" stroke="#d9773b" stroke-width="2" stroke-dasharray="7 6"/>
+            <ellipse cx="478" cy="92" rx="76" ry="52" fill="none" stroke="#2b7a3e" stroke-width="2" stroke-dasharray="7 6"/>
+            <text x="330" y="248" font-size="14" text-anchor="middle" fill="#666">* en realidad este mapa tiene cientos de direcciones; aquí está aplastado en solo dos</text>
+          </svg>
+        </figure>
+        <p>Lo cerca o lejos que están dos puntos, escrito como un número, se llama <span class="term">distancia</span>. Es simplemente la regla de ese mapa.</p>
+      </div>
+
+      <div class="page">
+        <h2>4. "Lo que viene ahora" = "lo que está cerca"</h2>
+        <p>Y aquí está la clave. La IA coloca todo lo dicho hasta ahora en un punto, y considera que <strong>las palabras más cercanas son las más probables</strong>.</p>
+<figure>
+          <svg viewBox="0 0 660 220" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="300" cy="110" r="8" fill="#111"/>
+            <text x="300" y="92" font-size="15" text-anchor="middle" fill="#111">donde cae "Como tengo hambre,"</text>
+            <g stroke="#111" stroke-width="2">
+              <line x1="308" y1="106" x2="430" y2="72"/>
+              <line x1="308" y1="114" x2="452" y2="146"/>
+              <line x1="292" y1="118" x2="120" y2="180"/>
+            </g>
+            <g font-size="17">
+              <rect x="436" y="52" width="120" height="38" rx="10" fill="#e3f4e1" stroke="#2b7a3e" stroke-width="3"/>
+              <text x="496" y="77" text-anchor="middle" fill="#111">comer</text>
+              <text x="566" y="77" font-size="14" fill="#2b7a3e">cerca</text>
+              <rect x="458" y="128" width="120" height="38" rx="10" fill="#fff" stroke="#111" stroke-width="2"/>
+              <text x="518" y="153" text-anchor="middle" fill="#111">cocinar</text>
+              <text x="588" y="153" font-size="14" fill="#666">más o menos</text>
+              <rect x="34" y="162" width="120" height="38" rx="10" fill="#fff" stroke="#bbb" stroke-width="2"/>
+              <text x="94" y="187" text-anchor="middle" fill="#999">avión</text>
+              <text x="20" y="150" font-size="14" fill="#999">lejos</text>
+            </g>
+          </svg>
+          <figcaption>¿Qué viene después de "Como tengo hambre, ___"?</figcaption>
+        </figure>
+        <p>Así que lo que pasa por dentro es <strong>medir distancias con una regla</strong>. No sabe qué se siente al tener hambre.</p>
+        <p>Sin emociones y sin entender el significado, las frases se construyen solo con distancias. Eso es lo que quiere decir "no piensa: calcula".</p>
+      </div>
+
+      <div class="pagenav">
+        <button class="prev">&larr; Atrás</button>
+        <span class="pageno"></span>
+        <button class="fwd">Siguiente &rarr;</button>
+        <button class="close">Cerrar</button>
+      </div>
+    </div>
+  </dialog>
 </section>
 
 <!-- -->
@@ -996,8 +1137,27 @@
   document.querySelectorAll('dialog.deep').forEach(function (dlg) {
     dlg.addEventListener('click', function (e) { e.stopPropagation(); });
     dlg.addEventListener('keydown', function (e) { e.stopPropagation(); });
-    const c = dlg.querySelector('.close');
-    if (c) c.addEventListener('click', function () { dlg.close(); });
+    dlg.querySelectorAll('.close').forEach(function (c) {
+      c.addEventListener('click', function () { dlg.close(); });
+    });
+    //
+    const pages = dlg.querySelectorAll('.page');
+    if (pages.length > 1) {
+      const prev = dlg.querySelector('.prev'), fwd = dlg.querySelector('.fwd'),
+            no = dlg.querySelector('.pageno');
+      let i = 0;
+      function show() {
+        pages.forEach(function (p, k) { p.classList.toggle('on', k === i); });
+        prev.disabled = (i === 0);
+        fwd.disabled = (i === pages.length - 1);
+        no.textContent = (i + 1) + ' / ' + pages.length;
+        dlg.querySelector('.inner').scrollTop = 0;
+      }
+      prev.addEventListener('click', function () { if (i > 0) { i--; show(); } });
+      fwd.addEventListener('click', function () { if (i < pages.length - 1) { i++; show(); } });
+      dlg.addEventListener('close', function () { i = 0; show(); });
+      show();
+    }
   });
 
   //
