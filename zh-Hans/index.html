@@ -181,6 +181,7 @@
     .reveal .quiz .ai { font-size: 0.9em; }
     .reveal .quiz .ai .aitxt { color: #111; font-weight: bold; text-decoration: underline; }
     .reveal .quiz .hint { font-size: 0.85em; color: #666; }
+    .reveal .quiz .talk { margin-top: 0.7em; padding: 0.5em 0.9em; border: 2px dashed #d9773b; border-radius: 10px; font-size: 0.85em; color: #111; background: #fff8f2; }
     .reveal .quiz .said { display: flex; align-items: center; gap: 16px; margin-bottom: 0.6em; }
     .reveal .quiz .said .robo { flex: 0 0 auto; font-size: 2.2em; }
     .reveal #quiz-rules .opts button, .reveal #quiz-lie .opts button { min-width: 3.2em; font-size: 1.2em; }
@@ -1289,6 +1290,7 @@
         el.innerHTML = '<p class="q">' + (perfect ? '全对！真厉害！' : '结束啦！') + '</p>' +
           '<p>' + '你答对了 ' + '<span class="score">' + score + '</span>' + ' 题，一共 ' + questions.length + ' 题。' + '</p>' +
           '<p>' + (opts.closing || '') + '</p>' +
+          (opts.talk ? '<p class="talk">&#128173; 聊一聊：' + opts.talk + '</p>' : '') +
           '<p class="opts"><button class="retry">再来一次</button>' +
           (perfect ? '<button class="next">继续故事 &rarr;</button>' : '') + '</p>';
         el.querySelector('button.retry').onclick = function(){ i = 0; score = 0; render(); };
@@ -1337,7 +1339,7 @@
         { t: '小小学习机器（Little Learning Machine）', fb: '听起来很像，但不是。第一个 L 是“大”（Large）。' },
         { t: '超长久记忆（Long Lasting Memory）', fb: '也不是。它是 Large Language Model。' }
       ] }
-  ], { closing: 'LLM 是会写字的 AI。那么，它到底是怎么写出来的呢？' });
+  ], { closing: 'LLM 是会写字的 AI。那么，它到底是怎么写出来的呢？', talk: '你平时用的 AI 聊天工具，什么时候觉得它挺方便的？' });
 
   //
   (function () {
@@ -1388,7 +1390,8 @@
           ? '挑了 % 低的词，句子就变得怪怪的，对吧？AI 通常挑 % 高的词，所以它写出来的往往是那种常见、意料之中的句子。'
           : '你写出来的和 AI 差不多。一直挑 % 高的词，就会得到意料之中的句子。再来一次，看看挑低的会怎么样。') + '</p>';
         trials++;
-        html += '<p class="opts"><button class="retry">再来一次</button>' +
+        html += (trials >= 2 ? '<p class="talk">&#128173; 聊一聊：知道了 AI 是靠"哪些词常常连在一起"来造句的，你有什么想法？</p>' : '') +
+                  '<p class="opts"><button class="retry">再来一次</button>' +
           (rareHit ? '<button class="secret">去秘密页面 &rarr;</button>' : '') +
           (trials >= 2 ? '<button class="next">继续故事 &rarr;</button>' : '') + '</p>';
       }
@@ -1423,7 +1426,7 @@
       opts: [ { t:'真的', ok:true, fb:'真的。碰上自己本来就知道的事，你能自己看出来。' }, { t:'编的', fb:'这个是真的。' } ] },
     { said: '松山小学的校歌，开头是“青山之上风轻轻”。', q: '这个答案是……',
       opts: [ { t:'真的', fb:'AI 对那所学校一无所知，却照样编出了一段听起来很像的东西。' }, { t:'编的', ok:true, fb:'它根本不知道，于是编了个像样的。这就是我们说的那种一本正经的假话。' } ] }
-  ], { closing: '真话和编的话，都顶着同样自信的一张脸出来。所以才要核对。' });
+  ], { closing: '真话和编的话，都顶着同样自信的一张脸出来。所以才要核对。', talk: '你有没有见过或听说过 AI 一本正经地说错话？' });
 
   // ---- 4 ----
   makeQuiz(document.getElementById('quiz-rules'), [
@@ -1441,7 +1444,7 @@
       opts: [ { t:'○', fb:'AI 的答案是别人的话，不是你的感想。老师想收的，是全班每个人真正的想法。规则没写到的地方，想一想这条规则是为了什么。' }, { t:'×', ok:true, fb:'对。那个答案不是你的感想。规则没写到的时候，先想想它是为了什么，拿不准就去问老师或者和同学商量。' } ] },
     { q: '和 AI 聊天的时候，它突然说了些奇怪又有点吓人的话。你什么都没说，就这么忍着继续用。',
       opts: [ { t:'○', fb:'不用忍着。停止使用，去告诉家人或老师这样信得过的大人。' }, { t:'×', ok:true, fb:'对。遇到这种情况，别一个人憋着，告诉大人。' } ] }
-  ], { closing: '核对、当工具用、别放自己的信息、找人商量、一起定规则。这五条值得记住。' });
+  ], { closing: '核对、当工具用、别放自己的信息、找人商量、一起定规则。这五条值得记住。', talk: '写作业能不能用 AI，你学校或家里的规矩是怎样的？' });
 })();
 </script>
 </body>

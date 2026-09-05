@@ -183,6 +183,7 @@
     .reveal .quiz .ai { font-size: 0.9em; }
     .reveal .quiz .ai .aitxt { color: #111; font-weight: bold; text-decoration: underline; }
     .reveal .quiz .hint { font-size: 0.85em; color: #666; }
+    .reveal .quiz .talk { margin-top: 0.7em; padding: 0.5em 0.9em; border: 2px dashed #d9773b; border-radius: 10px; font-size: 0.85em; color: #111; background: #fff8f2; }
     .reveal .quiz .said { display: flex; align-items: center; gap: 16px; margin-bottom: 0.6em; }
     .reveal .quiz .said .robo { flex: 0 0 auto; font-size: 2.2em; }
     .reveal #quiz-rules .opts button, .reveal #quiz-lie .opts button { min-width: 3.2em; font-size: 1.2em; }
@@ -1294,6 +1295,7 @@
         el.innerHTML = '<p class="q">' + (perfect ? 'A perfect score! Nice one!' : 'That&rsquo;s the end!') + '</p>' +
           '<p>You got <span class="score">' + score + '</span> out of ' + questions.length + ' right.</p>' +
           '<p>' + (opts.closing || '') + '</p>' +
+          (opts.talk ? '<p class="talk">&#128173; Talk about it: ' + opts.talk + '</p>' : '') +
           '<p class="opts"><button class="retry">Play again</button>' +(perfect ? '<button class="next">On with the story &rarr;</button>' : '') + '</p>';
         el.querySelector('button.retry').onclick = function(){ i = 0; score = 0; render(); };
         const nb = el.querySelector('button.next');
@@ -1341,7 +1343,7 @@
         { t: 'Little Learning Machine', fb: 'Close-sounding, but no. The first L is for "Large".' },
         { t: 'Long Lasting Memory', fb: 'Not that either. It is Large Language Model.' }
       ] }
-  ], { closing: 'An LLM is an AI that writes text. Next: how on earth does it write it?' });
+  ], { closing: 'An LLM is an AI that writes text. Next: how on earth does it write it?', talk: 'When you use an AI chatbot, what kinds of moments do you find it useful?' });
 
   // ---- 2. guess the next word ----
   (function () {
@@ -1392,7 +1394,8 @@
           ? 'Picking the low-% words gave you an odd sentence, didn&rsquo;t it? An AI usually picks the high-% ones, so it tends to produce the ordinary, expected sentence.'
           : 'You ended up close to what an AI would write. Stick to the high-% words and you get the expected sentence. Try again and see what the low ones do.') + '</p>';
         trials++;
-        html += '<p class="opts"><button class="retry">Try again</button>' +
+        html += (trials >= 2 ? '<p class="talk">&#128173; Talk about it: Now that you know an AI builds sentences from which words tend to go together, what do you think about that?</p>' : '') +
+                  '<p class="opts"><button class="retry">Try again</button>' +
           (rareHit ? '<button class="secret">To the secret page &rarr;</button>' : '') +
           (trials >= 2 ? '<button class="next">On with the story &rarr;</button>' : '') + '</p>';
       }
@@ -1427,7 +1430,7 @@
       opts: [ { t:'True', ok:true, fb:'True. When it is something you already know, you can spot it yourself.' }, { t:'Made up', fb:'That one is true.' } ] },
     { said: 'The Pine Hill School song begins "Green hills and gentle breeze."', q: 'Is that answer...',
       opts: [ { t:'True', fb:'The AI knows nothing about that school, but it invented something that sounds right anyway.' }, { t:'Made up', ok:true, fb:'It had no idea, so it made something plausible. That is exactly the convincing lie we were talking about.' } ] }
-  ], { closing: 'True and invented come out wearing the same confident face. That is why checking matters.' });
+  ], { closing: 'True and invented come out wearing the same confident face. That is why checking matters.', talk: 'Have you ever seen or heard an AI get something wrong while sounding totally confident?' });
 
   // ---- 4. rules of thumb ----
   makeQuiz(document.getElementById('quiz-rules'), [
@@ -1445,7 +1448,7 @@
       opts: [ { t:'OK', fb:'An AI answer is somebody else&rsquo;s words, not your thoughts. Your teacher was asking what everyone in the class actually thinks. When a rule does not spell something out, think about what the rule is for.' }, { t:'Not OK', ok:true, fb:'Right. That answer is not your thoughts. When the rules do not cover something, ask what the rule is there for, and check with your teacher or your class if you are unsure.' } ] },
     { q: 'While chatting with an AI, it suddenly said something strange and a little scary. You kept quiet and just put up with it.',
       opts: [ { t:'OK', fb:'You do not have to put up with it. Stop using it and tell an adult you trust &mdash; a family member or a teacher.' }, { t:'Not OK', ok:true, fb:"That\'s right. When that happens, don\'t carry it alone &mdash; tell an adult." } ] }
-  ], { closing: 'Check it, use it as a tool, keep yourself out of it, talk to people, and make the rules together. Those five are worth remembering.' });
+  ], { closing: 'Check it, use it as a tool, keep yourself out of it, talk to people, and make the rules together. Those five are worth remembering.', talk: 'What are your school&rsquo;s or family&rsquo;s rules about using AI for homework?' });
 })();
 </script>
 </body>

@@ -177,6 +177,7 @@
     .reveal .quiz .ai { font-size: 0.9em; }
     .reveal .quiz .ai .aitxt { color: #111; font-weight: bold; text-decoration: underline; }
     .reveal .quiz .hint { font-size: 0.85em; color: #666; }
+    .reveal .quiz .talk { margin-top: 0.7em; padding: 0.5em 0.9em; border: 2px dashed #d9773b; border-radius: 10px; font-size: 0.85em; color: #111; background: #fff8f2; }
     .reveal .quiz .said { display: flex; align-items: center; gap: 16px; margin-bottom: 0.6em; }
     .reveal .quiz .said .robo { flex: 0 0 auto; font-size: 2.2em; }
     .reveal #quiz-rules .opts button, .reveal #quiz-lie .opts button { min-width: 3.2em; font-size: 1.2em; }
@@ -1285,6 +1286,7 @@
         el.innerHTML = '<p class="q">' + (perfect ? 'Tout bon ! Bravo !' : "C'est fini !") + '</p>' +
           '<p>' + 'Tu as trouvé ' + '<span class="score">' + score + '</span>' + ' bonnes réponses sur ' + questions.length + '.' + '</p>' +
           '<p>' + (opts.closing || '') + '</p>' +
+          (opts.talk ? '<p class="talk">&#128173; On en discute : ' + opts.talk + '</p>' : '') +
           '<p class="opts"><button class="retry">Encore une fois</button>' +
           (perfect ? '<button class="next">Suite de l\'histoire &rarr;</button>' : '') + '</p>';
         el.querySelector('button.retry').onclick = function(){ i = 0; score = 0; render(); };
@@ -1333,7 +1335,7 @@
         { t: 'Little Learning Machine : petite machine qui apprend', fb: 'Ça y ressemble, mais non. Le premier L est celui de « Large », grand.' },
         { t: 'Long Lasting Memory : mémoire qui dure longtemps', fb: 'Non plus. C’est Large Language Model.' }
       ] }
-  ], { closing: 'Un LLM est une IA qui écrit du texte. Et maintenant : comment diable l’écrit-elle ?' });
+  ], { closing: 'Un LLM est une IA qui écrit du texte. Et maintenant : comment diable l’écrit-elle ?', talk: 'Quand tu utilises un chatbot IA, dans quelles situations tu le trouves utile ?' });
 
   //
   (function () {
@@ -1384,7 +1386,8 @@
           ? 'En choisissant les mots à faible %, tu obtiens une phrase bizarre, non ? Une IA prend d’habitude les mots à fort %, donc elle produit plutôt la phrase ordinaire, attendue.'
           : 'Tu es arrivé à peu près à ce qu’écrirait une IA. En restant sur les forts %, on obtient la phrase attendue. Recommence et vois ce que donnent les faibles.') + '</p>';
         trials++;
-        html += '<p class="opts"><button class="retry">Encore une fois</button>' +
+        html += (trials >= 2 ? '<p class="talk">&#128173; On en discute : Maintenant que tu sais qu’une IA construit ses phrases selon quels mots vont souvent ensemble, qu’en penses-tu ?</p>' : '') +
+                  '<p class="opts"><button class="retry">Encore une fois</button>' +
           (rareHit ? '<button class="secret">Vers la page secrète &rarr;</button>' : '') +
           (trials >= 2 ? '<button class="next">Suite de l\'histoire &rarr;</button>' : '') + '</p>';
       }
@@ -1419,7 +1422,7 @@
       opts: [ { t:'Vraie', ok:true, fb:'Vrai. Quand c’est quelque chose que tu sais déjà, tu le repères tout seul.' }, { t:'Inventée', fb:'Celle-là est vraie.' } ] },
     { said: 'L’hymne de l’école des Pins commence par « Vertes collines, doux zéphyr ».', q: 'Cette réponse est…',
       opts: [ { t:'Vraie', fb:'L’IA ne sait rien de cette école, et pourtant elle a inventé quelque chose qui sonne juste.' }, { t:'Inventée', ok:true, fb:'Elle n’en avait aucune idée, alors elle a fabriqué du crédible. Exactement le mensonge crédible dont on parlait.' } ] }
-  ], { closing: 'Le vrai et l’inventé sortent avec le même air assuré. C’est pour ça qu’il faut vérifier.' });
+  ], { closing: 'Le vrai et l’inventé sortent avec le même air assuré. C’est pour ça qu’il faut vérifier.', talk: 'As-tu déjà vu ou entendu une IA se tromper en ayant l’air totalement sûre d’elle ?' });
 
   // ---- 4 ----
   makeQuiz(document.getElementById('quiz-rules'), [
@@ -1437,7 +1440,7 @@
       opts: [ { t:'Oui', fb:'La réponse d’une IA, ce sont les mots de quelqu’un d’autre, pas ce que tu penses. Ton prof voulait savoir ce que chacun pense vraiment. Quand une règle ne dit pas tout, demande-toi à quoi elle sert.' }, { t:'Non', ok:true, fb:'Voilà. Cette réponse n’est pas ce que tu penses. Quand les règles ne couvrent pas un cas, demande-toi à quoi elles servent, et vérifie auprès de ton prof ou de ta classe si tu hésites.' } ] },
     { q: 'En discutant avec une IA, elle a soudain dit quelque chose de bizarre et un peu inquiétant. Tu n’as rien dit et tu as continué à l’utiliser comme si de rien n’était.',
       opts: [ { t:'Oui', fb:'Tu n’as pas à supporter ça. Arrête de l’utiliser et parles-en à un adulte de confiance, dans ta famille ou à l’école.' }, { t:'Non', ok:true, fb:'Voilà. Quand ça arrive, ne garde pas ça pour toi : parles-en à un adulte.' } ] }
-  ], { closing: 'Vérifier, s’en servir comme d’un outil, ne rien mettre de soi dedans, parler à des gens, et faire les règles ensemble. Ces cinq-là valent la peine d’être retenues.' });
+  ], { closing: 'Vérifier, s’en servir comme d’un outil, ne rien mettre de soi dedans, parler à des gens, et faire les règles ensemble. Ces cinq-là valent la peine d’être retenues.', talk: 'Quelles sont les règles de ton école ou de ta famille sur l’utilisation de l’IA pour les devoirs ?' });
 })();
 </script>
 </body>

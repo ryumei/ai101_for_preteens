@@ -186,6 +186,7 @@
     .reveal .quiz .ai { font-size: 0.9em; }
     .reveal .quiz .ai .aitxt { color: #111; font-weight: bold; text-decoration: underline; }
     .reveal .quiz .hint { font-size: 0.85em; color: #666; }
+    .reveal .quiz .talk { margin-top: 0.7em; padding: 0.5em 0.9em; border: 2px dashed #d9773b; border-radius: 10px; font-size: 0.85em; color: #111; background: #fff8f2; }
     .reveal .quiz .said { display: flex; align-items: center; gap: 16px; margin-bottom: 0.6em; }
     .reveal .quiz .said .robo { flex: 0 0 auto; font-size: 2.2em; }
     .reveal #quiz-rules .opts button, .reveal #quiz-lie .opts button { min-width: 3.2em; font-size: 1.2em; }
@@ -1294,6 +1295,7 @@
         el.innerHTML = '<p class="q">' + (perfect ? '전부 정답! 대단한데요!' : '끝!') + '</p>' +
           '<p>' + '' + '<span class="score">' + score + '</span>' + '문제 중 ' + questions.length + '문제를 맞혔어요.' + '</p>' +
           '<p>' + (opts.closing || '') + '</p>' +
+          (opts.talk ? '<p class="talk">&#128173; 이야기해 봐요: ' + opts.talk + '</p>' : '') +
           '<p class="opts"><button class="retry">다시 하기</button>' +
           (perfect ? '<button class="next">이야기 계속 &rarr;</button>' : '') + '</p>';
         el.querySelector('button.retry').onclick = function(){ i = 0; score = 0; render(); };
@@ -1342,7 +1344,7 @@
         { t: '작게 배우는 기계 (Little Learning Machine)', fb: '비슷하게 들리지만 아니에요. 첫 L은 "크다(Large)"입니다.' },
         { t: '오래가는 기억 (Long Lasting Memory)', fb: '그것도 아니에요. Large Language Model이랍니다.' }
       ] }
-  ], { closing: 'LLM은 글을 쓰는 AI. 그럼 대체 어떻게 글을 쓰는 걸까요?' });
+  ], { closing: 'LLM은 글을 쓰는 AI. 그럼 대체 어떻게 글을 쓰는 걸까요?', talk: '평소에 쓰는 AI 챗봇, 어떨 때 편리하다고 느껴요?' });
 
   //
   (function () {
@@ -1393,7 +1395,8 @@
           ? '%가 낮은 말을 고르니 이상한 문장이 됐죠? AI는 %가 높은 말을 고르는 일이 많아서, 흔하고 뻔한 문장이 만들어지기 쉬워요.'
           : 'AI와 비슷한 문장이 됐네요. %가 높은 말만 고르면 뻔한 문장이 나와요. 낮은 말을 고르면 어떻게 되는지 한 번 더 해 보세요.') + '</p>';
         trials++;
-        html += '<p class="opts"><button class="retry">다시 하기</button>' +
+        html += (trials >= 2 ? '<p class="talk">&#128173; 이야기해 봐요: AI가 잘 어울리는 말로 문장을 만든다는 걸 알고 나니 어떤 생각이 들어요?</p>' : '') +
+                  '<p class="opts"><button class="retry">다시 하기</button>' +
           (rareHit ? '<button class="secret">비밀 페이지로 &rarr;</button>' : '') +
           (trials >= 2 ? '<button class="next">이야기 계속 &rarr;</button>' : '') + '</p>';
       }
@@ -1428,7 +1431,7 @@
       opts: [ { t:'사실', ok:true, fb:'사실이에요. 내가 아는 것이라면 스스로 알아볼 수 있죠.' }, { t:'지어냈다', fb:'이건 사실이에요.' } ] },
     { said: '소나무초등학교 교가는 "푸른 산에 바람이 불고"로 시작합니다.', q: '이 답은?',
       opts: [ { t:'사실', fb:'AI는 그 학교를 전혀 모르는데도 그럴듯하게 지어냈어요.' }, { t:'지어냈다', ok:true, fb:'모르는 것도 그럴듯한 말로 채워 버려요. 이게 바로 "그럴듯한 거짓말"입니다.' } ] }
-  ], { closing: '사실도 거짓도 똑같이 자신만만한 얼굴로 나와요. 그래서 확인하는 게 중요합니다.' });
+  ], { closing: '사실도 거짓도 똑같이 자신만만한 얼굴로 나와요. 그래서 확인하는 게 중요합니다.', talk: 'AI가 자신만만하게 틀린 말을 하는 걸 보거나 들어 본 적 있어요?' });
 
   // ---- 4 ----
   makeQuiz(document.getElementById('quiz-rules'), [
@@ -1446,7 +1449,7 @@
       opts: [ { t:'○', fb:'AI의 답은 누군가의 말이지, 내 생각이 아니에요. 선생님은 모두의 생각을 모으고 싶었을 거예요. 규칙에 적혀 있지 않아도, 그 규칙이 왜 있는지를 생각해 봅시다.' }, { t:'×', ok:true, fb:'맞아요. AI의 답은 내 생각이 아니에요. 규칙에 없는 일은 "왜 이 규칙이 있을까"를 생각하고, 헷갈리면 선생님이나 친구들에게 물어봅시다.' } ] },
     { q: 'AI와 채팅하다가 갑자기 이상하고 조금 무서운 말을 들었다. 아무 말 없이 그냥 참고 계속 썼다.',
       opts: [ { t:'○', fb:'참지 않아도 돼요. 사용을 멈추고 가족이나 선생님처럼 믿을 수 있는 어른에게 알려 주세요.' }, { t:'×', ok:true, fb:'맞아요. 그럴 때는 혼자 끙끙대지 말고 어른에게 알려 주세요.' } ] }
-  ], { closing: '확인하기, 도구로 쓰기, 내 정보는 넣지 않기, 사람과 의논하기, 함께 규칙 정하기. 이 다섯 가지를 기억해 두세요.' });
+  ], { closing: '확인하기, 도구로 쓰기, 내 정보는 넣지 않기, 사람과 의논하기, 함께 규칙 정하기. 이 다섯 가지를 기억해 두세요.', talk: '숙제에 AI를 써도 되는지, 학교나 집의 규칙은 어떻게 되어 있나요?' });
 })();
 </script>
 </body>
