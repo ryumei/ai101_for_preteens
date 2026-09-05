@@ -1364,9 +1364,9 @@
             { w:'一位穿盔甲的騎士，', p:3, next: END_A } ] }
       ]
     };
-    let node, picks, aiPicks, trials = 0, rareOffer = false, rareHit = false;
+    let node, aiNode, picks, aiPicks, trials = 0, rareOffer = false, rareHit = false;
     function best(arr){ return arr.reduce(function(a,b){ return b.p > a.p ? b : a; }); }
-    function start(){ node = TREE; picks = []; aiPicks = []; rareHit = false;
+    function start(){ node = TREE; aiNode = TREE; picks = []; aiPicks = []; rareHit = false;
       rareOffer = (Math.random() < RARE_CHANCE); render(); }
     function sentence(list, cls){
       return TREE.text + list.map(function(x){ return ' <span class="' + cls + '">' + x.w + '</span>'; }).join('');
@@ -1396,7 +1396,8 @@
           const opts = (node === TREE && rareOffer) ? node.next.concat([RARE]) : node.next;
           const o = opts[+b.dataset.k];
           if (o.rare) rareHit = true;
-          aiPicks.push(best(node.next));
+          aiPicks.push(best(aiNode.next));
+          aiNode = best(aiNode.next);
           picks.push(o);
           node = o;
           render();
