@@ -71,9 +71,17 @@
     html.portrait .reveal .summary { font-size: 0.7em; }
     html.portrait .reveal .note { font-size: 0.58em; }
     html.portrait .reveal .ack { font-size: 0.48em; }
-    html.portrait .tohome { right: 96px; bottom: 14px; }
+    html.portrait .tohome { right: 14px; bottom: 78px; }
     html.portrait dialog.deep { width: 92vw; max-height: 86vh; }
     html.portrait dialog.deep .inner { padding: 16px 18px 20px; }
+    /* scroll overflowing text with a finger, independent of slide navigation */
+    .reveal { touch-action: pan-y pinch-zoom; }
+    .reveal .slides section {
+      max-height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+    }
     .reveal .ack { font-size: 0.6em; color: #555; text-align: left; margin: 1.4em auto 0; max-width: 900px;
       padding-left: 1.2em; }
     .reveal .ack li { margin-bottom: 0.4em; }
@@ -202,7 +210,7 @@
 <section class="title-slide">
   <h1>AI 到底在做什麼？</h1>
   <p>一本關於大家都在聊的那個聊天機器人的圖畫故事</p>
-  <p style="font-size:0.6em;color:#888;">&rarr; 按任意鍵，或點一下螢幕，就能往下走</p>
+  <p style="font-size:0.6em;color:#888;">&rarr; 按任意鍵，或點右下角的箭頭，就能往下走</p>
   <p style="font-size:0.55em;color:#c1442e;margin-top:1.2em;">本版本由 AI 從日文原版機器翻譯而來，可能有不準確之處。</p>
     <p style="font-size:0.5em;color:#888;margin-top:0.8em;"><a href="../index.html">日本語</a> &nbsp;|&nbsp; <a href="../en/index.html">English</a> &nbsp;|&nbsp; <a href="../es/index.html">Español</a> &nbsp;|&nbsp; <a href="../fr/index.html">Français</a> &nbsp;|&nbsp; <a href="../ko/index.html">한국어</a> &nbsp;|&nbsp; <a href="../zh-Hans/index.html">简体中文</a> &nbsp;|&nbsp; 繁體中文</p>
 </section>
@@ -1218,7 +1226,9 @@
     controls: true,
     progress: true,
     center: true,
-    transition: 'slide'
+    transition: 'slide',
+    touch: false,
+    keyboard: true
   });
   window.addEventListener('resize', function () {
     const p = isPortrait();
@@ -1272,11 +1282,6 @@
   Reveal.on('ready', updatePageNo);
   Reveal.on('slidechanged', updatePageNo);
 
-  //
-  document.querySelector('.reveal').addEventListener('click', function (e) {
-    if (e.target.closest('.quiz, button, a, dialog, .controls, .progress')) return;
-    Reveal.next();
-  });
 </script>
 
 <script>

@@ -76,9 +76,17 @@
     html.portrait .reveal .summary { font-size: 0.7em; }
     html.portrait .reveal .note { font-size: 0.58em; }
     html.portrait .reveal .ack { font-size: 0.48em; }
-    html.portrait .tohome { right: 96px; bottom: 14px; }
+    html.portrait .tohome { right: 14px; bottom: 78px; }
     html.portrait dialog.deep { width: 92vw; max-height: 86vh; }
     html.portrait dialog.deep .inner { padding: 16px 18px 20px; }
+    /* scroll overflowing text with a finger, independent of slide navigation */
+    .reveal { touch-action: pan-y pinch-zoom; }
+    .reveal .slides section {
+      max-height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+    }
     .reveal .ack { font-size: 0.6em; color: #555; text-align: left; margin: 1.4em auto 0; max-width: 900px;
       padding-left: 1.2em; }
     .reveal .ack li { margin-bottom: 0.4em; }
@@ -207,7 +215,7 @@
 <section class="title-slide">
   <h1>AI는 대체 뭘 하고 있을까?</h1>
   <p>모두가 이야기하는 그 챗봇에 대한 이야기 그림책</p>
-  <p style="font-size:0.6em;color:#888;">&rarr; 아무 키나 누르거나 화면을 누르면 넘어갑니다</p>
+  <p style="font-size:0.6em;color:#888;">&rarr; 키를 누르거나, 오른쪽 아래 화살표를 누르면 넘어갑니다</p>
   <p style="font-size:0.55em;color:#c1442e;margin-top:1.2em;">이 버전은 일본어 원본을 AI가 기계 번역한 것이라 정확하지 않은 부분이 있을 수 있습니다.</p>
     <p style="font-size:0.5em;color:#888;margin-top:0.8em;"><a href="../index.html">日本語</a> &nbsp;|&nbsp; <a href="../en/index.html">English</a> &nbsp;|&nbsp; <a href="../es/index.html">Español</a> &nbsp;|&nbsp; <a href="../fr/index.html">Français</a> &nbsp;|&nbsp; 한국어 &nbsp;|&nbsp; <a href="../zh-Hans/index.html">简体中文</a> &nbsp;|&nbsp; <a href="../zh-Hant/index.html">繁體中文</a></p>
 </section>
@@ -1223,7 +1231,9 @@
     controls: true,
     progress: true,
     center: true,
-    transition: 'slide'
+    transition: 'slide',
+    touch: false,
+    keyboard: true
   });
   window.addEventListener('resize', function () {
     const p = isPortrait();
@@ -1277,11 +1287,6 @@
   Reveal.on('ready', updatePageNo);
   Reveal.on('slidechanged', updatePageNo);
 
-  //
-  document.querySelector('.reveal').addEventListener('click', function (e) {
-    if (e.target.closest('.quiz, button, a, dialog, .controls, .progress')) return;
-    Reveal.next();
-  });
 </script>
 
 <script>
