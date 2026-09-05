@@ -55,6 +55,21 @@
     .reveal .cover h1 { font-size: 1.6em; }
     .reveal .summary { font-size: 0.75em; text-align: left; margin: 0 auto; max-width: 900px; }
     .reveal .summary li { margin-bottom: 0.5em; }
+
+    /* --- 縦長画面（スマホ・タブレット縦持ち）: 絵を上、文章を下 --- */
+    html.portrait { --r-main-font-size: 40px; }
+    html.portrait .reveal .slide { flex-direction: column; align-items: stretch; gap: 18px; }
+    html.portrait .reveal .pic { flex: 0 0 auto; width: 88%; max-width: 600px; margin: 0 auto; }
+    html.portrait .reveal .txt { width: 100%; }
+    html.portrait .reveal .txt p { font-size: 0.9em; }
+    html.portrait .reveal .quiz { min-height: 0; padding: 20px 22px; }
+    html.portrait .reveal .quiz-slide h1 { font-size: 1em; }
+    html.portrait .reveal .summary { font-size: 0.7em; }
+    html.portrait .reveal .note { font-size: 0.58em; }
+    html.portrait .reveal .ack { font-size: 0.48em; }
+    html.portrait .tohome { right: 96px; bottom: 14px; }
+    html.portrait dialog.deep { width: 92vw; max-height: 86vh; }
+    html.portrait dialog.deep .inner { padding: 16px 18px 20px; }
     .reveal .ack { font-size: 0.5em; color: #555; text-align: left; margin: 1.4em auto 0; max-width: 900px;
       border-top: 2px solid #ccc; padding-top: 0.6em; }
     .reveal .ack h2 { font-size: 1.15em; color: #111; margin: 0 0 0.3em 0; letter-spacing: 0; text-transform: none; }
@@ -1180,15 +1195,28 @@
 </div>
 <script src="reveal/reveal.js"></script>
 <script>
+  // 縦長画面では縦向きのスライドサイズにする（絵を上、文章を下）
+  function isPortrait() { return window.innerHeight > window.innerWidth; }
+  function slideSize() { return isPortrait() ? { width: 720, height: 1280 } : { width: 1280, height: 720 }; }
+  document.documentElement.classList.toggle('portrait', isPortrait());
+
   Reveal.initialize({
     hash: true,
-    width: 1280,
-    height: 720,
+    width: slideSize().width,
+    height: slideSize().height,
+    scrollActivationWidth: 0,
     margin: 0.06,
     controls: true,
     progress: true,
     center: true,
     transition: 'slide'
+  });
+  window.addEventListener('resize', function () {
+    const p = isPortrait();
+    if (p !== document.documentElement.classList.contains('portrait')) {
+      document.documentElement.classList.toggle('portrait', p);
+      Reveal.configure(slideSize());
+    }
   });
   // 「もっと知りたい？」ダイアログ
   document.querySelectorAll('.more').forEach(function (btn) {
