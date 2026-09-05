@@ -1237,7 +1237,10 @@
   document.querySelectorAll('.more').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
-      document.getElementById(btn.dataset.dialog).showModal();
+      const dlg = document.getElementById(btn.dataset.dialog);
+      dlg.showModal();
+      const inner = dlg.querySelector('.inner');
+      if (inner) inner.scrollTop = 0;
     });
   });
   document.querySelectorAll('dialog.deep').forEach(function (dlg) {
@@ -1413,7 +1416,12 @@
       });
       const rb = el.querySelector('button.retry'); if (rb) rb.onclick = start;
       const sb = el.querySelector('button.secret');
-      if (sb) sb.onclick = function(){ document.getElementById('dlg-secret').showModal(); };
+      if (sb) sb.onclick = function(){
+        const dlg = document.getElementById('dlg-secret');
+        dlg.showModal();
+        const inner = dlg.querySelector('.inner');
+        if (inner) inner.scrollTop = 0;
+      };
       const nb = el.querySelector('button.next'); if (nb) nb.onclick = function(){ Reveal.next(); };
     }
     start();
