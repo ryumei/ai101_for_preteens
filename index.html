@@ -67,9 +67,17 @@
     html.portrait .reveal .summary { font-size: 0.7em; }
     html.portrait .reveal .note { font-size: 0.58em; }
     html.portrait .reveal .ack { font-size: 0.48em; }
-    html.portrait .tohome { right: 96px; bottom: 14px; }
+    html.portrait .tohome { right: 14px; bottom: 78px; }
     html.portrait dialog.deep { width: 92vw; max-height: 86vh; }
     html.portrait dialog.deep .inner { padding: 16px 18px 20px; }
+    /* はみ出した説明文は指でスクロールできるようにする（ページ送りとは独立） */
+    .reveal { touch-action: pan-y pinch-zoom; }
+    .reveal .slides section {
+      max-height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+    }
     .reveal .ack { font-size: 0.6em; color: #555; text-align: left; margin: 1.4em auto 0; max-width: 900px;
       padding-left: 1.2em; }
     .reveal .ack li { margin-bottom: 0.4em; }
@@ -198,7 +206,7 @@
 <section class="title-slide">
   <h1>AIって、なにをしているの？</h1>
   <p>「おしゃべりできる AI」のしくみを、かみしばいで見てみよう</p>
-  <p style="font-size:0.6em;color:#888;">→ キーか、画面のタップで進みます</p>
+  <p style="font-size:0.6em;color:#888;">→ キーか、右下の矢印で進みます</p>
   <p style="font-size:0.5em;color:#888;margin-top:1.2em;">日本語 &nbsp;|&nbsp; <a href="en/index.html">English</a> &nbsp;|&nbsp; <a href="es/index.html">Español</a> &nbsp;|&nbsp; <a href="fr/index.html">Français</a> &nbsp;|&nbsp; <a href="ko/index.html">한국어</a> &nbsp;|&nbsp; <a href="zh-Hans/index.html">简体中文</a> &nbsp;|&nbsp; <a href="zh-Hant/index.html">繁體中文</a></p>
   <p style="font-size:0.45em;color:#888;margin-top:0.6em;">印刷用の配布メモ（5つのやくそく）: <a href="handout.html" target="_blank" rel="noopener noreferrer">handout.html</a></p>
 </section>
@@ -1216,7 +1224,9 @@
     controls: true,
     progress: true,
     center: true,
-    transition: 'slide'
+    transition: 'slide',
+    touch: false,
+    keyboard: true
   });
   window.addEventListener('resize', function () {
     const p = isPortrait();
@@ -1270,11 +1280,6 @@
   Reveal.on('ready', updatePageNo);
   Reveal.on('slidechanged', updatePageNo);
 
-  // 画面のどこをクリック/タップしても次へ進む（クイズの操作部分とナビ矢印は除く）
-  document.querySelector('.reveal').addEventListener('click', function (e) {
-    if (e.target.closest('.quiz, button, a, dialog, .controls, .progress')) return;
-    Reveal.next();
-  });
 </script>
 
 <script>
