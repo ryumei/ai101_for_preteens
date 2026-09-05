@@ -177,6 +177,7 @@
     .reveal .quiz .ai { font-size: 0.9em; }
     .reveal .quiz .ai .aitxt { color: #111; font-weight: bold; text-decoration: underline; }
     .reveal .quiz .hint { font-size: 0.85em; color: #666; }
+    .reveal .quiz .talk { margin-top: 0.7em; padding: 0.5em 0.9em; border: 2px dashed #d9773b; border-radius: 10px; font-size: 0.85em; color: #111; background: #fff8f2; }
     .reveal .quiz .said { display: flex; align-items: center; gap: 16px; margin-bottom: 0.6em; }
     .reveal .quiz .said .robo { flex: 0 0 auto; font-size: 2.2em; }
     .reveal #quiz-rules .opts button, .reveal #quiz-lie .opts button { min-width: 3.2em; font-size: 1.2em; }
@@ -1285,6 +1286,7 @@
         el.innerHTML = '<p class="q">' + (perfect ? 'ぜんぶ正解！すごい！' : 'おわり！') + '</p>' +
           '<p>' + questions.length + '問中 <span class="score">' + score + '問</span> 正解。</p>' +
           '<p>' + (opts.closing || '') + '</p>' +
+          (opts.talk ? '<p class="talk">&#128173; はなしてみよう：' + opts.talk + '</p>' : '') +
           '<p class="opts"><button class="retry">もう一回</button>' +
           (perfect ? '<button class="next">次のおはなしへ →</button>' : '') + '</p>';
         el.querySelector('button.retry').onclick = function(){ i = 0; score = 0; render(); };
@@ -1333,7 +1335,7 @@
         { t: '小さなロボットの友だち', fb: 'ロボットの名前ではないよ。' },
         { t: '光るライトのマーク', fb: 'ライトは関係ないよ。' }
       ] }
-  ], { closing: 'LLMは「文章を作るAI」。次は、どうやって文章を作っているのか見てみよう。' });
+  ], { closing: 'LLMは「文章を作るAI」。次は、どうやって文章を作っているのか見てみよう。', talk: 'ふだん使っているAIチャットは、どんな時に便利だと感じる？' });
 
   // ---- 2. しくみ: 次の言葉あてゲーム ----
   (function () {
@@ -1385,7 +1387,8 @@
           ? '%の低い言葉を選ぶと、へんな文になったね。AIは%の高い言葉を選ぶことが多いから、「よくある文」ができやすいんだ。'
           : 'AIと同じような文になったね。%の高い言葉ばかり選ぶと、「よくある文」ができる。低い言葉を選ぶとどうなるか、もう一回ためしてみよう。') + '</p>';
         trials++;
-        html += '<p class="opts"><button class="retry">もう一回</button>' +
+        html += (trials >= 2 ? '<p class="talk">&#128173; はなしてみよう：AIが「言葉のつながりやすさ」で文を作ると知って、どう思った？</p>' : '') +
+          '<p class="opts"><button class="retry">もう一回</button>' +
           (rareHit ? '<button class="secret">ひみつのページへ →</button>' : '') +
           (trials >= 2 ? '<button class="next">次のおはなしへ →</button>' : '') + '</p>';
       }
@@ -1420,7 +1423,7 @@
       opts: [ { t:'本当', ok:true, fb:'本当。知っていることなら、自分で見ぬけるね。' }, { t:'嘘', fb:'これは本当だよ。' } ] },
     { said: '〇〇小学校の校歌は「みどりの山に かぜふいて」で始まります。', q: 'この答えは？',
       opts: [ { t:'本当', fb:'AIはこの学校のことを知らないのに、それらしく作ってしまったんだ。' }, { t:'嘘', ok:true, fb:'知らないことでも、それらしい言葉をつなげて答えてしまう。これが「もっともらしい嘘」。' } ] }
-  ], { closing: '本当も嘘も、同じ自信まんまんの顔で出てくる。だから「本当かな？」と確かめることが大事なんだ。' });
+  ], { closing: '本当も嘘も、同じ自信まんまんの顔で出てくる。だから「本当かな？」と確かめることが大事なんだ。', talk: 'AIが自信まんまんに間違えたことを、見たり聞いたりしたことはある？' });
 
   // ---- 4. 心構え: ○×クイズ ----
   makeQuiz(document.getElementById('quiz-rules'), [
@@ -1438,7 +1441,7 @@
       opts: [ { t:'○', fb:'AIの答えは「だれかの意見」で、あなたの感想ではないよね。先生は「みんなの意見」を集めたかったはず。ルールに書いてなくても、ルールの「ねらい」を考えよう。' }, { t:'×', ok:true, fb:'そのとおり。AIの答えはだれかの意見で、あなたの感想ではない。ルールに書いていないことは、「なぜこのルールがあるのか」を考えて、迷ったら先生やみんなに聞こう。' } ] },
     { q: 'AIとチャットしていたら、急に意味の分からない、変で<ruby>怖<rt>こわ</rt></ruby>いことを言われた。だまって、がまんしてそのまま使い続けた。',
       opts: [ { t:'○', fb:'がまんしなくていいよ。使うのをやめて、家族や先生など、身近な大人に伝えよう。' }, { t:'×', ok:true, fb:'そのとおり。そういうときは、ひとりでかかえこまず、大人に伝えよう。' } ] }
-  ], { closing: '確かめる・道具として使う・自分のことは入れない・人に相談する・みんなでルールを決める。この5つをおぼえておいてね。' });
+  ], { closing: '確かめる・道具として使う・自分のことは入れない・人に相談する・みんなでルールを決める。この5つをおぼえておいてね。', talk: '宿題でAIを使っていいかどうか、あなたの学校や家のルールはどうなっている？' });
 })();
 </script>
 </body>
